@@ -119,6 +119,9 @@ def append_archives(md):
             target.write_text(existing, encoding="utf-8")
 
 def should_emit_now():
+    # NEW: allow manual override for baseline runs
+    if os.environ.get("FORCE_EMIT", "") == "1":
+        return True
     t = now_pt()
     hour = t.hour
     mark = STATE / f"run_{t.strftime('%Y%m%d_%H')}.flag"
