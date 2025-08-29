@@ -43,39 +43,33 @@ if not OPENAI_API_KEY:
     print("OPENAI_API_KEY not set", file=sys.stderr)
     sys.exit(2)
 
-# ---------- Starlink filter ----------
-STARLINK_POSITIVE = [
+# ---------- Starlink-only filter with “criticism/event” signal ----------
+POS = [
     r"\bstarlink\b",
     r"\bstarshield\b",
-    r"\bspacex\b.+\b(broadband|internet|ku[- ]?band|v\d\s*mini|v2\s*mini|v\d)\b",
-    r"\bku[- ]?band\b.*\bconstellation\b",
-    r"\bmegaconstellation\b.*\bstarlink\b",
-    r"\bterminal\b.*\bstarlink\b",
-    r"\bdish\b.*\bstarlink\b",
-    r"\bground[- ]segment\b.*\bstarlink\b",
-    r"\b(astro|radio)\w*\b.*\bstarlink\b",   # astronomy papers mentioning starlink
+    r"\bspacex\b.*\bstarlink\b",
 ]
-STARLINK_NEGATIVE = [
-    r"\bstarship\b",               # launch vehicle news without Starlink context
-    r"\bfalcon\b\s?\d?\b",         # generic launch unless it mentions Starlink payload
-    r"\bartemis\b|\bnasa\b|\besa\b|\bblue origin\b|\boneweb\b|\boneweb\b|\bkupier\b|\bkuiper\b",
-    r"\biss\b|\bcrew[- ]\d+\b|\bcargo\b",
+NEG = [
+    r"\bstarship\b(?!.*\bstarlink\b)",
+    r"\bfalcon\b\s?\d?\b(?!.*\bstarlink\b)",
+    r"\bartemis\b|\biss\b|\bmars\b|\bcrew[- ]\d+\b|\bcargo\b",
+    r"\boneweb\b|\bkuiper\b|\bblue origin\b|\bvirgin\b",
 ]
-
-def looks_starlink(title: str, summary: str) -> bool:
-    t = (title or "") + " " + (summary or "")
-    t = t.lower()
-    # strong positive
-    if any(re.search(rx, t, re.I) for rx in STARLINK_POSITIVE):
-        return True
-    # explicit negatives if no positive matched
-    if any(re.search(rx, t, re.I) for rx in STARLINK_NEGATIVE):
+CRITICISM = [
+    r"\b(outage|degrad|down|jam|jamming|spoof|interference|rf interference|rfi|light pollution|streak|reflection|bright(ness)?)\b",
+    r"\b(vulnerab|exploit|cve|hack|breach|compromise|malware|apt|cisa|mitre|advisory|nation[- ]state|sanction)\b",
+    r"\b(debris|collision|re[- ]?entry|reentry|burn[- ]?up|deorbit|emission|soot|aluminum oxide|alumina|atmosphere|ozone)\b",
+    r"\b(regulat(ion|ory)|proceeding|filing|fcc|itu|esa|noaa|faa|licen[cs]e|policy|ban|restriction)\b",
+]
+def looks_starlink_critical(title: str, summary: str, link: str) -> bool:
+    t = " ".join([(title or ""), (summary or ""), (link or "")]).lower()
+    if not any(re.search(rx, t, re.I) for rx in POS):
         return False
-    # fallback: SpaceX + satellites + internet keywords
-    if ("spacex" in t) and any(k in t for k in ["starlink", "broadband", "satellite internet", "constellation"]):
-        return True
-    return False
-# -------------------------------------
+    if any(re.search(rx, t, re.I) for rx in NEG):
+        return False
+    # require criticism/event signal (not marketing or generic launch)
+    return any(re.search(rx, t, re.I) for rx in CRITICISM)
+# -----------------------------------------------------------------------
 
 def gather_items():
     items = []
@@ -95,12 +89,11 @@ def gather_items():
             if dt < cutoff:
                 continue
 
-            title = getattr(e, "title", "")
-            summary = getattr(e, "summary", "")
-            link = getattr(e, "link", "")
+            title = getattr(e, "title", "") or ""
+            summary = getattr(e, "summary", "") or ""
+            link = getattr(e, "link", "") or ""
 
-            # keep only Starlink-related items
-            if not looks_starlink(title, summary):
+            if not looks_starlink_critical(title, summary, link):
                 continue
 
             items.append({
@@ -112,26 +105,25 @@ def gather_items():
             })
 
     items.sort(key=lambda x: x["date"], reverse=True)
-    # keep the most recent 40 to control token/cost
-    return items[:40]
+    return items[:40]  # cap for cost
+# -----------------------------------------------------------------------
 
 def openai_digest(items):
     import urllib.request, json as js
     url = "https://api.openai.com/v1/chat/completions"
     today_str = now_pt().strftime("%Y-%m-%d")
 
-    # If nothing new, return a minimal digest (still writes a note so dashboard shows a timestamp)
     if not items:
         return f"""## Starlink Daily Digest — {today_str}
 
 ### Environmental
-- No new Starlink-specific developments since last check.
+- No **Starlink-specific** environmental developments (re-entries, emissions, debris, regulatory actions) since last check.
 
 ### Cybersecurity
-- No new Starlink-specific developments since last check.
+- No **Starlink-specific** cybersecurity developments (terminal/dish vulns, incidents, nation-state targeting, advisories) since last check.
 
 ### Astronomical
-- No new Starlink-specific developments since last check.
+- No **Starlink-specific** astronomical impacts (optical streaks, RFI results, mitigation updates, survey contamination, visible trains) since last check.
 
 ## Summary of Changes
 | Domain | Updates Detected |
@@ -151,18 +143,22 @@ No change
 """
 
     system = (
-        "You generate a consolidated Starlink-only Daily Digest from feed items that are already prefiltered to Starlink. "
-        "If an item is off-topic, ignore it. Structure: Environmental, Cybersecurity, Astronomical; then Summary of Changes; "
+        "You generate a **Starlink-only** Daily Digest, focusing strictly on criticisms, risks, and concrete events:"
+        " Environmental (re-entries, emissions/soot, debris, regulatory actions),"
+        " Cybersecurity (vulnerabilities/exploits/incidents/targeting/advisories/policy actions),"
+        " Astronomical (optical streaks, RFI, mitigation updates, survey contamination, visible trains). "
+        "Ignore marketing, generic launches, or non-Starlink items. "
+        "Structure: three domain sections; then a 'Summary of Changes' table; "
         "then three sections named exactly: **Archive — Environmental**, **Archive — Cybersecurity**, **Archive — Astronomical**. "
-        "Each archive section must contain bullets in this exact format:\n"
+        "In each Archive section, list new items as bullets in this exact format:\n"
         "- YYYY-MM-DD HH:mm PT | Headline | Source | URL\n"
-        "Be concise, factual, and use only the provided items."
+        "Be concise, factual, link to provided items only."
     )
-    user = f"Items JSON (Starlink-filtered):\n{json.dumps(items, ensure_ascii=False)}\n\nWrite: Starlink Daily Digest — {today_str}"
+    user = f"Items JSON (already filtered to Starlink criticisms/events):\n{json.dumps(items, ensure_ascii=False)}\n\nWrite: Starlink Daily Digest — {today_str}"
     body = {
         "model": "gpt-4o-mini",
         "messages": [{"role":"system","content":system},{"role":"user","content":user}],
-        "temperature": 0.25
+        "temperature": 0.2
     }
     req = urllib.request.Request(
         url,
@@ -196,7 +192,6 @@ def append_archives(md):
             target.write_text(existing, encoding="utf-8")
 
 def should_emit_now():
-    # manual override for baseline/testing
     if os.environ.get("FORCE_EMIT", "") == "1":
         return True
     t = now_pt()
