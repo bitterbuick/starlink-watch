@@ -2,7 +2,7 @@ name: Starlink Daily Digest
 
 on:
   schedule:
-    - cron: "0 * * * *"   # hourly in UTC; script self-gates to 09:00/17:00 PT
+    - cron: "0 * * * *"   # hourly; scripts self-gate to 09:00/17:00 PT for digest
   workflow_dispatch: {}
 
 permissions:
@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  digest:
+  digest-and-metrics:
     runs-on: ubuntu-latest
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -31,7 +31,11 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install feedparser pyyaml
+          pip install feedparser pyyaml requests beautifulsoup4 pandas matplotlib
+
+      - name: Compute Starlink metrics
+        run: |
+          python scripts/compute_starlink_metrics.py
 
       - name: Generate digest (PT-aware)
         run: |
@@ -42,10 +46,10 @@ jobs:
           git config user.name  "starlink-bot"
           git config user.email "starlink-bot@users.noreply.github.com"
           git add -A
-          git diff --cached --quiet || (git commit -m "Update Starlink Daily Digest" && git push)
+          git diff --cached --quiet || (git commit -m "Update metrics and digest" && git push)
 
   build-pages:
-    needs: digest
+    needs: digest-and-metrics
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

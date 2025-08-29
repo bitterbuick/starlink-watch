@@ -1,0 +1,31 @@
+# Mass assumptions (can be refined as you like)
+masses:
+  v1:   260      # kg (Starlink v1.0)
+  v15:  295      # kg (Starlink v1.5)
+  v2m:  730      # kg (Starlink v2 Mini)
+
+# Rough mix assumptions for active fleet; you can change without code
+# The script will normalize these weights to 1.0
+mix_active:
+  v1:  0.35
+  v15: 0.45
+  v2m: 0.20
+
+# Fraction mix for decayed fleet (older = more v1/v1.5 by default)
+mix_decayed:
+  v1:  0.65
+  v15: 0.30
+  v2m: 0.05
+
+# Alumina modeling (very rough; literature varies)
+# alumina_kg_per_kg_aluminum: how many kg Al2O3 produced per kg Al burned in re-entry
+alumina_kg_per_kg_aluminum: 1.89   # stoichiometric max ~1.89 (Al->Al2O3). Tune down if you want a lower bound.
+aluminum_fraction_of_satellite: 0.70  # fraction of satellite dry mass that's aluminum (tunable)
+
+# Data sources (CelesTrak GP JSON/CSV + “recently decayed”)
+endpoints:
+  starlink_gp_csv: "https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=csv"
+  decayed_recent_html: "https://celestrak.org/satcat/decayed-with-last.php"
+
+# Keep charts for last N days (for small repo footprint)
+retention_days: 120
