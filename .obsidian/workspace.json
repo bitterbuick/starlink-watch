@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Starlink Watch/Events/2025-08-29_1544 — Starlink Daily Digest.md",
+                "file": "Starlink Watch/Archive/Environmental.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-08-29_1544 — Starlink Daily Digest"
+              "title": "Environmental"
             }
           }
         ]
@@ -169,14 +169,16 @@
   },
   "active": "0aac85228faf6417",
   "lastOpenFiles": [
+    "Starlink Watch/Archive/Cybersecurity.md",
+    "Starlink Watch/Archive/Astronomical.md",
+    "Starlink Watch/Events/2025-08-29_1601 — Starlink Daily Digest.md",
     "Starlink Watch/Events/2025-08-29_1554 — Starlink Daily Digest.md",
     "Starlink Watch/Events/2025-08-29_1544 — Starlink Daily Digest.md",
+    "Starlink Watch/Events/2025-08-29_1631 — Starlink Daily Digest.md",
     "Starlink Watch/Events/2025-08-29_1436 — Starlink Daily Digest.md",
     "Starlink Watch/Events/2025-08-29_1501 — Starlink Daily Digest.md",
     "Starlink Watch/Events/2025-08-29_1429 — Starlink Daily Digest.md",
     "Starlink Watch/Archive/Environmental.md",
-    "Starlink Watch/Archive/Cybersecurity.md",
-    "Starlink Watch/Archive/Astronomical.md",
     "Starlink Watch/Events/2025-08-29_1216 — Starlink Daily Digest.md",
     "README.md",
     "scripts/build_site.py"
