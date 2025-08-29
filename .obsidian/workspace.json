@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "46124b5b4339dd44",
+        "id": "40085f7e6e05aee6",
         "type": "tabs",
         "children": [
           {
-            "id": "cf13cc08c2db7065",
+            "id": "0aac85228faf6417",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Starlink Watch/Events/2025-08-29_1544 — Starlink Daily Digest.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "2025-08-29_1544 — Starlink Daily Digest"
             }
           }
         ]
@@ -163,8 +167,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "4145561e7f33426c",
+  "active": "0aac85228faf6417",
   "lastOpenFiles": [
+    "Starlink Watch/Events/2025-08-29_1554 — Starlink Daily Digest.md",
+    "Starlink Watch/Events/2025-08-29_1544 — Starlink Daily Digest.md",
     "Starlink Watch/Events/2025-08-29_1436 — Starlink Daily Digest.md",
     "Starlink Watch/Events/2025-08-29_1501 — Starlink Daily Digest.md",
     "Starlink Watch/Events/2025-08-29_1429 — Starlink Daily Digest.md",
