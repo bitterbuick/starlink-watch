@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
+# Starlink Watch — static site builder with inline citations
 import json, html, re, datetime
 from pathlib import Path
+
 import matplotlib
-matplotlib.use("Agg")
+matplotlib.use("Agg")  # headless
 import matplotlib.pyplot as plt
 import pandas as pd
 
-REPO = Path(__file__).resolve().parents[1]
-VAULT = REPO / "Starlink Watch"
+REPO   = Path(__file__).resolve().parents[1]
+VAULT  = REPO / "Starlink Watch"
 EVENTS = VAULT / "Events"
-ARCHIVE = VAULT / "Archive"
-DATA = REPO / "data"
-SITE = REPO / "site"
+ARCH   = VAULT / "Archive"
+DATA   = REPO / "data"
+SITE   = REPO / "site"
 ASSETS = SITE / "assets"
 SITE.mkdir(exist_ok=True, parents=True)
 ASSETS.mkdir(exist_ok=True, parents=True)
 
+# ---------- helpers ----------
 def load_metrics():
     p = DATA / "metrics.json"
     return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
@@ -29,6 +32,13 @@ def load_series(name):
 
 def chart(df, title, out_png):
     if df.empty:
+        # write a placeholder so <img> doesn't 404
+        plt.figure(figsize=(8,3))
+        plt.text(0.5, 0.5, "No data yet", ha="center", va="center")
+        plt.axis("off")
+        plt.tight_layout()
+        plt.savefig(out_png, dpi=140)
+        plt.close()
         return
     df["date"] = pd.to_datetime(df["date"])
     df = df.sort_values("date")
@@ -43,7 +53,7 @@ def latest_digest():
     fs = sorted(EVENTS.glob("* — Starlink Daily Digest.md"))
     return fs[-1] if fs else None
 
-# tiny markdown-to-HTML for the digest
+# tiny markdown-to-HTML for the digest (headings, lists, links, paragraphs)
 _link = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 def md2html(md):
     lines = [ln.rstrip() for ln in md.splitlines()]
@@ -70,40 +80,73 @@ def md2html(md):
     flush()
     return "\n".join(out)
 
+# ---------- build ----------
 def build():
-    met = load_metrics()
-    # charts
-    chart(load_series("active_count"),       "Active Starlink satellites (count)", ASSETS/"active.png")
-    chart(load_series("on_orbit_mass_kg"),   "Estimated on-orbit mass (kg)",        ASSETS/"onorbit.png")
-    chart(load_series("reentered_mass_kg"),  "Estimated re-entered mass (kg)",      ASSETS/"reentry.png")
-    chart(load_series("alumina_kg"),         "Estimated alumina formed (kg)",       ASSETS/"alumina.png")
+    met = load_metrics() or {}
+    src = met.get("sources", {})
+    src_gp = src.get("celestrak_gp_csv", "https://celestrak.org/NORAD/elements/")
+    src_decayed = src.get("celestrak_decayed", "https://celestrak.org/satcat/decayed-with-last.php")
 
-    # latest digest html (optional box)
+    # charts (saved to /site/assets)
+    chart(load_series("active_count"),      "Active Starlink satellites (count)", ASSETS/"active.png")
+    chart(load_series("on_orbit_mass_kg"),  "Estimated on-orbit mass (kg)",       ASSETS/"onorbit.png")
+    chart(load_series("reentered_mass_kg"), "Estimated re-entered mass (kg)",     ASSETS/"reentry.png")
+    chart(load_series("alumina_kg"),        "Estimated Al₂O₃ formed (kg)",        ASSETS/"alumina.png")
+
+    # latest digest
     digest_file = latest_digest()
     digest_html = ""
     if digest_file:
         digest_html = md2html(digest_file.read_text(encoding="utf-8"))
 
-    # page
     built = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+
+    # tiles with inline citations (ⓘ)
     tiles = ""
     if met:
         tiles = f"""
         <div class="tiles">
-          <div class="tile"><div class="k">{met['active_count']:,}</div><div class="t">Active Starlink</div></div>
-          <div class="tile"><div class="k">{met['decayed_total']:,}</div><div class="t">Total decayed</div></div>
-          <div class="tile"><div class="k">{met['on_orbit_mass_kg']:,}</div><div class="t">On-orbit mass (kg)</div></div>
-          <div class="tile"><div class="k">{met['reentered_mass_kg']:,}</div><div class="t">Re-entered mass (kg)</div></div>
-          <div class="tile"><div class="k">{met['alumina_kg']:,}</div><div class="t">Al₂O₃ estimate (kg)</div></div>
+          <div class="tile">
+            <div class="k">{met.get('active_count',0):,}</div>
+            <div class="t">Active Starlink
+              <a class="info" href="{html.escape(src_gp)}" target="_blank" title="Source: CelesTrak Starlink GP/CSV">ⓘ</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="k">{met.get('decayed_total',0):,}</div>
+            <div class="t">Total decayed
+              <a class="info" href="{html.escape(src_decayed)}" target="_blank" title="Source: CelesTrak SATCAT recently decayed">ⓘ</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="k">{met.get('on_orbit_mass_kg',0):,}</div>
+            <div class="t">On-orbit mass (kg)
+              <a class="info" href="{html.escape(src_gp)}" target="_blank" title="Derived from CelesTrak active counts × generation mass mix (see data/starlink_config.yml)">ⓘ</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="k">{met.get('reentered_mass_kg',0):,}</div>
+            <div class="t">Re-entered mass (kg)
+              <a class="info" href="{html.escape(src_decayed)}" target="_blank" title="Derived from accumulated Starlink decays × generation mass mix (see data/starlink_config.yml)">ⓘ</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="k">{met.get('alumina_kg',0):,}</div>
+            <div class="t">Al₂O₃ estimate (kg)
+              <a class="info" href="#" title="Proxy: aluminum fraction × 1.89 kg Al₂O₃ per kg Al (upper-bound stoichiometry). Tune in data/starlink_config.yml.">ⓘ</a>
+            </div>
+          </div>
         </div>
         """
 
+    # page HTML
     page = f"""<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Starlink Watch — Metrics & Digest</title>
 <style>
   :root {{ --bg:#0b1220; --fg:#e6edf3; --muted:#9fb0bd; --card:#0f172a; --ring:#1f2937; --accent:#60a5fa; }}
+  * {{ box-sizing:border-box; }}
   body {{ margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 ui-sans-serif,system-ui,Segoe UI,Roboto; }}
   header, footer {{ padding:22px 16px; border-bottom:1px solid var(--ring); }}
   footer {{ border-top:1px solid var(--ring); border-bottom:none; }}
@@ -116,8 +159,9 @@ def build():
   .tile {{ background:#0d1528; border:1px solid #15233b; border-radius:12px; padding:12px 14px; }}
   .tile .k {{ font-size:28px; font-weight:700 }}
   .tile .t {{ color:var(--muted); font-size:13px }}
-  img.chart {{ width:100%; height:auto; border-radius:10px; background:#0d1528; border:1px solid #15233b; padding:6px; }}
   a {{ color:var(--accent); text-decoration:none }} a:hover {{ text-decoration:underline }}
+  a.info {{ font-weight:700; margin-left:6px; text-decoration:none; border-bottom:1px dotted #8ab4ff; cursor:help }}
+  img.chart {{ width:100%; height:auto; border-radius:10px; background:#0d1528; border:1px solid #15233b; padding:6px; }}
   ul {{ margin:10px 0 0 20px }}
 </style>
 </head>
@@ -125,7 +169,7 @@ def build():
 <header>
   <div class="wrap">
     <h1>Starlink Watch — Metrics & Digest</h1>
-    <div class="muted">Built {html.escape(built)}</div>
+    <div class="muted">Built {html.escape(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"))}</div>
   </div>
 </header>
 
@@ -134,20 +178,49 @@ def build():
     <h2>Starlink metrics</h2>
     {tiles}
     <div class="grid" style="margin-top:8px">
-      <div class="card"><h3>Active satellites</h3><img class="chart" src="assets/active.png" alt=""></div>
-      <div class="card"><h3>On-orbit mass (kg)</h3><img class="chart" src="assets/onorbit.png" alt=""></div>
-      <div class="card"><h3>Re-entered mass (kg)</h3><img class="chart" src="assets/reentry.png" alt=""></div>
-      <div class="card"><h3>Al₂O₃ estimate (kg)</h3><img class="chart" src="assets/alumina.png" alt=""></div>
+      <div class="card">
+        <h3>Active satellites
+          <a class="info" href="{html.escape(src_gp)}" target="_blank" title="CelesTrak Starlink group (GP/CSV)">ⓘ</a>
+        </h3>
+        <img class="chart" src="assets/active.png" alt="">
+      </div>
+      <div class="card">
+        <h3>On-orbit mass (kg)
+          <a class="info" href="{html.escape(src_gp)}" target="_blank" title="Derived from active counts × generation masses (configurable)">ⓘ</a>
+        </h3>
+        <img class="chart" src="assets/onorbit.png" alt="">
+      </div>
+      <div class="card">
+        <h3>Re-entered mass (kg)
+          <a class="info" href="{html.escape(src_decayed)}" target="_blank" title="Accumulated Starlink decays (CelesTrak SATCAT) × generation masses">ⓘ</a>
+        </h3>
+        <img class="chart" src="assets/reentry.png" alt="">
+      </div>
+      <div class="card">
+        <h3>Al₂O₃ estimate (kg)
+          <a class="info" href="#" title="Al fraction × 1.89 kg Al₂O₃ per kg Al (upper-bound stoichiometry); tune in data/starlink_config.yml">ⓘ</a>
+        </h3>
+        <img class="chart" src="assets/alumina.png" alt="">
+      </div>
     </div>
-    <p class="muted">Sources: CelesTrak GP Starlink group & SATCAT decays (recent, accumulated). Assumptions documented in repo file <code>data/starlink_config.yml</code>. Adjust to refine.</p>
+    <p class="muted">
+      Assumptions and mass mix are editable in <code>data/starlink_config.yml</code>.
+      Metrics are derived from public datasets; see citations below.
+    </p>
   </section>
 
-  {"<section class='card' style='margin-top:16px'><h2>Latest Digest</h2>"+digest_html+"</section>" if digest_html else ""}
+  {"<section class='card' style='margin-top:16px'><h2>Latest Digest</h2>"+md2html(latest_digest().read_text(encoding='utf-8'))+"</section>" if latest_digest() else ""}
 
-  <section class="grid" style="margin-top:16px">
-    <div class="card"><h3>Archive — Environmental</h3><p>See <code>Starlink Watch/Archive/Environmental.md</code> in the repo/vault.</p></div>
-    <div class="card"><h3>Archive — Cybersecurity</h3><p>See <code>Starlink Watch/Archive/Cybersecurity.md</code>.</p></div>
-    <div class="card"><h3>Archive — Astronomical</h3><p>See <code>Starlink Watch/Archive/Astronomical.md</code>.</p></div>
+  <section class="card" style="margin-top:16px">
+    <h2>Data Sources</h2>
+    <ul>
+      <li>CelesTrak Starlink GP/CSV (active elements & counts):
+        <a href="{html.escape(src_gp)}" target="_blank">link</a></li>
+      <li>CelesTrak SATCAT — Recently Decayed (accumulated Starlink decays):
+        <a href="{html.escape(src_decayed)}" target="_blank">link</a></li>
+      <li>Generation mass mix & alumina model assumptions:
+        <code>data/starlink_config.yml</code> in this repository.</li>
+    </ul>
   </section>
 </main>
 
