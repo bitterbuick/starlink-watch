@@ -1,1 +1,6 @@
 # Astronomical — Archive
+- 2025-08-29 18:00 PT | Don't miss the moon ride close to red supergiant star Antares on Aug. 30 | Space.com | [Link](https://www.space.com/stargazing/dont-miss-moon-near-red-supergiant-star-antares-aug-30-2025)
+- 2025-08-29 12:00 PT | NASA puts asteroid Bennu under the microscope | Space photo of the day for Aug. 29, 2025 | Space.com | [Link](https://www.space.com/astronomy/asteroids/nasa-puts-asteroid-bennu-under-the-microscope-space-photo-of-the-day-for-aug-29-2025)
+- 2025-08-29 14:00 PT | Galactic cannonballs: The mystery of hypervelocity white dwarfs may just have been solved | Space.com | [Link](https://www.space.com/astronomy/stars/galactic-cannonballs-the-mystery-of-hypervelocity-white-dwarfs-may-just-have-been-solved)
+- 2025-08-29 17:14 PT | Perseverance Mars rover stumbles upon wind-carved 'megaripples' on the Red Planet | Space.com | [Link](https://www.space.com/space-exploration/mars-rovers/perseverance-mars-rover-stumbles-upon-wind-carved-megaripples-on-the-red-planet)
+- 2025-08-29 10:00 PT | A dead 'sun' forms building blocks of exoplanets in new JWST Butterfly Nebula image | Space.com | [Link](https://www.space.com/astronomy/james-webb-space-telescope/a-dead-sun-forms-building-blocks-of-exoplanets-in-new-jwst-butterfly-nebula-image)
