@@ -37,10 +37,45 @@ for name in ("Environmental.md", "Cybersecurity.md", "Astronomical.md"):
         f.write_text(f"# {name.split('.')[0]} — Archive\n", encoding="utf-8")
 
 FEEDS = yaml.safe_load((REPO_ROOT / "scripts" / "feeds.yml").read_text())
+
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
 if not OPENAI_API_KEY:
     print("OPENAI_API_KEY not set", file=sys.stderr)
     sys.exit(2)
+
+# ---------- Starlink filter ----------
+STARLINK_POSITIVE = [
+    r"\bstarlink\b",
+    r"\bstarshield\b",
+    r"\bspacex\b.+\b(broadband|internet|ku[- ]?band|v\d\s*mini|v2\s*mini|v\d)\b",
+    r"\bku[- ]?band\b.*\bconstellation\b",
+    r"\bmegaconstellation\b.*\bstarlink\b",
+    r"\bterminal\b.*\bstarlink\b",
+    r"\bdish\b.*\bstarlink\b",
+    r"\bground[- ]segment\b.*\bstarlink\b",
+    r"\b(astro|radio)\w*\b.*\bstarlink\b",   # astronomy papers mentioning starlink
+]
+STARLINK_NEGATIVE = [
+    r"\bstarship\b",               # launch vehicle news without Starlink context
+    r"\bfalcon\b\s?\d?\b",         # generic launch unless it mentions Starlink payload
+    r"\bartemis\b|\bnasa\b|\besa\b|\bblue origin\b|\boneweb\b|\boneweb\b|\bkupier\b|\bkuiper\b",
+    r"\biss\b|\bcrew[- ]\d+\b|\bcargo\b",
+]
+
+def looks_starlink(title: str, summary: str) -> bool:
+    t = (title or "") + " " + (summary or "")
+    t = t.lower()
+    # strong positive
+    if any(re.search(rx, t, re.I) for rx in STARLINK_POSITIVE):
+        return True
+    # explicit negatives if no positive matched
+    if any(re.search(rx, t, re.I) for rx in STARLINK_NEGATIVE):
+        return False
+    # fallback: SpaceX + satellites + internet keywords
+    if ("spacex" in t) and any(k in t for k in ["starlink", "broadband", "satellite internet", "constellation"]):
+        return True
+    return False
+# -------------------------------------
 
 def gather_items():
     items = []
@@ -59,41 +94,83 @@ def gather_items():
                 dt = now
             if dt < cutoff:
                 continue
+
+            title = getattr(e, "title", "")
+            summary = getattr(e, "summary", "")
+            link = getattr(e, "link", "")
+
+            # keep only Starlink-related items
+            if not looks_starlink(title, summary):
+                continue
+
             items.append({
                 "source": f.get("name", f["url"]),
-                "title": getattr(e, "title", ""),
-                "summary": getattr(e, "summary", ""),
-                "link": getattr(e, "link", ""),
+                "title": title,
+                "summary": summary,
+                "link": link,
                 "date": dt.isoformat()
             })
+
     items.sort(key=lambda x: x["date"], reverse=True)
-    return items[:60]
+    # keep the most recent 40 to control token/cost
+    return items[:40]
 
 def openai_digest(items):
     import urllib.request, json as js
     url = "https://api.openai.com/v1/chat/completions"
     today_str = now_pt().strftime("%Y-%m-%d")
+
+    # If nothing new, return a minimal digest (still writes a note so dashboard shows a timestamp)
+    if not items:
+        return f"""## Starlink Daily Digest — {today_str}
+
+### Environmental
+- No new Starlink-specific developments since last check.
+
+### Cybersecurity
+- No new Starlink-specific developments since last check.
+
+### Astronomical
+- No new Starlink-specific developments since last check.
+
+## Summary of Changes
+| Domain | Updates Detected |
+|-------|-------------------|
+| Environmental | No |
+| Cybersecurity | No |
+| Astronomical  | No |
+
+**Archive — Environmental**
+No change
+
+**Archive — Cybersecurity**
+No change
+
+**Archive — Astronomical**
+No change
+"""
+
     system = (
-        "You generate a consolidated Starlink Daily Digest from feed items. "
-        "Structure: Environmental, Cybersecurity, Astronomical; then Summary of Changes; "
+        "You generate a consolidated Starlink-only Daily Digest from feed items that are already prefiltered to Starlink. "
+        "If an item is off-topic, ignore it. Structure: Environmental, Cybersecurity, Astronomical; then Summary of Changes; "
         "then three sections named exactly: **Archive — Environmental**, **Archive — Cybersecurity**, **Archive — Astronomical**. "
-        "Each archive section must contain bullets in this exact format:\\n"
-        "- YYYY-MM-DD HH:mm PT | Headline | Source | URL\\n"
-        "Keep it concise, factual, and link to sources that appear in the items list only."
+        "Each archive section must contain bullets in this exact format:\n"
+        "- YYYY-MM-DD HH:mm PT | Headline | Source | URL\n"
+        "Be concise, factual, and use only the provided items."
     )
-    user = f"Items JSON:\\n{json.dumps(items, ensure_ascii=False)}\\n\\nWrite: Starlink Daily Digest — {today_str}"
+    user = f"Items JSON (Starlink-filtered):\n{json.dumps(items, ensure_ascii=False)}\n\nWrite: Starlink Daily Digest — {today_str}"
     body = {
         "model": "gpt-4o-mini",
         "messages": [{"role":"system","content":system},{"role":"user","content":user}],
-        "temperature": 0.3
+        "temperature": 0.25
     }
     req = urllib.request.Request(
         url,
-        data=js.dumps(body).encode("utf-8"),
+        data=json.dumps(body).encode("utf-8"),
         headers={"Content-Type":"application/json","Authorization":f"Bearer {OPENAI_API_KEY}"}
     )
     with urllib.request.urlopen(req, timeout=120) as r:
-        out = js.loads(r.read().decode("utf-8"))
+        out = json.loads(r.read().decode("utf-8"))
     return out["choices"][0]["message"]["content"]
 
 RX = {
@@ -107,7 +184,7 @@ def append_archives(md):
         m = re.search(rx, md, re.I)
         if not m:
             continue
-        body = (m.group(2) or "").trim() if hasattr(str, "trim") else (m.group(2) or "").strip()
+        body = (m.group(2) or "").strip()
         lines = [ln.strip() for ln in body.splitlines() if ln.strip().startswith("- ")]
         if not lines:
             continue
@@ -119,7 +196,7 @@ def append_archives(md):
             target.write_text(existing, encoding="utf-8")
 
 def should_emit_now():
-    # NEW: allow manual override for baseline runs
+    # manual override for baseline/testing
     if os.environ.get("FORCE_EMIT", "") == "1":
         return True
     t = now_pt()
@@ -145,9 +222,6 @@ def main():
         print("Not an emission window (PT) or already emitted this hour.")
         return
     items = gather_items()
-    if not items:
-        print("No feed items found.")
-        return
     md = openai_digest(items)
     p = write_digest(md)
     append_archives(md)
