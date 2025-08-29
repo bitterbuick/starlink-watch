@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      FORCE_EMIT: ${{ vars.FORCE_EMIT }}
     steps:
       - uses: actions/checkout@v4
 
