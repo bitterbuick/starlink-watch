@@ -11,14 +11,10 @@
             "id": "cf13cc08c2db7065",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Starlink Watch/Events/2025-08-29_1216 — Starlink Daily Digest.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "2025-08-29_1216 — Starlink Daily Digest"
+              "title": "New tab"
             }
           }
         ]
@@ -167,11 +163,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "cf13cc08c2db7065",
+  "active": "4145561e7f33426c",
   "lastOpenFiles": [
-    "README.md",
-    "scripts/build_site.py",
+    "Starlink Watch/Events/2025-08-29_1436 — Starlink Daily Digest.md",
+    "Starlink Watch/Events/2025-08-29_1501 — Starlink Daily Digest.md",
+    "Starlink Watch/Events/2025-08-29_1429 — Starlink Daily Digest.md",
     "Starlink Watch/Archive/Environmental.md",
-    "Starlink Watch/Events/2025-08-29_1216 — Starlink Daily Digest.md"
+    "Starlink Watch/Archive/Cybersecurity.md",
+    "Starlink Watch/Archive/Astronomical.md",
+    "Starlink Watch/Events/2025-08-29_1216 — Starlink Daily Digest.md",
+    "README.md",
+    "scripts/build_site.py"
   ]
 }
