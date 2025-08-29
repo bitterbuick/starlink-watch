@@ -4,3 +4,4 @@
 - 2025-08-29 12:00 PT | Humans inhale as much as 68,000 microplastic particles daily, study finds | SecurityWeek | [Link](https://www.theguardian.com/environment/2025/aug/28/microplastics-in-hair-study)
 - 2025-08-29 09:50 PT | Weather tracker: Typhoon Kajiki lashes south-east Asia with fatalities in Vietnam | Guardian – Environment | [Link](https://www.theguardian.com/environment/2025/aug/29/weather-tracker-typhoon-kajiki-lashes-south-east-asia-with-fatalities-vietnam)
 - 2025-08-28 20:00 PT | Glacial lake flood hits Juneau, Alaska, reflecting a growing global risk as mountain glaciers melt | Space.com | [Link](https://www.space.com/science/climate-change/glacial-lake-flood-hits-juneau-alaska-reflecting-a-growing-global-risk-as-mountain-glaciers-melt)
+- No relevant items.
