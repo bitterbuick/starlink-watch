@@ -1,0 +1,35 @@
+name: Starlink Daily Digest
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # run hourly in UTC; script self-gates to 09:00/17:00 PT
+  workflow_dispatch: {}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install feedparser pyyaml
+
+      - name: Generate digest (PT-aware)
+        run: |
+          python scripts/starlink_daily_digest.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "starlink-bot"
+          git config user.email "starlink-bot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || (git commit -m "Update Starlink Daily Digest" && git push)

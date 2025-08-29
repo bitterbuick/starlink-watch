@@ -1,0 +1,15 @@
+feeds:
+  - name: SpaceNews
+    url: https://spacenews.com/feed/
+  - name: Space.com (All)
+    url: https://www.space.com/feeds/all
+  - name: Scientific American – Space
+    url: https://www.scientificamerican.com/feed/space/
+  - name: Guardian – Environment
+    url: https://www.theguardian.com/environment/rss
+  - name: CISA Current Activity
+    url: https://www.cisa.gov/news-events/cisa-updates.xml
+  - name: SecurityWeek
+    url: https://www.securityweek.com/feed/
+  - name: ESA – Space Safety
+    url: https://www.esa.int/rssfeed/Our_Activities/Space_Safety
