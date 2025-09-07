@@ -2,7 +2,7 @@ name: Starlink Daily Digest
 
 on:
   schedule:
-    - cron: "0 * * * *"   # hourly; digest self-gates to 09:00/17:00 PT
+    - cron: "0 7,17 * * *"   # twice daily; 0700 and 1700 PDT
   workflow_dispatch: {}
 
 permissions:
