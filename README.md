@@ -7,3 +7,5 @@
 ## Setup
 1) Repo → Settings → Secrets and variables → Actions → **OPENAI_API_KEY**.
 2) Clone locally and open as an Obsidian vault (install Obsidian Git to auto-pull).
+
+View page [https://bitterbuick.github.io/starlink-watch/](https://bitterbuick.github.io/starlink-watch/)
