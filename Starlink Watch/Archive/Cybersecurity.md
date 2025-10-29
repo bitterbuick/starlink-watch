@@ -12,3 +12,4 @@
 - 2025-07-25 | **Outage affected some Starshield (defense) services** (FedScoop). https://fedscoop.com/starlink-outage-impacted-starshield-its-defense-communications-service/
 - 2025-08-29 | **U.S. approves potential sale of Starlink services to Ukraine** (State Dept. notification; Reuters). Policy step formalizing government procurement. https://www.reuters.com/business/aerospace-defense/us-approves-potential-sale-starlink-services-patriot-equipment-ukraine-2025-08-29/
 - 2022-08-10 | **Starlink welcomes security researchers (bug bounty)** — program details & scope (Starlink). https://www.starlink.com/public-files/StarlinkWelcomesSecurityResearchersBringOnTheBugs.pdf
+- No new items.

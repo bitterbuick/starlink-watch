@@ -14,3 +14,4 @@
 - 2025-01 | **SpaceX letter to FCC (reported)** — operating ~300 satellites at 350 km correlated with ~60% fewer illuminated Rubin images (summary + letter excerpt). https://gizmodo.com/spacex-tests-lower-satellite-orbits-to-stop-starlink-from-ruining-telescope-images-2000548619 | https://www.scribd.com/document/812804724/Spacex-Letter
 - 2024-12 | **Automated detection of satellite trails (ASTA)** (A&A) — deep‑learning trail detection for survey pipelines. https://www.aanda.org/articles/aa/full_html/2024/12/aa51663-24/aa51663-24.html
 - 2022-01 | **Popular coverage of ZTF streaks** — contextual reporting. https://www.scientificamerican.com/article/spacexs-starlink-satellites-leave-streaks-in-asteroid-hunting-telescopes-images/ | https://www.space.com/starlink-streaks-disrupt-asteroid-science-zwicky-observatory
+- No new items.
