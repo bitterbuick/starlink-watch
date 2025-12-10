@@ -127,6 +127,158 @@ def ensure_sources():
     return sources
 
 
+def normalize_sort_key(raw_date: str) -> str:
+    """Best-effort YYYY-MM(-DD) sort key from the leading token of raw_date."""
+    token = raw_date.split()[0].split("→")[0].split("->")[0].strip()
+    full = re.match(r"(\d{4}-\d{2}-\d{2})", token)
+    if full:
+        return full.group(1)
+    partial = re.match(r"(\d{4}-\d{2})", token)
+    if partial:
+        return partial.group(1)
+    return ""
+
+
+def parse_archive_file(domain: str, path: Path):
+    lines = path.read_text(encoding="utf-8").splitlines()
+    description = ""
+    entries = []
+
+    for ln in lines:
+        stripped = ln.strip()
+        if not description and stripped.startswith("*") and stripped.endswith("*"):
+            description = stripped.strip("*").strip()
+
+        if not stripped.startswith("- "):
+            continue
+        item = stripped[2:].strip()
+        if item == "No new items.":
+            continue
+        if "|" not in item:
+            continue
+
+        raw_date, remainder = item.split("|", 1)
+        raw_date = raw_date.strip()
+        remainder = remainder.strip()
+
+        m = re.search(r"\*\*(.+?)\*\*", remainder)
+        if not m:
+            continue
+        title = m.group(1).strip()
+        after_title = remainder[m.end():].strip()
+
+        urls = re.findall(r"https?://\S+", after_title)
+        primary_url = urls[0] if urls else ""
+
+        rest = re.sub(r"https?://\S+", "", after_title)
+        rest = re.sub(r"\s*\|\s*", " ", rest)
+        rest = " ".join(rest.split()).strip()
+        rest = rest.strip("— ").strip()
+
+        entries.append(
+            {
+                "domain": domain,
+                "date_display": raw_date,
+                "date_sort_key": normalize_sort_key(raw_date),
+                "title": title,
+                "rest": rest,
+                "primary_url": primary_url,
+            }
+        )
+
+    return {"domain": domain, "description": description, "entries": entries}
+
+
+def load_archives():
+    archives = []
+    for name in ["Environmental", "Cybersecurity", "Astronomical"]:
+        path = ARCH / f"{name}.md"
+        if path.exists():
+            archives.append(parse_archive_file(name, path))
+    return archives
+
+
+def render_global_archive(archives):
+    all_entries = []
+    for arc in archives:
+        all_entries.extend(arc.get("entries", []))
+
+    deduped = []
+    seen = set()
+    for idx, entry in enumerate(all_entries):
+        key = (entry.get("domain", ""), entry.get("date_display", ""), entry.get("title", ""), entry.get("primary_url", ""))
+        if key in seen:
+            continue
+        seen.add(key)
+        entry["_orig_idx"] = idx
+        deduped.append(entry)
+
+    with_key = [e for e in deduped if e.get("date_sort_key")]
+    without_key = [e for e in deduped if not e.get("date_sort_key")]
+
+    with_key.sort(key=lambda e: (e.get("date_sort_key", ""), e.get("_orig_idx", 0)), reverse=True)
+
+    ordered = with_key + without_key
+
+    items = []
+    for e in ordered:
+        date_disp = html.escape(e.get("date_display", ""))
+        domain = html.escape(e.get("domain", ""))
+        title = html.escape(e.get("title", ""))
+        rest = html.escape(e.get("rest", ""))
+        title_html = title
+        if e.get("primary_url"):
+            url = html.escape(e["primary_url"])
+            title_html = f"<a href=\"{url}\" target=\"_blank\" rel=\"noopener noreferrer\">{title}</a>"
+        rest_html = f" — {rest}" if rest else ""
+        items.append(
+            f"      <li>\n        <strong>{date_disp}</strong> — <span class=\"archive-domain\">{domain}</span> — {title_html}{rest_html}\n      </li>"
+        )
+
+    return """
+  <section class="starlink-archive">
+    <h2>Global Archive Timeline</h2>
+    <p>
+      Consolidated record of notable Starlink-related environmental, cybersecurity, and astronomical items, drawn from the per-domain archive files.
+    </p>
+    <ul class="archive-timeline">
+{items}
+    </ul>
+  </section>""".format(items="\n".join(items))
+
+
+def render_domain_archives(archives):
+    sections = []
+    for arc in archives:
+        domain = arc.get("domain", "")
+        desc = html.escape(arc.get("description", ""))
+        slug = domain.lower()
+        items = []
+        for e in arc.get("entries", []):
+            date_disp = html.escape(e.get("date_display", ""))
+            title = html.escape(e.get("title", ""))
+            rest = html.escape(e.get("rest", ""))
+            title_html = title
+            if e.get("primary_url"):
+                url = html.escape(e["primary_url"])
+                title_html = f"<a href=\"{url}\" target=\"_blank\" rel=\"noopener noreferrer\">{title}</a>"
+            rest_html = f" — {rest}" if rest else ""
+            items.append(f"      <li>\n        <strong>{date_disp}</strong> | {title_html}{rest_html}\n      </li>")
+
+        sections.append(
+            """
+  <section class="starlink-domain-archive">
+    <h2>{domain} — Archive</h2>
+    <p>{desc}</p>
+    <ul class="archive-list archive-list-{slug}">
+{items}
+    </ul>
+  </section>""".format(domain=html.escape(domain), desc=desc, slug=slug, items="\n".join(items))
+        )
+
+    return "\n\n".join(sections)
+
+
 def render_timeline_items(incidents, indent="      "):
     nested = indent + "  "
     items = []
@@ -184,8 +336,11 @@ def build():
 
     incidents = ensure_incidents()
     sources = ensure_sources()
+    archives = load_archives()
 
     timeline_html = render_timeline_items(incidents)
+    global_archive_html = render_global_archive(archives)
+    domain_archives_html = render_domain_archives(archives)
 
     digest_page = find_digest_page()
     if digest_page:
@@ -534,6 +689,10 @@ def build():
 
   </section>
 
+{global_archive_html}
+
+{domain_archives_html}
+
   <!-- Optional minimal styling hooks (you may move these into the main CSS file) -->
   <style>
     .starlink-digest {{ margin-top: 1.5rem; }}
@@ -560,6 +719,30 @@ def build():
     }}
     .digest-timeline {{ list-style: disc; padding-left: 1.5rem; }}
     .digest-note {{ font-size: 0.9rem; opacity: 0.85; }}
+    .starlink-archive {{
+      margin-top: 2rem;
+    }}
+    .archive-timeline {{
+      list-style: none;
+      padding-left: 0;
+    }}
+    .archive-timeline li {{
+      margin-bottom: 0.5rem;
+    }}
+    .archive-domain {{
+      font-style: italic;
+      opacity: 0.85;
+    }}
+    .starlink-domain-archive {{
+      margin-top: 2rem;
+    }}
+    .starlink-domain-archive ul {{
+      list-style: none;
+      padding-left: 0;
+    }}
+    .starlink-domain-archive li {{
+      margin-bottom: 0.4rem;
+    }}
   </style>
 </main>
 
