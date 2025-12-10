@@ -1,0 +1,27 @@
+[
+  {
+    "label": "CelesTrak Starlink GP/CSV",
+    "description": "Active Starlink elements, orbital parameters, and counts used to understand constellation scale and decay eligibility.",
+    "url": ""
+  },
+  {
+    "label": "CelesTrak SATCAT \u2013 Recently Decayed",
+    "description": "Confirmed decay events, including Starlink entries, used to timestamp and tally re-entries.",
+    "url": ""
+  },
+  {
+    "label": "Vulnerability and advisory feeds (CERT/CC, national CERTs, vendor bulletins)",
+    "description": "Publicly disclosed vulnerabilities or incidents referencing Starlink user terminals or supporting infrastructure.",
+    "url": ""
+  },
+  {
+    "label": "Astronomical reports and RFI notes",
+    "description": "Observatory mitigation reports, optical streak surveys, and radio-interference summaries that mention Starlink or similar constellations.",
+    "url": ""
+  },
+  {
+    "label": "Generation mass mix and alumina assumptions",
+    "description": "Parameters defined in data/starlink_config.yml for satellite mass, aluminum fraction, and alumina conversion used in environmental calculations.",
+    "url": ""
+  }
+]

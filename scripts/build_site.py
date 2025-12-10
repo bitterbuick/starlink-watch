@@ -2,6 +2,7 @@
 # Starlink Watch — static site builder with inline citations
 import json, html, datetime
 from pathlib import Path
+import re
 
 import matplotlib
 matplotlib.use("Agg")  # headless
@@ -30,6 +31,90 @@ def load_series(name):
     ser = json.loads(p.read_text(encoding="utf-8"))
     return pd.DataFrame(ser)
 
+
+def find_digest_page():
+    preferred = [
+        REPO / "index.html",
+        REPO / "index.md",
+        REPO / "README.md",
+    ]
+    for cand in preferred:
+        if cand.exists():
+            txt = cand.read_text(encoding="utf-8")
+            if "<section class=\"starlink-digest\">" in txt:
+                return cand
+
+    for cand in REPO.rglob("*.md"):
+        if "starlink-digest" not in cand.read_text(encoding="utf-8"):
+            continue
+        return cand
+    return None
+
+
+def parse_incidents_from_html(txt):
+    incidents = []
+    m = re.search(r"<h3>Incident Timeline</h3>.*?<ul class=\"digest-timeline\">(.*?)</ul>", txt, re.S)
+    if not m:
+        return incidents
+    for raw in re.findall(r"<li>\s*(.*?)\s*</li>", m.group(1), re.S):
+        cleaned = re.sub(r"\s+", " ", raw.strip())
+        dm = re.match(r"<strong>(\d{4}-\d{2}-\d{2})</strong> — (.*)", cleaned)
+        if dm:
+            incidents.append({"date": dm.group(1), "summary": dm.group(2).strip()})
+    incidents.sort(key=lambda x: x["date"], reverse=True)
+    return incidents
+
+
+def parse_sources_from_html(txt):
+    sources = []
+    m = re.search(r"<h3>Data Sources</h3>.*?<ul>(.*?)</ul>", txt, re.S)
+    if not m:
+        return sources
+    for raw in re.findall(r"<li>\s*(.*?)\s*</li>", m.group(1), re.S):
+        cleaned = re.sub(r"\s+", " ", raw.strip())
+        link = re.search(r'href=\"([^\"]+)\"', cleaned)
+        url = link.group(1) if link else ""
+        label_desc = re.sub(r"<[^>]+>", "", cleaned)
+        if " — " in label_desc:
+            label, desc = label_desc.split(" — ", 1)
+        elif "-" in label_desc:
+            label, desc = label_desc.split("-", 1)
+        else:
+            label, desc = label_desc, ""
+        sources.append({"label": label.strip(), "description": desc.strip(), "url": url})
+    return sources
+
+
+def ensure_incidents():
+    p = DATA / "incidents.json"
+    if p.exists():
+        incidents = json.loads(p.read_text(encoding="utf-8"))
+        incidents.sort(key=lambda x: x.get("date", ""), reverse=True)
+        p.write_text(json.dumps(incidents, indent=2), encoding="utf-8")
+        return incidents
+
+    digest_page = find_digest_page()
+    incidents = []
+    if digest_page:
+        incidents = parse_incidents_from_html(digest_page.read_text(encoding="utf-8"))
+    p.write_text(json.dumps(incidents, indent=2), encoding="utf-8")
+    return incidents
+
+
+def ensure_sources():
+    p = DATA / "sources.json"
+    if p.exists():
+        sources = json.loads(p.read_text(encoding="utf-8"))
+        p.write_text(json.dumps(sources, indent=2), encoding="utf-8")
+        return sources
+
+    digest_page = find_digest_page()
+    sources = []
+    if digest_page:
+        sources = parse_sources_from_html(digest_page.read_text(encoding="utf-8"))
+    p.write_text(json.dumps(sources, indent=2), encoding="utf-8")
+    return sources
+
 def chart(df, title, out_png):
     if df.empty:
         # write a placeholder so <img> doesn't 404
@@ -55,6 +140,41 @@ def build():
     src = met.get("sources", {})
     src_gp = src.get("celestrak_gp_csv", "https://celestrak.org/NORAD/elements/")
     src_decayed = src.get("celestrak_decayed", "https://celestrak.org/satcat/decayed-with-last.php")
+
+    incidents = ensure_incidents()
+    sources = ensure_sources()
+
+    timeline_items = []
+    for inc in incidents:
+        timeline_items.append(
+            f"""
+      <li>
+        <strong>{html.escape(inc.get('date',''))}</strong> — {html.escape(inc.get('summary',''))}
+      </li>"""
+        )
+    timeline_items.append(
+        """
+      <li>
+        <strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT “decayed objects” dataset remains unchanged relative to the prior digest unless otherwise noted above.
+      </li>"""
+    )
+    timeline_html = "".join(timeline_items)
+
+    source_items = []
+    for src_obj in sources:
+        label = html.escape(src_obj.get("label", ""))
+        desc = html.escape(src_obj.get("description", ""))
+        url = src_obj.get("url", "")
+        label_html = label
+        if url:
+            label_html = f"<a href=\"{html.escape(url)}\" target=\"_blank\" rel=\"noopener noreferrer\">{label}</a>"
+        source_items.append(
+            f"""
+      <li>
+        <strong>{label_html}</strong> — {desc}
+      </li>"""
+        )
+    sources_html = "".join(source_items)
 
     # charts (saved to /site/assets)
     chart(load_series("active_count"),      "Active Starlink satellites (count)", ASSETS/"active.png")
@@ -261,22 +381,7 @@ def build():
     <h3>Incident Timeline</h3>
 
     <ul class="digest-timeline">
-      <!-- Always insert the newest digest entry at the TOP of this list on future updates.
-           Older items below must never be removed so the timeline remains a running history. -->
-
-      <li>
-        <strong>2025-12-09</strong> — Routine monitoring completed. No Starlink-specific incidents, re-entry confirmations
-        or regulatory actions were identified across environmental, cybersecurity, or astronomical sources.
-      </li>
-      <li>
-        <strong>2025-12-08</strong> — Previous digest also recorded no new Starlink incidents following cross-checks of
-        re-entry notices, cybersecurity advisories, and observatory reporting.
-      </li>
-      <li>
-        <strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the
-        CelesTrak/SATCAT “decayed objects” dataset remains unchanged relative to the prior digest; no newer decays have
-        been attributed to Starlink since that entry.
-      </li>
+      {timeline_html}
     </ul>
 
     <p class="digest-note">
@@ -389,27 +494,7 @@ def build():
       This digest draws from the following public datasets and model assumptions:
     </p>
     <ul>
-      <li>
-        <strong>CelesTrak Starlink GP/CSV</strong> — Active Starlink elements, orbital parameters, and counts used to
-        understand constellation scale and decay eligibility.
-      </li>
-      <li>
-        <strong>CelesTrak SATCAT – Recently Decayed</strong> — Confirmed decay events, including Starlink entries, used
-        to timestamp and tally re-entries.
-      </li>
-      <li>
-        <strong>Vulnerability and advisory feeds</strong> (CERT/CC, national CERTs, vendor bulletins) — Publicly disclosed
-        vulnerabilities or incidents referencing Starlink user terminals or supporting infrastructure.
-      </li>
-      <li>
-        <strong>Astronomical reports and RFI notes</strong> — Observatory mitigation reports, optical streak surveys, and
-        radio-interference summaries that mention Starlink or similar constellations.
-      </li>
-      <li>
-        <strong>Generation mass mix and alumina assumptions</strong> — Parameters defined in
-        <code>data/starlink_config.yml</code> for satellite mass, aluminum fraction, and alumina conversion used in
-        environmental calculations.
-      </li>
+      {sources_html}
     </ul>
     <p>
       All assumptions and mass-mix parameters remain editable in <code>data/starlink_config.yml</code>, and charts on

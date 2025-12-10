@@ -88,17 +88,13 @@
 
   <ul class="digest-timeline">
     <li>
-      <strong>2025-12-09</strong> — Routine monitoring completed. No Starlink-specific incidents, re-entry confirmations,
-      or regulatory actions were identified across environmental, cybersecurity, or astronomical sources.
+      <strong>2025-12-09</strong> — Routine monitoring completed. No Starlink-specific incidents, re-entry confirmations, or regulatory actions were identified across environmental, cybersecurity, or astronomical sources.
     </li>
     <li>
-      <strong>2025-12-08</strong> — Previous digest also recorded no new Starlink incidents following cross-checks of
-      re-entry notices, cybersecurity advisories, and observatory reporting.
+      <strong>2025-12-08</strong> — Previous digest also recorded no new Starlink incidents following cross-checks of re-entry notices, cybersecurity advisories, and observatory reporting.
     </li>
     <li>
-      <strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak /
-      SATCAT “decayed objects” dataset remains unchanged relative to the prior digest; no newer decays have been
-      attributed to Starlink since that entry.
+      <strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT “decayed objects” dataset remains unchanged relative to the prior digest unless otherwise noted above.
     </li>
   </ul>
 
@@ -213,25 +209,19 @@
   </p>
   <ul>
     <li>
-      <strong>CelesTrak Starlink GP/CSV</strong> — Active Starlink elements, orbital parameters, and counts used to
-      understand constellation scale and decay eligibility.
+      <strong>CelesTrak Starlink GP/CSV</strong> — Active Starlink elements, orbital parameters, and counts used to understand constellation scale and decay eligibility.
     </li>
     <li>
-      <strong>CelesTrak SATCAT – Recently Decayed</strong> — Confirmed decay events, including Starlink entries, used
-      to timestamp and tally re-entries.
+      <strong>CelesTrak SATCAT – Recently Decayed</strong> — Confirmed decay events, including Starlink entries, used to timestamp and tally re-entries.
     </li>
     <li>
-      <strong>Vulnerability and advisory feeds</strong> (CERT/CC, national CERTs, vendor bulletins) — Publicly disclosed
-      vulnerabilities or incidents referencing Starlink user terminals or supporting infrastructure.
+      <strong>Vulnerability and advisory feeds (CERT/CC, national CERTs, vendor bulletins)</strong> — Publicly disclosed vulnerabilities or incidents referencing Starlink user terminals or supporting infrastructure.
     </li>
     <li>
-      <strong>Astronomical reports and RFI notes</strong> — Observatory mitigation reports, optical streak surveys, and
-      radio-interference summaries that mention Starlink or similar constellations.
+      <strong>Astronomical reports and RFI notes</strong> — Observatory mitigation reports, optical streak surveys, and radio-interference summaries that mention Starlink or similar constellations.
     </li>
     <li>
-      <strong>Generation mass mix and alumina assumptions</strong> — Parameters defined in
-      <code>data/starlink_config.yml</code> for satellite mass, aluminum fraction, and alumina conversion used in
-      environmental calculations.
+      <strong>Generation mass mix and alumina assumptions</strong> — Parameters defined in data/starlink_config.yml for satellite mass, aluminum fraction, and alumina conversion used in environmental calculations.
     </li>
   </ul>
   <p>
