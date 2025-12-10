@@ -87,16 +87,27 @@ def parse_sources_from_html(txt):
 
 def ensure_incidents():
     p = DATA / "incidents.json"
+    def dedupe(items):
+        seen = set()
+        out = []
+        for inc in items:
+            key = (inc.get("date", ""), inc.get("summary", ""))
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append(inc)
+        return out
+
     if p.exists():
         incidents = json.loads(p.read_text(encoding="utf-8"))
-        incidents.sort(key=lambda x: x.get("date", ""), reverse=True)
-        p.write_text(json.dumps(incidents, indent=2), encoding="utf-8")
-        return incidents
+    else:
+        digest_page = find_digest_page()
+        incidents = []
+        if digest_page:
+            incidents = parse_incidents_from_html(digest_page.read_text(encoding="utf-8"))
 
-    digest_page = find_digest_page()
-    incidents = []
-    if digest_page:
-        incidents = parse_incidents_from_html(digest_page.read_text(encoding="utf-8"))
+    incidents = dedupe(incidents)
+    incidents.sort(key=lambda x: x.get("date", ""), reverse=True)
     p.write_text(json.dumps(incidents, indent=2), encoding="utf-8")
     return incidents
 
@@ -114,6 +125,36 @@ def ensure_sources():
         sources = parse_sources_from_html(digest_page.read_text(encoding="utf-8"))
     p.write_text(json.dumps(sources, indent=2), encoding="utf-8")
     return sources
+
+
+def render_timeline_items(incidents, indent="      "):
+    nested = indent + "  "
+    items = []
+    for inc in incidents:
+        date = html.escape(inc.get("date", ""))
+        summary = html.escape(inc.get("summary", ""))
+        items.append(
+            f"{indent}<li>\n{nested}<strong>{date}</strong> — {summary}\n{indent}</li>"
+        )
+    items.append(
+        f"{indent}<li>\n{nested}<strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT “decayed objects” dataset remains unchanged relative to the prior digest unless otherwise noted above.\n{indent}</li>"
+    )
+    return "\n".join(items)
+
+
+def update_page_timeline(page_path, incidents):
+    txt = page_path.read_text(encoding="utf-8")
+    m = re.search(r"(?P<indent>\s*)<ul class=\"digest-timeline\">.*?</ul>", txt, re.S)
+    if not m:
+        return False
+    indent = m.group("indent")
+    li_indent = indent + "  "
+    new_ul = f"{indent}<ul class=\"digest-timeline\">\n{render_timeline_items(incidents, indent=li_indent)}\n{indent}</ul>"
+    updated = txt[: m.start()] + new_ul + txt[m.end():]
+    if updated != txt:
+        page_path.write_text(updated, encoding="utf-8")
+        return True
+    return False
 
 def chart(df, title, out_png):
     if df.empty:
@@ -144,21 +185,11 @@ def build():
     incidents = ensure_incidents()
     sources = ensure_sources()
 
-    timeline_items = []
-    for inc in incidents:
-        timeline_items.append(
-            f"""
-      <li>
-        <strong>{html.escape(inc.get('date',''))}</strong> — {html.escape(inc.get('summary',''))}
-      </li>"""
-        )
-    timeline_items.append(
-        """
-      <li>
-        <strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT “decayed objects” dataset remains unchanged relative to the prior digest unless otherwise noted above.
-      </li>"""
-    )
-    timeline_html = "".join(timeline_items)
+    timeline_html = render_timeline_items(incidents)
+
+    digest_page = find_digest_page()
+    if digest_page:
+        update_page_timeline(digest_page, incidents)
 
     source_items = []
     for src_obj in sources:
