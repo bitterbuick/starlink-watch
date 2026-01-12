@@ -15,3 +15,4 @@
 - 2024-12 | **Automated detection of satellite trails (ASTA)** (A&A) — deep‑learning trail detection for survey pipelines. https://www.aanda.org/articles/aa/full_html/2024/12/aa51663-24/aa51663-24.html
 - 2022-01 | **Popular coverage of ZTF streaks** — contextual reporting. https://www.scientificamerican.com/article/spacexs-starlink-satellites-leave-streaks-in-asteroid-hunting-telescopes-images/ | https://www.space.com/starlink-streaks-disrupt-asteroid-science-zwicky-observatory
 - No new items.
+- No new items reported.

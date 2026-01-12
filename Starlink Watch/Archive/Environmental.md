@@ -14,3 +14,4 @@
 - 2022-06 | **The Climate and Ozone Impacts of Black Carbon Emissions from Rocket Launches** (JGR Atmospheres / NOAA) — stratospheric BC warming and chemistry. https://repository.library.noaa.gov/view/noaa/53971
 - 2025-06 | **Near‑future rocket launches could slow ozone recovery** (PNAS Nexus – open access) — scenario analysis for ozone recovery timelines. https://pmc.ncbi.nlm.nih.gov/articles/PMC12148926/
 - No new items.
+- No new items reported.
