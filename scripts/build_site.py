@@ -311,20 +311,20 @@ def update_page_timeline(page_path, incidents):
 def chart(df, title, out_png):
     if df.empty:
         # write a placeholder so <img> doesn't 404
-        plt.figure(figsize=(8,3))
+        plt.figure(figsize=(10, 4.5))
         plt.text(0.5, 0.5, "No data yet", ha="center", va="center")
         plt.axis("off")
         plt.tight_layout()
-        plt.savefig(out_png, dpi=140)
+        plt.savefig(out_png, dpi=160)
         plt.close()
         return
     df["date"] = pd.to_datetime(df["date"])
     df = df.sort_values("date")
-    plt.figure(figsize=(8,3))
+    plt.figure(figsize=(10, 4.5))
     plt.plot(df["date"], df["value"])
     plt.title(title)
     plt.tight_layout()
-    plt.savefig(out_png, dpi=140)
+    plt.savefig(out_png, dpi=160)
     plt.close()
 
 # ---------- build ----------
@@ -423,7 +423,7 @@ def build():
   h1,h2,h3 {{ margin:0 0 12px; }}
   .muted {{ color:var(--muted); font-size:.92em }}
   .card {{ background:var(--card); border-radius:14px; padding:18px 20px; box-shadow:0 6px 24px #0008, inset 0 1px 0 #ffffff0f; }}
-  .grid {{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); }}
+  .grid {{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); }}
   .tiles {{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); margin:14px 0 4px; }}
   .tile {{ background:#0d1528; border:1px solid #15233b; border-radius:12px; padding:12px 14px; }}
   .tile .k {{ font-size:28px; font-weight:700 }}
