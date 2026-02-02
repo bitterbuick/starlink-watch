@@ -14,3 +14,4 @@
 - 2022-08-10 | **Starlink welcomes security researchers (bug bounty)** — program details & scope (Starlink). https://www.starlink.com/public-files/StarlinkWelcomesSecurityResearchersBringOnTheBugs.pdf
 - No new items.
 - No new items reported.
+- 2026-02-02 12:00 PT | Starlink and the unravelling of digital sovereignty | SpaceNews | https://spacenews.com/starlink-and-the-unravelling-of-digital-sovereignty/
