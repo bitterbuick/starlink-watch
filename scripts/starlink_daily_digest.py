@@ -3,9 +3,9 @@ import os, sys, time, json, datetime, re, argparse
 from pathlib import Path
 
 try:
-    import feedparser, yaml
+    import feedparser, yaml, requests
 except ImportError:
-    print("Install deps: feedparser pyyaml", file=sys.stderr)
+    print("Install deps: feedparser pyyaml requests", file=sys.stderr)
     sys.exit(1)
 
 # Import shared utils
@@ -43,14 +43,14 @@ def gather_items():
     for f in FEEDS.get("feeds", []):
         try:
             d = feedparser.parse(f["url"])
-        except Exception as e:
-            print(f"Failed to parse {f.get('url')}: {e}", file=sys.stderr)
+        except Exception as err:
+            print(f"Failed to parse {f.get('url')}: {err}", file=sys.stderr)
             continue
 
-        for e in d.entries:
+        for entry in d.entries:
             dt = None
             for key in ("published_parsed","updated_parsed"):
-                val = getattr(e, key, None)
+                val = getattr(entry, key, None)
                 if val:
                     dt = datetime.datetime.fromtimestamp(time.mktime(val))
                     break
@@ -59,9 +59,9 @@ def gather_items():
             if dt < cutoff:
                 continue
 
-            title = getattr(e, "title", "") or ""
-            summary = getattr(e, "summary", "") or ""
-            link = getattr(e, "link", "") or ""
+            title = getattr(entry, "title", "") or ""
+            summary = getattr(entry, "summary", "") or ""
+            link = getattr(entry, "link", "") or ""
 
             if not looks_starlink_critical(title, summary, link):
                 continue
@@ -78,7 +78,6 @@ def gather_items():
     return items[:50]  # cap for cost
 
 def openai_digest_json(items):
-    import urllib.request
     if not OPENAI_API_KEY:
         print("OPENAI_API_KEY not set", file=sys.stderr)
         return None
@@ -106,7 +105,7 @@ def openai_digest_json(items):
         "}\n"
         "If no new items, set update=false, summary to 'No Starlink-specific changes detected...', and archive list to empty."
     )
-    
+
     user_content = f"Items JSON:\n{json.dumps(items, ensure_ascii=False)}\n\nGenerate digest for {today_str}."
 
     body = {
@@ -115,19 +114,20 @@ def openai_digest_json(items):
         "messages": [{"role":"system","content":system},{"role":"user","content":user_content}],
         "temperature": 0.2
     }
-    
+
     try:
-        req = urllib.request.Request(
+        resp = requests.post(
             url,
-            data=json.dumps(body).encode("utf-8"),
-            headers={"Content-Type":"application/json","Authorization":f"Bearer {OPENAI_API_KEY}"}
+            json=body,
+            headers={"Authorization": f"Bearer {OPENAI_API_KEY}"},
+            timeout=120
         )
-        with urllib.request.urlopen(req, timeout=120) as r:
-            out = json.loads(r.read().decode("utf-8"))
-            content = out["choices"][0]["message"]["content"]
-            return json.loads(content)
-    except Exception as e:
-        print(f"OpenAI API Error: {e}", file=sys.stderr)
+        resp.raise_for_status()
+        out = resp.json()
+        content = out["choices"][0]["message"]["content"]
+        return json.loads(content)
+    except Exception as err:
+        print(f"OpenAI API Error: {err}", file=sys.stderr)
         return None
 
 def format_digest_markdown(data):

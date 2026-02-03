@@ -53,6 +53,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Pull latest changes from digest job
+        run: git pull origin ${{ github.ref_name }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
