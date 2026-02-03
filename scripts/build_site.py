@@ -115,9 +115,7 @@ def ensure_incidents():
 def ensure_sources():
     p = DATA / "sources.json"
     if p.exists():
-        sources = json.loads(p.read_text(encoding="utf-8"))
-        p.write_text(json.dumps(sources, indent=2), encoding="utf-8")
-        return sources
+        return json.loads(p.read_text(encoding="utf-8"))
 
     digest_page = find_digest_page()
     sources = []
@@ -751,6 +749,7 @@ def build():
 </div></footer>
 </body></html>"""
     (SITE / "index.html").write_text(page, encoding="utf-8")
+    print(f"Site built: {SITE / 'index.html'}")
 
 if __name__ == "__main__":
     build()

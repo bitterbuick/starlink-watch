@@ -22,19 +22,19 @@ def ts():
     return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
 def fetch_starlink_active_count():
-    r = requests.get(STARLINK_CSV, timeout=60)
-    r.raise_for_status()
-    reader = csv.DictReader(io.StringIO(r.text))
+    resp = requests.get(STARLINK_CSV, timeout=60)
+    resp.raise_for_status()
+    reader = csv.DictReader(io.StringIO(resp.text))
     rows = [row for row in reader]
     # Filter only rows whose OBJECT_NAME contains 'STARLINK'
-    rows = [r for r in rows if "STARLINK" in (r.get("OBJECT_NAME","").upper())]
+    rows = [row for row in rows if "STARLINK" in (row.get("OBJECT_NAME","").upper())]
     return len(rows)
 
 def fetch_recent_decayed_starlink():
     """Parse CelesTrak 'recently decayed' page; accumulate STARLINK- entries into a set for historical total."""
-    r = requests.get(DECAYED_HTML, timeout=60)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, "html.parser")
+    resp = requests.get(DECAYED_HTML, timeout=60)
+    resp.raise_for_status()
+    soup = BeautifulSoup(resp.text, "html.parser")
     text = soup.get_text(" ", strip=True)
     # Match chunks like "... 47995, STARLINK-2309 ; ..."
     ids = set(re.findall(r"\bSTARLINK-\d+\b", text.upper()))
@@ -111,6 +111,8 @@ def main():
     rolling_series_push(series_dir / "on_orbit_mass_kg.json", {"date": date, "value": round(on_orbit_mass,1)})
     rolling_series_push(series_dir / "reentered_mass_kg.json", {"date": date, "value": round(reentered_mass,1)})
     rolling_series_push(series_dir / "alumina_kg.json", {"date": date, "value": round(alumina_kg,1)})
+
+    print(f"Metrics computed: {active} active, {decayed_total} decayed, {round(on_orbit_mass,1)} kg on-orbit, {round(alumina_kg,1)} kg alumina")
 
 if __name__ == "__main__":
     main()

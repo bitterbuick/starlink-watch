@@ -87,33 +87,62 @@
   <h3>Incident Timeline</h3>
 
   <ul class="digest-timeline">
+
+
     <li>
+
+
       <strong>2025-12-09</strong> — Routine monitoring completed. No Starlink-specific incidents, re-entry confirmations, or regulatory actions were identified across environmental, cybersecurity, or astronomical sources.
+
+
     </li>
+
+
     <li>
+
+
       <strong>2025-12-08</strong> — Previous digest also recorded no new Starlink incidents following cross-checks of re-entry notices, cybersecurity advisories, and observatory reporting.
+
+
     </li>
+
+
     <li>
-      <strong>2025-04-28</strong> —
-      <a href="Starlink%20Watch/Archive/Environmental.md" target="_blank" rel="noopener noreferrer">
-        Dates refer to publication or data-release dates of the cited sources.
-      </a>
+
+
+      <strong>2025-04-28</strong> — Dates refer to publication or data-release dates of the cited sources.
+
+
     </li>
+
+
     <li>
-      <strong>2022-08-10</strong> —
-      <a href="Starlink%20Watch/Archive/Cybersecurity.md" target="_blank" rel="noopener noreferrer">
-        Includes terminal/dish vulnerabilities, network/ground incidents, advisories, and notable policy actions related to Starlink.
-      </a>
+
+
+      <strong>2022-08-10</strong> — Includes terminal/dish vulnerabilities, network/ground incidents, advisories, and notable policy actions related to Starlink.
+
+
     </li>
+
+
     <li>
-      <strong>2022-01-10</strong> —
-      <a href="Starlink%20Watch/Archive/Astronomical.md" target="_blank" rel="noopener noreferrer">
-        Optical streak contamination, radio-frequency interference, mitigation updates (coatings/visors/orbit), survey impacts, and notable “satellite train” visibility items.
-      </a>
+
+
+      <strong>2022-01-10</strong> — Optical streak contamination, radio-frequency interference, mitigation updates (coatings/visors/orbit), survey impacts, and notable “satellite train” visibility items.
+
+
     </li>
+
+
     <li>
+
+
       <strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT “decayed objects” dataset remains unchanged relative to the prior digest unless otherwise noted above.
+
+
     </li>
+
+
   </ul>
 
   <p class="digest-note">

@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Starlink Watch — Metrics & Digest</title>
+<style>
+  :root { --bg:#0b1220; --fg:#e6edf3; --muted:#9fb0bd; --card:#0f172a; --ring:#1f2937; --accent:#60a5fa; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 ui-sans-serif,system-ui,Segoe UI,Roboto; }
+  header, footer { padding:22px 16px; border-bottom:1px solid var(--ring); }
+  footer { border-top:1px solid var(--ring); border-bottom:none; }
+  .wrap { max-width:1150px; margin:0 auto; padding:0 16px; }
+  h1,h2,h3 { margin:0 0 12px; }
+  .muted { color:var(--muted); font-size:.92em }
+  .card { background:var(--card); border-radius:14px; padding:18px 20px; box-shadow:0 6px 24px #0008, inset 0 1px 0 #ffffff0f; }
+  .grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); }
+  .tiles { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); margin:14px 0 4px; }
+  .tile { background:#0d1528; border:1px solid #15233b; border-radius:12px; padding:12px 14px; }
+  .tile .k { font-size:28px; font-weight:700 }
+  .tile .t { color:var(--muted); font-size:13px }
+  a { color:var(--accent); text-decoration:none } a:hover { text-decoration:underline }
+  a.info { font-weight:700; margin-left:6px; text-decoration:none; border-bottom:1px dotted #8ab4ff; cursor:help }
+  img.chart { width:100%; height:auto; border-radius:10px; background:#0d1528; border:1px solid #15233b; padding:6px; }
+  ul { margin:10px 0 0 20px }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Starlink Watch — Metrics & Digest</h1>
+    <div class="muted">Built 2026-02-03 03:26 UTC</div>
+  </div>
+</header>
+
+<main class="wrap" style="padding:22px 0 36px">
+  <section class="card">
+    <h2>Starlink metrics</h2>
+    
+        <div class="tiles">
+          <div class="tile">
+            <div class="k">9,485</div>
+            <div class="t">Active Starlink
+              <a class="info" href="https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&amp;FORMAT=csv" target="_blank" title="Source: CelesTrak Starlink GP/CSV">ⓘ</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="k">61</div>
+            <div class="t">Total decayed
+              <a class="info" href="https://celestrak.org/satcat/decayed-with-last.php" target="_blank" title="Source: CelesTrak SATCAT recently decayed">ⓘ</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="k">3,507,078.8</div>
+            <div class="t">On-orbit mass (kg)
+              <a class="info" href="https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&amp;FORMAT=csv" target="_blank" title="Derived from CelesTrak active counts × generation mass mix (see data/starlink_config.yml)">ⓘ</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="k">17,934.0</div>
+            <div class="t">Re-entered mass (kg)
+              <a class="info" href="https://celestrak.org/satcat/decayed-with-last.php" target="_blank" title="Derived from accumulated Starlink decays × generation mass mix (see data/starlink_config.yml)">ⓘ</a>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="k">23,726.7</div>
+            <div class="t">Al₂O₃ estimate (kg)
+              <a class="info" href="#" title="Proxy: aluminum fraction × 1.89 kg Al₂O₃ per kg Al (upper-bound stoichiometry). Tune in data/starlink_config.yml.">ⓘ</a>
+            </div>
+          </div>
+        </div>
+        
+    <div class="grid" style="margin-top:8px">
+      <div class="card">
+        <h3>Active satellites
+          <a class="info" href="https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&amp;FORMAT=csv" target="_blank" title="CelesTrak Starlink group (GP/CSV)">ⓘ</a>
+        </h3>
+        <img class="chart" src="assets/active.png" alt="">
+      </div>
+      <div class="card">
+        <h3>On-orbit mass (kg)
+          <a class="info" href="https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&amp;FORMAT=csv" target="_blank" title="Derived from active counts × generation masses (configurable)">ⓘ</a>
+        </h3>
+        <img class="chart" src="assets/onorbit.png" alt="">
+      </div>
+      <div class="card">
+        <h3>Re-entered mass (kg)
+          <a class="info" href="https://celestrak.org/satcat/decayed-with-last.php" target="_blank" title="Accumulated Starlink decays (CelesTrak SATCAT) × generation masses">ⓘ</a>
+        </h3>
+        <img class="chart" src="assets/reentry.png" alt="">
+      </div>
+      <div class="card">
+        <h3>Al₂O₃ estimate (kg)
+          <a class="info" href="#" title="Al fraction × 1.89 kg Al₂O₃ per kg Al (upper-bound stoichiometry); tune in data/starlink_config.yml">ⓘ</a>
+        </h3>
+        <img class="chart" src="assets/alumina.png" alt="">
+      </div>
+    </div>
+    <p class="muted">
+      Assumptions and mass mix are editable in <code>data/starlink_config.yml</code>.
+      Metrics are derived from public datasets; see citations below.
+    </p>
+  </section>
+
+  <section class="starlink-digest">
+
+    <!-- Header / Lede -->
+    <h2>Latest Digest</h2>
+    <h3>Starlink Daily Digest — 2025-12-09</h3>
+
+    <p>
+      No new Starlink-specific environmental, cybersecurity, or astronomical developments were identified on
+      <strong>2025-12-09</strong> during routine cross-domain monitoring. The constellation’s risk posture for this cycle
+      appears stable within the limits of currently available public data.
+    </p>
+
+    <hr />
+
+    <!-- Key Findings -->
+    <h3>Key Findings</h3>
+
+    <div class="digest-key-findings">
+
+      <article class="digest-card">
+        <h4>Environmental</h4>
+        <p><strong>Status:</strong> No Starlink-specific changes detected.</p>
+        <p>
+          Recent checks of atmospheric re-entry logs, orbital decay catalogs, and regulatory bulletins showed no newly
+          confirmed Starlink re-entries, debris notices, or enforcement actions since the prior digest. Within the
+          constraints of available data, the cumulative alumina load and debris profile remain consistent with previous
+          cycles, suggesting no short-term deviation from the modeled environmental risk trajectory.
+        </p>
+      </article>
+
+      <article class="digest-card">
+        <h4>Cybersecurity</h4>
+        <p><strong>Status:</strong> No Starlink-specific changes detected.</p>
+        <p>
+          Reviews of vulnerability disclosures, CERT/CC and national CERT feeds, vendor advisories, and open
+          threat-intelligence reporting produced no fresh references to Starlink user terminals, ground infrastructure,
+          or associated supply-chain compromises. The absence of new public advisories this cycle indicates a steady
+          threat surface rather than evidence of safety, and continued monitoring remains warranted given Starlink’s role
+          in critical connectivity.
+        </p>
+      </article>
+
+      <article class="digest-card">
+        <h4>Astronomical</h4>
+        <p><strong>Status:</strong> No Starlink-specific changes detected.</p>
+        <p>
+          Optical streak reports, radio-frequency interference notes, and observatory mitigation updates showed no new
+          Starlink-attributed survey-contamination events or RFI anomalies since the last check. Existing mitigation
+          practices and survey workarounds appear unchanged, leaving the overall astronomical impact profile similar to
+          prior assessments for this short interval.
+        </p>
+      </article>
+
+    </div>
+
+    <hr />
+
+    <!-- Summary Table -->
+    <h3>Summary of Changes</h3>
+
+    <table class="digest-summary">
+      <thead>
+        <tr>
+          <th>Domain</th>
+          <th>Updates Detected</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Environmental</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Cybersecurity</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td>Astronomical</td>
+          <td>No</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr />
+
+    <!-- Incident Timeline (running history; DO NOT delete older items on future runs) -->
+    <h3>Incident Timeline</h3>
+
+    <ul class="digest-timeline">
+            <li>
+        <strong>2025-12-09</strong> — Routine monitoring completed. No Starlink-specific incidents, re-entry confirmations, or regulatory actions were identified across environmental, cybersecurity, or astronomical sources.
+      </li>
+      <li>
+        <strong>2025-12-08</strong> — Previous digest also recorded no new Starlink incidents following cross-checks of re-entry notices, cybersecurity advisories, and observatory reporting.
+      </li>
+      <li>
+        <strong>2025-04-28</strong> — Dates refer to publication or data-release dates of the cited sources.
+      </li>
+      <li>
+        <strong>2022-08-10</strong> — Includes terminal/dish vulnerabilities, network/ground incidents, advisories, and notable policy actions related to Starlink.
+      </li>
+      <li>
+        <strong>2022-01-10</strong> — Optical streak contamination, radio-frequency interference, mitigation updates (coatings/visors/orbit), survey impacts, and notable “satellite train” visibility items.
+      </li>
+      <li>
+        <strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT “decayed objects” dataset remains unchanged relative to the prior digest unless otherwise noted above.
+      </li>
+    </ul>
+
+    <p class="digest-note">
+      Quiet days are logged explicitly to preserve an auditable history of checks, distinguish true low-activity periods
+      from monitoring gaps, and support future trend analysis.
+    </p>
+
+    <hr />
+
+    <!-- Methodology & Rationale -->
+    <h2>Methodology &amp; Rationale</h2>
+
+    <h3>Why These Domains Are Tracked</h3>
+    <p>
+      This project tracks three classes of risk where a constellation as large as Starlink can generate outsized
+      systemic effects:
+    </p>
+    <ul>
+      <li><strong>Environmental</strong> — Atmospheric re-entries, alumina production, debris generation, and any regulatory or scientific findings relating to climate and ozone impacts.</li>
+      <li><strong>Cybersecurity</strong> — Vulnerabilities, exploitation, and operational security issues involving user terminals, ground infrastructure, or Starlink’s role in high-value networks.</li>
+      <li><strong>Astronomical</strong> — Optical streaks, survey contamination, radio interference, and mitigation measures affecting professional observatories and large survey projects.</li>
+    </ul>
+    <p>
+      The goal is not to predict every outcome but to maintain a disciplined, source-driven record of developments that
+      could materially change the constellation’s risk profile over time.
+    </p>
+
+    <h3>Environmental Modeling</h3>
+    <p>
+      Environmental assessments combine object counts, re-entry events, and simple alumina mass estimates:
+    </p>
+    <ul>
+      <li>
+        <strong>Object and decay tracking</strong> rely on CelesTrak Starlink GP/CSV files for active elements and SATCAT
+        “recently decayed” lists for confirmed re-entries.
+      </li>
+      <li>
+        <strong>Alumina estimates</strong> use a generation mass mix defined in
+        <code>data/starlink_config.yml</code>, encoding assumptions about per-satellite mass, aluminum content, and the
+        fraction converted to alumina during re-entry. These assumptions are drawn from published re-entry and
+        spacecraft-material studies and are intentionally conservative.
+      </li>
+      <li>
+        <strong>Cumulative impact</strong> is tracked as a running total of estimated alumina injected into the upper
+        atmosphere by confirmed Starlink re-entries, to make the approximate scale and growth of material deposition
+        explicit rather than abstract.
+      </li>
+    </ul>
+    <p>
+      This matters because alumina can alter radiative forcing and interact with ozone chemistry. Even with wide error
+      bars, documenting the plausible mass and slope over time is more informative than relying on one-off marketing
+      claims or isolated estimates.
+    </p>
+
+    <h3>Cybersecurity Monitoring</h3>
+    <p>
+      Cyber assessments focus on how Starlink terminals and infrastructure appear in public security reporting:
+    </p>
+    <ul>
+      <li>
+        <strong>Primary inputs</strong> include CERT/CC and national CERT advisories, major vendor bulletins, and
+        reputable threat-intelligence publications.
+      </li>
+      <li>
+        <strong>Scope</strong> is limited to issues that explicitly reference Starlink hardware, firmware, or
+        infrastructure, plus clearly linked supply-chain or satellite-control vulnerabilities.
+      </li>
+      <li>
+        <strong>Interpretation</strong> emphasizes trend and posture: new advisories are treated as signals of an exposed
+        or actively targeted attack surface; quiet periods constrain what can be concluded from public data.
+      </li>
+    </ul>
+    <p>
+      Because Starlink is being woven into critical communications, battlefield connectivity, and research networks, even
+      incremental vulnerability disclosures are treated as important signals rather than routine patch notes.
+    </p>
+
+    <h3>Astronomical Impact Assessment</h3>
+    <p>
+      Astronomical impact monitoring tracks how Starlink appears in the literature and reporting on sky surveys:
+    </p>
+    <ul>
+      <li><strong>Optical effects</strong> — satellite streaks in wide-field survey images, changes in streak frequency, and mitigation tactics such as avoidance windows or exposure adjustments.</li>
+      <li><strong>Radio-frequency interference (RFI)</strong> — observatory notes and survey documentation describing interference from satellite constellations in relevant bands.</li>
+      <li><strong>Mitigation updates</strong> — darker coatings, attitude changes, or coordination protocols that alter expected long-term impact.</li>
+    </ul>
+    <p>
+      Survey science depends on clean, statistically stable skies. A constellation that injects structured noise into
+      those datasets changes both the cost and feasibility of key astronomical programs.
+    </p>
+
+    <h3>Why “Quiet” Days Are Still Logged</h3>
+    <p>
+      Each digest date is recorded even when no new Starlink-specific developments are found because:
+    </p>
+    <ul>
+      <li>It provides a continuous audit trail of which sources were checked and when.</li>
+      <li>It distinguishes genuine low-activity periods from monitoring gaps.</li>
+      <li>It allows future researchers to correlate bursts of activity with documented baselines.</li>
+    </ul>
+    <p>
+      A “no change” entry is therefore treated as a real data point rather than an empty placeholder.
+    </p>
+
+    <hr />
+
+    <!-- Data Sources -->
+    <h3>Data Sources</h3>
+    <p>
+      This digest draws from the following public datasets and model assumptions:
+    </p>
+    <ul>
+      
+      <li>
+        <strong>CelesTrak Starlink GP/CSV</strong> — Active Starlink elements, orbital parameters, and counts used to understand constellation scale and decay eligibility.
+      </li>
+      <li>
+        <strong>CelesTrak SATCAT – Recently Decayed</strong> — Confirmed decay events, including Starlink entries, used to timestamp and tally re-entries.
+      </li>
+      <li>
+        <strong>Vulnerability and advisory feeds (CERT/CC, national CERTs, vendor bulletins)</strong> — Publicly disclosed vulnerabilities or incidents referencing Starlink user terminals or supporting infrastructure.
+      </li>
+      <li>
+        <strong>Astronomical reports and RFI notes</strong> — Observatory mitigation reports, optical streak surveys, and radio-interference summaries that mention Starlink or similar constellations.
+      </li>
+      <li>
+        <strong>Generation mass mix and alumina assumptions</strong> — Parameters defined in data/starlink_config.yml for satellite mass, aluminum fraction, and alumina conversion used in environmental calculations.
+      </li>
+    </ul>
+    <p>
+      All assumptions and mass-mix parameters remain editable in <code>data/starlink_config.yml</code>, and charts on
+      this site are derived directly from these datasets and configuration values on each run.
+    </p>
+
+  </section>
+
+
+  <section class="starlink-archive">
+    <h2>Global Archive Timeline</h2>
+    <p>
+      Consolidated record of notable Starlink-related environmental, cybersecurity, and astronomical items, drawn from the per-domain archive files.
+    </p>
+    <ul class="archive-timeline">
+      <li>
+        <strong>2025-08-29</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://www.reuters.com/business/aerospace-defense/us-approves-potential-sale-starlink-services-patriot-equipment-ukraine-2025-08-29/" target="_blank" rel="noopener noreferrer">U.S. approves potential sale of Starlink services to Ukraine</a> — (State Dept. notification; Reuters). Policy step formalizing government procurement.
+      </li>
+      <li>
+        <strong>2025-07-25</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://fedscoop.com/starlink-outage-impacted-starshield-its-defense-communications-service/" target="_blank" rel="noopener noreferrer">Outage affected some Starshield (defense) services</a> — (FedScoop).
+      </li>
+      <li>
+        <strong>2025-07-24</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://www.reuters.com/investigations/musk-ordered-shutdown-starlink-satellite-service-ukraine-retook-territory-russia-2025-07-25/" target="_blank" rel="noopener noreferrer">Network outage widely reported</a> — (Reuters/The Guardian roundups).
+      </li>
+      <li>
+        <strong>2025-07-24</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://www.thousandeyes.com/blog/starlink-outage-analysis-july-24-2025" target="_blank" rel="noopener noreferrer">Global Starlink outage ~2.5h</a> — (ThousandEyes Outage Analysis) — failure of internal core network services; worldwide impact.
+      </li>
+      <li>
+        <strong>2025-06</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://arxiv.org/abs/2506.19092" target="_blank" rel="noopener noreferrer">Simulated impact on Rubin LSST of Starlink V1.5 vs V2</a> — (arXiv; Kandula et al.) — relative contamination expectations for survey operations.
+      </li>
+      <li>
+        <strong>2025-06</strong> — <span class="archive-domain">Environmental</span> — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12148926/" target="_blank" rel="noopener noreferrer">Near‑future rocket launches could slow ozone recovery</a> — (PNAS Nexus – open access) — scenario analysis for ozone recovery timelines.
+      </li>
+      <li>
+        <strong>2025-04-28</strong> — <span class="archive-domain">Environmental</span> — <a href="https://csl.noaa.gov/news/2025/427_0428.html" target="_blank" rel="noopener noreferrer">Within 15 years, plummeting satellites could load the stratosphere with alumina</a> — (NOAA CSL News) — scenario analysis at 10 Gg/yr Al₂O₃.
+      </li>
+      <li>
+        <strong>2025-01</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://gizmodo.com/spacex-tests-lower-satellite-orbits-to-stop-starlink-from-ruining-telescope-images-2000548619" target="_blank" rel="noopener noreferrer">SpaceX letter to FCC (reported)</a> — operating ~300 satellites at 350 km correlated with ~60% fewer illuminated Rubin images (summary + letter excerpt).
+      </li>
+      <li>
+        <strong>2024-12</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://www.aanda.org/articles/aa/full_html/2024/12/aa51663-24/aa51663-24.html" target="_blank" rel="noopener noreferrer">Automated detection of satellite trails (ASTA)</a> — (A&amp;A) — deep‑learning trail detection for survey pipelines.
+      </li>
+      <li>
+        <strong>2024-11</strong> — <span class="archive-domain">Environmental</span> — <a href="https://www.nature.com/articles/s41597-024-03910-z" target="_blank" rel="noopener noreferrer">Global 3D rocket launch and re-entry air pollutant and CO₂ emissions dataset (2020–2022)</a> — (Nature Scientific Data) — inventory of pollutants from launches and re-entries, including mega-constellations.
+      </li>
+      <li>
+        <strong>2024-10</strong> — <span class="archive-domain">Environmental</span> — <a href="https://www.unoosa.org/documents/pdf/psa/activities/2024/UN-IAF/Presentation/FriAM/S1-4_Ferreira.pdf" target="_blank" rel="noopener noreferrer">Space Debris Demise in the Atmosphere</a> — (UN/OOSA presentation; Ferreira) — summarizes FCC conditions tied to Starlink Gen2 and alumina data collection.
+      </li>
+      <li>
+        <strong>2024-06</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://arxiv.org/abs/2406.16589" target="_blank" rel="noopener noreferrer">Predicted Brightness of Starlink at 350 km</a> — (arXiv; Mallama) — trade‑offs by altitude; darker at night, worse at twilight.
+      </li>
+      <li>
+        <strong>2024-06</strong> — <span class="archive-domain">Environmental</span> — <a href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2024GL109280" target="_blank" rel="noopener noreferrer">Potential Ozone Depletion From Satellite Demise During Reentry</a> — (Geophysical Research Letters) — modeling ozone impacts from Al₂O₃ produced by LEO satellite burn-up.
+      </li>
+      <li>
+        <strong>2024-05-24</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://www.businessinsider.com/russia-disrupting-elon-musk-starlink-satellite-service-ukraine-jamming-report-2024-5" target="_blank" rel="noopener noreferrer">Russia is increasingly disrupting Starlink in Ukraine</a> — (Business Insider, citing NYT reporting) — jamming/EMI on frontlines.
+      </li>
+      <li>
+        <strong>2024-05</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://arxiv.org/pdf/2405.12007" target="_blank" rel="noopener noreferrer">Brightness of Starlink V2 Mini during orbit‑raising</a> — (arXiv; Mallama et al.) — mitigation observations vs. altitude.
+      </li>
+      <li>
+        <strong>2024-04-05</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://nvd.nist.gov/vuln/detail/CVE-2023-52235" target="_blank" rel="noopener noreferrer">CVE‑2023‑52235 — Starlink Wi‑Fi Router Gen2 &amp; Dish: CSRF via DNS rebinding</a> — (NVD/MITRE) — fixed in 2023.53.0 (router) and firmware update for Dishy.
+      </li>
+      <li>
+        <strong>2023-10</strong> — <span class="archive-domain">Environmental</span> — <a href="https://www.pnas.org/doi/10.1073/pnas.2313374120" target="_blank" rel="noopener noreferrer">Metals from spacecraft reentry in stratospheric aerosol particles</a> — (PNAS) — first direct evidence of aluminum and other metals from reentries in the stratosphere.
+      </li>
+      <li>
+        <strong>2023-08</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://www.aanda.org/articles/aa/full_html/2023/08/aa46374-23/aa46374-23.html" target="_blank" rel="noopener noreferrer">Unintended electromagnetic radiation from Starlink satellites</a> — (A&amp;A; LOFAR study) — detectable VHF emissions (110–188 MHz) below comms band, raising radio‑astronomy RFI concerns.
+      </li>
+      <li>
+        <strong>2023-01 → 2025-01</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://www.nsf.gov/news/statement-nsf-astronomy-coordination-agreement" target="_blank" rel="noopener noreferrer">NSF–SpaceX coordination statements &amp; FCC conditions</a> — cooperation on brightness mitigation, radio‑quiet bands, annual reporting.
+      </li>
+      <li>
+        <strong>2022-08-10</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://www.starlink.com/public-files/StarlinkWelcomesSecurityResearchersBringOnTheBugs.pdf" target="_blank" rel="noopener noreferrer">Starlink welcomes security researchers (bug bounty)</a> — program details &amp; scope (Starlink).
+      </li>
+      <li>
+        <strong>2022-08-10</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://www.wired.com/story/starlink-internet-dish-hack/" target="_blank" rel="noopener noreferrer">The Hacking of Starlink Terminals Has Begun</a> — (WIRED) — $25 fault‑injection attack obtains root on user terminal (Lennert Wouters).
+      </li>
+      <li>
+        <strong>2022-08</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://media.defcon.org/DEF%20CON%2030/DEF%20CON%2030%20presentations/Lennert%20Wouters%20-%20Glitched%20on%20Earth%20by%20humans%20A%20Black-Box%20Security%20Evaluation%20of%20the%20SpaceX%20Starlink%20User%20Terminal.pdf" target="_blank" rel="noopener noreferrer">Glitched on Earth by Humans: A Black‑Box Security Evaluation of the SpaceX Starlink User Terminal</a> — (DEF CON 30 talk slides) — technical details of the attack chain.
+      </li>
+      <li>
+        <strong>2022-06</strong> — <span class="archive-domain">Environmental</span> — <a href="https://repository.library.noaa.gov/view/noaa/53971" target="_blank" rel="noopener noreferrer">The Climate and Ozone Impacts of Black Carbon Emissions from Rocket Launches</a> — (JGR Atmospheres / NOAA) — stratospheric BC warming and chemistry.
+      </li>
+      <li>
+        <strong>2022-06</strong> — <span class="archive-domain">Environmental</span> — <a href="https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2021EF002612" target="_blank" rel="noopener noreferrer">Impact of Rocket Launch and Space Debris Air Pollutant Emissions</a> — (EGU Earth’s Future; Ryan et al. 2022) — black carbon forcing from launches.
+      </li>
+      <li>
+        <strong>2022-06</strong> — <span class="archive-domain">Environmental</span> — <a href="https://research.noaa.gov/projected-increase-in-space-travel-may-damage-ozone-layer/" target="_blank" rel="noopener noreferrer">Projected increase in space travel may damage ozone layer</a> — (NOAA Research) — modeling of ozone impacts from increased launches.
+      </li>
+      <li>
+        <strong>2022-06</strong> — <span class="archive-domain">Environmental</span> — <a href="https://www.ucl.ac.uk/news/2022/jun/climate-damage-caused-growing-space-tourism-needs-urgent-mitigation" target="_blank" rel="noopener noreferrer">Climate damage caused by growing space tourism needs urgent mitigation</a> — (UCL news; Marais et al.) — rocket black carbon and policy context.
+      </li>
+      <li>
+        <strong>2022-03-17</strong> — <span class="archive-domain">Cybersecurity</span> — <a href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-076a" target="_blank" rel="noopener noreferrer">CISA/FBI Joint Advisory AA22‑076A — Strengthening Cybersecurity of SATCOM Network Providers and Customers</a> — mitigations for satellite operators and users amid Russia‑Ukraine conflict.
+      </li>
+      <li>
+        <strong>2022-01-10</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://authors.library.caltech.edu/records/wts64-v4b26/preview/Mroz_2022_ApJL_924_L30.pdf" target="_blank" rel="noopener noreferrer">Impact of the SpaceX Starlink Satellites on ZTF</a> — (ApJ Letters; Mróz et al.) — 5,301 streaks identified in 2019–2021 ZTF images.
+      </li>
+      <li>
+        <strong>2022-01</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://www.scientificamerican.com/article/spacexs-starlink-satellites-leave-streaks-in-asteroid-hunting-telescopes-images/" target="_blank" rel="noopener noreferrer">Popular coverage of ZTF streaks</a> — contextual reporting.
+      </li>
+      <li>
+        <strong>2022-01</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://noirlab.edu/public/media/archives/techdocs/pdf/techdoc094.pdf" target="_blank" rel="noopener noreferrer">NOIRLab technical report: Satellite Constellations and Astronomy</a> — mitigation techniques and policy options.
+      </li>
+      <li>
+        <strong>2022-01</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://aas.org/posts/news/2020/02/iau-issues-update-satellite-constellations-potential-impacts-astronomy" target="_blank" rel="noopener noreferrer">IAU/AAS updates &amp; SATCON2 recommendations</a> — background and mitigation policy context.
+      </li>
+      <li>
+        <strong>2021-03</strong> — <span class="archive-domain">Astronomical</span> — <a href="https://www.aanda.org/articles/aa/pdf/2021/03/aa39364-20.pdf" target="_blank" rel="noopener noreferrer">Optical‑to‑NIR magnitude measurements of Starlink</a> — (A&amp;A; Tregloan‑Reed et al.) — DarkSat/VisorSat brightness reductions quantified.
+      </li>
+      <li>
+        <strong>Ongoing</strong> — <span class="archive-domain">Environmental</span> — <a href="https://www.celestrak.org/satcat/decayed-with-last.php" target="_blank" rel="noopener noreferrer">Recently Decayed Objects (last 60 days)</a> — (CelesTrak SATCAT) — authoritative list to track Starlink and other re-entries.
+      </li>
+    </ul>
+  </section>
+
+
+  <section class="starlink-domain-archive">
+    <h2>Environmental — Archive</h2>
+    <p>Dates refer to publication or data-release dates of the cited sources.</p>
+    <ul class="archive-list archive-list-environmental">
+      <li>
+        <strong>2023-10</strong> | <a href="https://www.pnas.org/doi/10.1073/pnas.2313374120" target="_blank" rel="noopener noreferrer">Metals from spacecraft reentry in stratospheric aerosol particles</a> — (PNAS) — first direct evidence of aluminum and other metals from reentries in the stratosphere.
+      </li>
+      <li>
+        <strong>2024-06</strong> | <a href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2024GL109280" target="_blank" rel="noopener noreferrer">Potential Ozone Depletion From Satellite Demise During Reentry</a> — (Geophysical Research Letters) — modeling ozone impacts from Al₂O₃ produced by LEO satellite burn-up.
+      </li>
+      <li>
+        <strong>2024-11</strong> | <a href="https://www.nature.com/articles/s41597-024-03910-z" target="_blank" rel="noopener noreferrer">Global 3D rocket launch and re-entry air pollutant and CO₂ emissions dataset (2020–2022)</a> — (Nature Scientific Data) — inventory of pollutants from launches and re-entries, including mega-constellations.
+      </li>
+      <li>
+        <strong>2025-04-28</strong> | <a href="https://csl.noaa.gov/news/2025/427_0428.html" target="_blank" rel="noopener noreferrer">Within 15 years, plummeting satellites could load the stratosphere with alumina</a> — (NOAA CSL News) — scenario analysis at 10 Gg/yr Al₂O₃.
+      </li>
+      <li>
+        <strong>Ongoing</strong> | <a href="https://www.celestrak.org/satcat/decayed-with-last.php" target="_blank" rel="noopener noreferrer">Recently Decayed Objects (last 60 days)</a> — (CelesTrak SATCAT) — authoritative list to track Starlink and other re-entries.
+      </li>
+      <li>
+        <strong>2024-10</strong> | <a href="https://www.unoosa.org/documents/pdf/psa/activities/2024/UN-IAF/Presentation/FriAM/S1-4_Ferreira.pdf" target="_blank" rel="noopener noreferrer">Space Debris Demise in the Atmosphere</a> — (UN/OOSA presentation; Ferreira) — summarizes FCC conditions tied to Starlink Gen2 and alumina data collection.
+      </li>
+      <li>
+        <strong>2022-06</strong> | <a href="https://www.ucl.ac.uk/news/2022/jun/climate-damage-caused-growing-space-tourism-needs-urgent-mitigation" target="_blank" rel="noopener noreferrer">Climate damage caused by growing space tourism needs urgent mitigation</a> — (UCL news; Marais et al.) — rocket black carbon and policy context.
+      </li>
+      <li>
+        <strong>2022-06</strong> | <a href="https://research.noaa.gov/projected-increase-in-space-travel-may-damage-ozone-layer/" target="_blank" rel="noopener noreferrer">Projected increase in space travel may damage ozone layer</a> — (NOAA Research) — modeling of ozone impacts from increased launches.
+      </li>
+      <li>
+        <strong>2022-06</strong> | <a href="https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2021EF002612" target="_blank" rel="noopener noreferrer">Impact of Rocket Launch and Space Debris Air Pollutant Emissions</a> — (EGU Earth’s Future; Ryan et al. 2022) — black carbon forcing from launches.
+      </li>
+      <li>
+        <strong>2022-06</strong> | <a href="https://repository.library.noaa.gov/view/noaa/53971" target="_blank" rel="noopener noreferrer">The Climate and Ozone Impacts of Black Carbon Emissions from Rocket Launches</a> — (JGR Atmospheres / NOAA) — stratospheric BC warming and chemistry.
+      </li>
+      <li>
+        <strong>2025-06</strong> | <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12148926/" target="_blank" rel="noopener noreferrer">Near‑future rocket launches could slow ozone recovery</a> — (PNAS Nexus – open access) — scenario analysis for ozone recovery timelines.
+      </li>
+    </ul>
+  </section>
+
+
+  <section class="starlink-domain-archive">
+    <h2>Cybersecurity — Archive</h2>
+    <p>Includes terminal/dish vulnerabilities, network/ground incidents, advisories, and notable policy actions related to Starlink.</p>
+    <ul class="archive-list archive-list-cybersecurity">
+      <li>
+        <strong>2022-08-10</strong> | <a href="https://www.wired.com/story/starlink-internet-dish-hack/" target="_blank" rel="noopener noreferrer">The Hacking of Starlink Terminals Has Begun</a> — (WIRED) — $25 fault‑injection attack obtains root on user terminal (Lennert Wouters).
+      </li>
+      <li>
+        <strong>2022-08</strong> | <a href="https://media.defcon.org/DEF%20CON%2030/DEF%20CON%2030%20presentations/Lennert%20Wouters%20-%20Glitched%20on%20Earth%20by%20humans%20A%20Black-Box%20Security%20Evaluation%20of%20the%20SpaceX%20Starlink%20User%20Terminal.pdf" target="_blank" rel="noopener noreferrer">Glitched on Earth by Humans: A Black‑Box Security Evaluation of the SpaceX Starlink User Terminal</a> — (DEF CON 30 talk slides) — technical details of the attack chain.
+      </li>
+      <li>
+        <strong>2022-03-17</strong> | <a href="https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-076a" target="_blank" rel="noopener noreferrer">CISA/FBI Joint Advisory AA22‑076A — Strengthening Cybersecurity of SATCOM Network Providers and Customers</a> — mitigations for satellite operators and users amid Russia‑Ukraine conflict.
+      </li>
+      <li>
+        <strong>2024-04-05</strong> | <a href="https://nvd.nist.gov/vuln/detail/CVE-2023-52235" target="_blank" rel="noopener noreferrer">CVE‑2023‑52235 — Starlink Wi‑Fi Router Gen2 &amp; Dish: CSRF via DNS rebinding</a> — (NVD/MITRE) — fixed in 2023.53.0 (router) and firmware update for Dishy.
+      </li>
+      <li>
+        <strong>2024-05-24</strong> | <a href="https://www.businessinsider.com/russia-disrupting-elon-musk-starlink-satellite-service-ukraine-jamming-report-2024-5" target="_blank" rel="noopener noreferrer">Russia is increasingly disrupting Starlink in Ukraine</a> — (Business Insider, citing NYT reporting) — jamming/EMI on frontlines.
+      </li>
+      <li>
+        <strong>2025-07-24</strong> | <a href="https://www.thousandeyes.com/blog/starlink-outage-analysis-july-24-2025" target="_blank" rel="noopener noreferrer">Global Starlink outage ~2.5h</a> — (ThousandEyes Outage Analysis) — failure of internal core network services; worldwide impact.
+      </li>
+      <li>
+        <strong>2025-07-24</strong> | <a href="https://www.reuters.com/investigations/musk-ordered-shutdown-starlink-satellite-service-ukraine-retook-territory-russia-2025-07-25/" target="_blank" rel="noopener noreferrer">Network outage widely reported</a> — (Reuters/The Guardian roundups).
+      </li>
+      <li>
+        <strong>2025-07-25</strong> | <a href="https://fedscoop.com/starlink-outage-impacted-starshield-its-defense-communications-service/" target="_blank" rel="noopener noreferrer">Outage affected some Starshield (defense) services</a> — (FedScoop).
+      </li>
+      <li>
+        <strong>2025-08-29</strong> | <a href="https://www.reuters.com/business/aerospace-defense/us-approves-potential-sale-starlink-services-patriot-equipment-ukraine-2025-08-29/" target="_blank" rel="noopener noreferrer">U.S. approves potential sale of Starlink services to Ukraine</a> — (State Dept. notification; Reuters). Policy step formalizing government procurement.
+      </li>
+      <li>
+        <strong>2022-08-10</strong> | <a href="https://www.starlink.com/public-files/StarlinkWelcomesSecurityResearchersBringOnTheBugs.pdf" target="_blank" rel="noopener noreferrer">Starlink welcomes security researchers (bug bounty)</a> — program details &amp; scope (Starlink).
+      </li>
+    </ul>
+  </section>
+
+
+  <section class="starlink-domain-archive">
+    <h2>Astronomical — Archive</h2>
+    <p>Optical streak contamination, radio‑frequency interference, mitigation updates (coatings/visors/orbit), survey impacts, and notable “satellite train” visibility items.</p>
+    <ul class="archive-list archive-list-astronomical">
+      <li>
+        <strong>2022-01-10</strong> | <a href="https://authors.library.caltech.edu/records/wts64-v4b26/preview/Mroz_2022_ApJL_924_L30.pdf" target="_blank" rel="noopener noreferrer">Impact of the SpaceX Starlink Satellites on ZTF</a> — (ApJ Letters; Mróz et al.) — 5,301 streaks identified in 2019–2021 ZTF images.
+      </li>
+      <li>
+        <strong>2021-03</strong> | <a href="https://www.aanda.org/articles/aa/pdf/2021/03/aa39364-20.pdf" target="_blank" rel="noopener noreferrer">Optical‑to‑NIR magnitude measurements of Starlink</a> — (A&amp;A; Tregloan‑Reed et al.) — DarkSat/VisorSat brightness reductions quantified.
+      </li>
+      <li>
+        <strong>2023-08</strong> | <a href="https://www.aanda.org/articles/aa/full_html/2023/08/aa46374-23/aa46374-23.html" target="_blank" rel="noopener noreferrer">Unintended electromagnetic radiation from Starlink satellites</a> — (A&amp;A; LOFAR study) — detectable VHF emissions (110–188 MHz) below comms band, raising radio‑astronomy RFI concerns.
+      </li>
+      <li>
+        <strong>2024-06</strong> | <a href="https://arxiv.org/abs/2406.16589" target="_blank" rel="noopener noreferrer">Predicted Brightness of Starlink at 350 km</a> — (arXiv; Mallama) — trade‑offs by altitude; darker at night, worse at twilight.
+      </li>
+      <li>
+        <strong>2024-05</strong> | <a href="https://arxiv.org/pdf/2405.12007" target="_blank" rel="noopener noreferrer">Brightness of Starlink V2 Mini during orbit‑raising</a> — (arXiv; Mallama et al.) — mitigation observations vs. altitude.
+      </li>
+      <li>
+        <strong>2025-06</strong> | <a href="https://arxiv.org/abs/2506.19092" target="_blank" rel="noopener noreferrer">Simulated impact on Rubin LSST of Starlink V1.5 vs V2</a> — (arXiv; Kandula et al.) — relative contamination expectations for survey operations.
+      </li>
+      <li>
+        <strong>2022-01</strong> | <a href="https://aas.org/posts/news/2020/02/iau-issues-update-satellite-constellations-potential-impacts-astronomy" target="_blank" rel="noopener noreferrer">IAU/AAS updates &amp; SATCON2 recommendations</a> — background and mitigation policy context.
+      </li>
+      <li>
+        <strong>2022-01</strong> | <a href="https://noirlab.edu/public/media/archives/techdocs/pdf/techdoc094.pdf" target="_blank" rel="noopener noreferrer">NOIRLab technical report: Satellite Constellations and Astronomy</a> — mitigation techniques and policy options.
+      </li>
+      <li>
+        <strong>2023-01 → 2025-01</strong> | <a href="https://www.nsf.gov/news/statement-nsf-astronomy-coordination-agreement" target="_blank" rel="noopener noreferrer">NSF–SpaceX coordination statements &amp; FCC conditions</a> — cooperation on brightness mitigation, radio‑quiet bands, annual reporting.
+      </li>
+      <li>
+        <strong>2025-01</strong> | <a href="https://gizmodo.com/spacex-tests-lower-satellite-orbits-to-stop-starlink-from-ruining-telescope-images-2000548619" target="_blank" rel="noopener noreferrer">SpaceX letter to FCC (reported)</a> — operating ~300 satellites at 350 km correlated with ~60% fewer illuminated Rubin images (summary + letter excerpt).
+      </li>
+      <li>
+        <strong>2024-12</strong> | <a href="https://www.aanda.org/articles/aa/full_html/2024/12/aa51663-24/aa51663-24.html" target="_blank" rel="noopener noreferrer">Automated detection of satellite trails (ASTA)</a> — (A&amp;A) — deep‑learning trail detection for survey pipelines.
+      </li>
+      <li>
+        <strong>2022-01</strong> | <a href="https://www.scientificamerican.com/article/spacexs-starlink-satellites-leave-streaks-in-asteroid-hunting-telescopes-images/" target="_blank" rel="noopener noreferrer">Popular coverage of ZTF streaks</a> — contextual reporting.
+      </li>
+    </ul>
+  </section>
+
+  <!-- Optional minimal styling hooks (you may move these into the main CSS file) -->
+  <style>
+    .starlink-digest { margin-top: 1.5rem; }
+    .digest-key-findings {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .digest-card {
+      padding: 1rem;
+      border-radius: 0.5rem;
+      background-color: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .digest-summary {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .digest-summary th,
+    .digest-summary td {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    .digest-timeline { list-style: disc; padding-left: 1.5rem; }
+    .digest-note { font-size: 0.9rem; opacity: 0.85; }
+    .starlink-archive {
+      margin-top: 2rem;
+    }
+    .archive-timeline {
+      list-style: none;
+      padding-left: 0;
+    }
+    .archive-timeline li {
+      margin-bottom: 0.5rem;
+    }
+    .archive-domain {
+      font-style: italic;
+      opacity: 0.85;
+    }
+    .starlink-domain-archive {
+      margin-top: 2rem;
+    }
+    .starlink-domain-archive ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .starlink-domain-archive li {
+      margin-bottom: 0.4rem;
+    }
+  </style>
+</main>
+
+<footer><div class="wrap muted">
+  Starlink-only; prioritizes criticisms, risks, and concrete events. Charts update on each run.
+</div></footer>
+</body></html>
