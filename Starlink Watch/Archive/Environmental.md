@@ -15,3 +15,4 @@
 - 2025-06 | **Near‑future rocket launches could slow ozone recovery** (PNAS Nexus – open access) — scenario analysis for ozone recovery timelines. https://pmc.ncbi.nlm.nih.gov/articles/PMC12148926/
 - No new items.
 - No new items reported.
+- 2026-03-30 23:50 PT | Second Starlink satellite suffers anomaly, generating debris | SpaceNews | https://spacenews.com/second-starlink-satellite-suffers-anomaly-generating-debris/
