@@ -15,3 +15,4 @@
 - No new items.
 - No new items reported.
 - 2026-02-02 12:00 PT | Starlink and the unravelling of digital sovereignty | SpaceNews | https://spacenews.com/starlink-and-the-unravelling-of-digital-sovereignty/
+- 2026-05-27 15:34 PT | Former Ukraine official calls for stricter restrictions on Russian use of Starlink | SpaceNews | https://spacenews.com/former-ukraine-official-calls-for-stricter-restrictions-on-russian-use-of-starlink/
