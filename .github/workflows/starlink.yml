@@ -2,7 +2,7 @@ name: Starlink Daily Digest
 
 on:
   schedule:
-    - cron: "0 7,17 * * *"   # twice daily; 0700 and 1700 PDT
+    - cron: "0 16,0 * * *"   # twice daily; ~0900 and ~1700 PDT (16:00 UTC = 09:00 PDT, 00:00 UTC = 17:00 PDT)
   workflow_dispatch: {}
 
 permissions:
@@ -39,7 +39,7 @@ jobs:
 
       - name: Generate digest (PT-aware)
         run: |
-          python scripts/starlink_daily_digest.py
+          python scripts/starlink_daily_digest.py --force
 
       - name: Commit & push if changed
         run: |

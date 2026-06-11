@@ -206,12 +206,19 @@ def append_archives(md):
 
 def should_emit_now(force=False):
     if force or os.environ.get("FORCE_EMIT", "") == "1":
+        # Still prevent double-emission in the same UTC hour (e.g. workflow reruns)
+        t = datetime.datetime.utcnow()
+        mark = STATE / f"run_{t.strftime('%Y%m%d_%H')}.flag"
+        if mark.exists():
+            print("Already emitted this UTC hour; skipping duplicate.")
+            return False
+        mark.write_text("ok", encoding="utf-8")
         return True
+    # Fallback: only emit at the scheduled PT hours when run manually without --force
     t = now_pt()
     hour = t.hour
     mark = STATE / f"run_{t.strftime('%Y%m%d_%H')}.flag"
-    desired = hour in (9, 17)  # PT windows
-    if not desired:
+    if hour not in (9, 17):
         return False
     if mark.exists():
         return False
