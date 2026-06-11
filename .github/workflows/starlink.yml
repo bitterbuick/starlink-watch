@@ -76,6 +76,25 @@ jobs:
         run: |
           python scripts/build_site.py
 
+      - name: Delete stale github-pages artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const artifacts = await github.rest.actions.listArtifactsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'github-pages',
+              per_page: 100,
+            });
+            for (const artifact of artifacts.data.artifacts) {
+              console.log(`Deleting artifact ${artifact.id} (${artifact.name}, created ${artifact.created_at})`);
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id,
+              });
+            }
+
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
