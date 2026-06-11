@@ -229,8 +229,9 @@ def render_global_archive(archives):
             url = html.escape(e["primary_url"])
             title_html = f"<a href=\"{url}\" target=\"_blank\" rel=\"noopener noreferrer\">{title}</a>"
         rest_html = f" — {rest}" if rest else ""
+        domain_slug = domain.lower()
         items.append(
-            f"      <li>\n        <strong>{date_disp}</strong> — <span class=\"archive-domain\">{domain}</span> — {title_html}{rest_html}\n      </li>"
+            f"      <li>\n        <strong>{date_disp}</strong> — <span class=\"archive-domain archive-domain-{domain_slug}\">{domain}</span> — {title_html}{rest_html}\n      </li>"
         )
 
     return """
@@ -287,7 +288,7 @@ def render_timeline_items(incidents, indent="      "):
             f"{indent}<li>\n{nested}<strong>{date}</strong> — {summary}\n{indent}</li>"
         )
     items.append(
-        f"{indent}<li>\n{nested}<strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT “decayed objects” dataset remains unchanged relative to the prior digest unless otherwise noted above.\n{indent}</li>"
+        f"{indent}<li>\n{nested}<strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT &ldquo;decayed objects&rdquo; dataset remains unchanged relative to the prior digest unless otherwise noted above.\n{indent}</li>"
     )
     return "\n".join(items)
 
@@ -306,24 +307,127 @@ def update_page_timeline(page_path, incidents):
         return True
     return False
 
-def chart(df, title, out_png):
+def chart(df, title, out_png, color="#60a5fa"):
+    BG = "#0b1220"
+    CARD = "#0d1528"
+    GRID = "#1f2937"
+    FG = "#e6edf3"
+    MUTED = "#9fb0bd"
+
+    fig, ax = plt.subplots(figsize=(10, 4))
+    fig.patch.set_facecolor(BG)
+    ax.set_facecolor(CARD)
+
     if df.empty:
-        # write a placeholder so <img> doesn't 404
-        plt.figure(figsize=(10, 4.5))
-        plt.text(0.5, 0.5, "No data yet", ha="center", va="center")
-        plt.axis("off")
-        plt.tight_layout()
-        plt.savefig(out_png, dpi=160)
-        plt.close()
-        return
-    df["date"] = pd.to_datetime(df["date"])
-    df = df.sort_values("date")
-    plt.figure(figsize=(10, 4.5))
-    plt.plot(df["date"], df["value"])
-    plt.title(title)
-    plt.tight_layout()
-    plt.savefig(out_png, dpi=160)
-    plt.close()
+        ax.text(0.5, 0.5, "No data yet", ha="center", va="center",
+                color=MUTED, fontsize=14, transform=ax.transAxes)
+        ax.set_xticks([])
+        ax.set_yticks([])
+    else:
+        df["date"] = pd.to_datetime(df["date"])
+        df = df.sort_values("date")
+        ax.plot(df["date"], df["value"], color=color, linewidth=2.0, zorder=3)
+        ax.fill_between(df["date"], df["value"], alpha=0.12, color=color, zorder=2)
+        ax.yaxis.set_major_formatter(
+            plt.FuncFormatter(lambda x, _: f"{x:,.0f}")
+        )
+        ax.tick_params(colors=MUTED, labelsize=10)
+        for spine in ax.spines.values():
+            spine.set_edgecolor(GRID)
+        ax.grid(True, color=GRID, linewidth=0.7, zorder=1)
+        ax.set_xlabel("")
+
+    ax.set_title(title, color=FG, fontsize=12, pad=10)
+    fig.tight_layout(pad=1.5)
+    fig.savefig(out_png, dpi=160, facecolor=BG)
+    plt.close(fig)
+
+def load_latest_digest():
+    """Return parsed fields from the most recent event file, or None."""
+    if not EVENTS.exists():
+        return None
+    files = sorted(EVENTS.glob("*.md"), reverse=True)
+    if not files:
+        return None
+    latest = files[0]
+    text = latest.read_text(encoding="utf-8")
+
+    def section(header):
+        m = re.search(rf"### {header}\s*\n(.*?)(?=\n###|\n## |\Z)", text, re.S)
+        return m.group(1).strip() if m else ""
+
+    def update_flag(domain):
+        m = re.search(rf"\| {domain}\s*\| (Yes|No)", text, re.I)
+        return m.group(1) if m else "No"
+
+    digest_date = re.search(r"## Starlink Daily Digest — (\S+)", text)
+    digest_date = digest_date.group(1) if digest_date else latest.stem[:10]
+
+    return {
+        "date": digest_date,
+        "fname": latest.name,
+        "environmental_summary": section("Environmental"),
+        "cybersecurity_summary": section("Cybersecurity"),
+        "astronomical_summary": section("Astronomical"),
+        "environmental_update": update_flag("Environmental"),
+        "cybersecurity_update": update_flag("Cybersecurity"),
+        "astronomical_update": update_flag("Astronomical"),
+    }
+
+
+def render_digest_section(digest):
+    if not digest:
+        return ""
+
+    def badge(flag):
+        if flag == "Yes":
+            return '<span class="badge badge-yes">Updated</span>'
+        return '<span class="badge badge-no">No change</span>'
+
+    def esc_nl(s):
+        paras = [p.strip() for p in s.split("\n\n") if p.strip()]
+        return "".join(f"<p>{html.escape(p)}</p>" for p in paras) if paras else f"<p>{html.escape(s)}</p>"
+
+    env_badge = badge(digest["environmental_update"])
+    cyb_badge = badge(digest["cybersecurity_update"])
+    ast_badge = badge(digest["astronomical_update"])
+
+    return f"""
+  <section class="starlink-digest card" style="margin-top:24px">
+    <div class="digest-header">
+      <h2>Latest Digest</h2>
+      <span class="digest-date muted">{html.escape(digest['date'])}</span>
+    </div>
+
+    <div class="digest-key-findings">
+
+      <article class="digest-card digest-card-env">
+        <div class="digest-card-head">
+          <h4>Environmental</h4>
+          {env_badge}
+        </div>
+        {esc_nl(digest['environmental_summary'])}
+      </article>
+
+      <article class="digest-card digest-card-cyb">
+        <div class="digest-card-head">
+          <h4>Cybersecurity</h4>
+          {cyb_badge}
+        </div>
+        {esc_nl(digest['cybersecurity_summary'])}
+      </article>
+
+      <article class="digest-card digest-card-ast">
+        <div class="digest-card-head">
+          <h4>Astronomical</h4>
+          {ast_badge}
+        </div>
+        {esc_nl(digest['astronomical_summary'])}
+      </article>
+
+    </div>
+  </section>"""
+
 
 # ---------- build ----------
 def build():
@@ -361,10 +465,13 @@ def build():
     sources_html = "".join(source_items)
 
     # charts (saved to /site/assets)
-    chart(load_series("active_count"),      "Active Starlink satellites (count)", ASSETS/"active.png")
-    chart(load_series("on_orbit_mass_kg"),  "Estimated on-orbit mass (kg)",       ASSETS/"onorbit.png")
-    chart(load_series("reentered_mass_kg"), "Estimated re-entered mass (kg)",     ASSETS/"reentry.png")
-    chart(load_series("alumina_kg"),        "Estimated Al₂O₃ formed (kg)",        ASSETS/"alumina.png")
+    chart(load_series("active_count"),      "Active Starlink satellites (count)", ASSETS/"active.png",  color="#60a5fa")
+    chart(load_series("on_orbit_mass_kg"),  "Estimated on-orbit mass (kg)",       ASSETS/"onorbit.png", color="#34d399")
+    chart(load_series("reentered_mass_kg"), "Estimated re-entered mass (kg)",     ASSETS/"reentry.png", color="#f97316")
+    chart(load_series("alumina_kg"),        "Estimated Al₂O₃ formed (kg)",        ASSETS/"alumina.png", color="#a78bfa")
+
+    digest = load_latest_digest()
+    digest_section_html = render_digest_section(digest)
 
     built = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
 
@@ -373,34 +480,34 @@ def build():
     if met:
         tiles = f"""
         <div class="tiles">
-          <div class="tile">
+          <div class="tile tile-active">
             <div class="k">{met.get('active_count',0):,}</div>
-            <div class="t">Active Starlink
+            <div class="t">Active satellites
               <a class="info" href="{html.escape(src_gp)}" target="_blank" title="Source: CelesTrak Starlink GP/CSV">ⓘ</a>
             </div>
           </div>
-          <div class="tile">
+          <div class="tile tile-decayed">
             <div class="k">{met.get('decayed_total',0):,}</div>
             <div class="t">Total decayed
               <a class="info" href="{html.escape(src_decayed)}" target="_blank" title="Source: CelesTrak SATCAT recently decayed">ⓘ</a>
             </div>
           </div>
-          <div class="tile">
-            <div class="k">{met.get('on_orbit_mass_kg',0):,}</div>
+          <div class="tile tile-mass">
+            <div class="k">{met.get('on_orbit_mass_kg',0):,.0f}</div>
             <div class="t">On-orbit mass (kg)
-              <a class="info" href="{html.escape(src_gp)}" target="_blank" title="Derived from CelesTrak active counts × generation mass mix (see data/starlink_config.yml)">ⓘ</a>
+              <a class="info" href="{html.escape(src_gp)}" target="_blank" title="Derived from CelesTrak active counts × generation mass mix">ⓘ</a>
             </div>
           </div>
-          <div class="tile">
-            <div class="k">{met.get('reentered_mass_kg',0):,}</div>
+          <div class="tile tile-reentry">
+            <div class="k">{met.get('reentered_mass_kg',0):,.0f}</div>
             <div class="t">Re-entered mass (kg)
-              <a class="info" href="{html.escape(src_decayed)}" target="_blank" title="Derived from accumulated Starlink decays × generation mass mix (see data/starlink_config.yml)">ⓘ</a>
+              <a class="info" href="{html.escape(src_decayed)}" target="_blank" title="Accumulated Starlink decays × generation mass mix">ⓘ</a>
             </div>
           </div>
-          <div class="tile">
-            <div class="k">{met.get('alumina_kg',0):,}</div>
+          <div class="tile tile-alumina">
+            <div class="k">{met.get('alumina_kg',0):,.0f}</div>
             <div class="t">Al₂O₃ estimate (kg)
-              <a class="info" href="#" title="Proxy: aluminum fraction × 1.89 kg Al₂O₃ per kg Al (upper-bound stoichiometry). Tune in data/starlink_config.yml.">ⓘ</a>
+              <a class="info" href="#" title="Al fraction × 1.89 kg Al₂O₃ per kg Al (upper-bound stoichiometry)">ⓘ</a>
             </div>
           </div>
         </div>
@@ -410,301 +517,191 @@ def build():
     page = f"""<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Starlink Watch — Metrics & Digest</title>
+<title>Starlink Watch — Metrics &amp; Digest</title>
 <style>
-  :root {{ --bg:#0b1220; --fg:#e6edf3; --muted:#9fb0bd; --card:#0f172a; --ring:#1f2937; --accent:#60a5fa; }}
-  * {{ box-sizing:border-box; }}
-  body {{ margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 ui-sans-serif,system-ui,Segoe UI,Roboto; }}
-  header, footer {{ padding:22px 16px; border-bottom:1px solid var(--ring); }}
-  footer {{ border-top:1px solid var(--ring); border-bottom:none; }}
-  .wrap {{ max-width:1150px; margin:0 auto; padding:0 16px; }}
-  h1,h2,h3 {{ margin:0 0 12px; }}
-  .muted {{ color:var(--muted); font-size:.92em }}
-  .card {{ background:var(--card); border-radius:14px; padding:18px 20px; box-shadow:0 6px 24px #0008, inset 0 1px 0 #ffffff0f; }}
-  .grid {{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(360px,1fr)); }}
-  .tiles {{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); margin:14px 0 4px; }}
-  .tile {{ background:#0d1528; border:1px solid #15233b; border-radius:12px; padding:12px 14px; }}
-  .tile .k {{ font-size:28px; font-weight:700 }}
-  .tile .t {{ color:var(--muted); font-size:13px }}
-  a {{ color:var(--accent); text-decoration:none }} a:hover {{ text-decoration:underline }}
-  a.info {{ font-weight:700; margin-left:6px; text-decoration:none; border-bottom:1px dotted #8ab4ff; cursor:help }}
-  img.chart {{ width:100%; height:auto; border-radius:10px; background:#0d1528; border:1px solid #15233b; padding:6px; }}
-  ul {{ margin:10px 0 0 20px }}
+  :root {{
+    --bg:#0b1220; --fg:#e6edf3; --muted:#9fb0bd;
+    --card:#0f172a; --card2:#0d1528; --ring:#1f2937;
+    --accent:#60a5fa;
+    --env:#34d399; --cyb:#f97316; --ast:#a78bfa;
+  }}
+  * {{ box-sizing:border-box; margin:0; padding:0; }}
+  body {{ background:var(--bg); color:var(--fg); font:16px/1.6 ui-sans-serif,system-ui,’Segoe UI’,Roboto,sans-serif; }}
+  a {{ color:var(--accent); text-decoration:none; }} a:hover {{ text-decoration:underline; }}
+  h1,h2,h3,h4 {{ line-height:1.25; }}
+  h2 {{ font-size:1.25rem; margin-bottom:14px; }}
+  h3 {{ font-size:1.05rem; margin-bottom:10px; }}
+  h4 {{ font-size:.95rem; margin-bottom:6px; }}
+  p {{ margin-bottom:.75rem; }}
+  ul {{ margin:.5rem 0 .75rem 1.4rem; }}
+  li {{ margin-bottom:.3rem; }}
+  code {{ font-size:.85em; background:#12203a; padding:2px 6px; border-radius:4px; }}
+  hr {{ border:none; border-top:1px solid var(--ring); margin:20px 0; }}
+
+  header {{ padding:20px 16px; border-bottom:1px solid var(--ring); }}
+  footer {{ padding:16px; border-top:1px solid var(--ring); color:var(--muted); font-size:.88rem; text-align:center; }}
+  .wrap {{ max-width:1160px; margin:0 auto; padding:0 16px; }}
+  .muted {{ color:var(--muted); font-size:.9rem; }}
+
+  .card {{
+    background:var(--card); border-radius:14px; padding:20px 22px;
+    box-shadow:0 4px 20px #00000060, inset 0 1px 0 #ffffff0d;
+    border:1px solid var(--ring);
+  }}
+  .grid {{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); }}
+
+  /* metric tiles */
+  .tiles {{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); margin:16px 0; }}
+  .tile {{ background:var(--card2); border:1px solid #1a2c47; border-radius:12px; padding:14px 16px; }}
+  .tile .k {{ font-size:26px; font-weight:700; letter-spacing:-.5px; }}
+  .tile .t {{ color:var(--muted); font-size:.8rem; margin-top:2px; }}
+  .tile-active .k {{ color:#60a5fa; }}
+  .tile-decayed .k {{ color:#f87171; }}
+  .tile-mass .k {{ color:#34d399; }}
+  .tile-reentry .k {{ color:#f97316; }}
+  .tile-alumina .k {{ color:#a78bfa; }}
+  a.info {{ font-weight:700; margin-left:5px; color:var(--muted); font-size:.8em;
+            border-bottom:1px dotted currentColor; cursor:help; text-decoration:none; }}
+  a.info:hover {{ color:var(--accent); }}
+
+  /* chart cards */
+  img.chart {{ width:100%; height:auto; border-radius:8px; display:block; }}
+
+  /* digest section */
+  .digest-header {{ display:flex; align-items:baseline; gap:12px; margin-bottom:16px; }}
+  .digest-date {{ font-size:.85rem; color:var(--muted); }}
+  .digest-key-findings {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin:16px 0; }}
+  .digest-card {{ border-radius:10px; padding:14px 16px; border:1px solid var(--ring); background:var(--card2); }}
+  .digest-card-env {{ border-left:3px solid var(--env); }}
+  .digest-card-cyb {{ border-left:3px solid var(--cyb); }}
+  .digest-card-ast {{ border-left:3px solid var(--ast); }}
+  .digest-card-head {{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }}
+  .digest-card-head h4 {{ margin:0; }}
+  .badge {{ font-size:.72rem; font-weight:600; padding:2px 8px; border-radius:20px; letter-spacing:.4px; text-transform:uppercase; }}
+  .badge-yes {{ background:#134e2a; color:#4ade80; border:1px solid #166534; }}
+  .badge-no  {{ background:#1c1f2e; color:#6b7280; border:1px solid var(--ring); }}
+
+  /* timeline / archive */
+  .digest-timeline {{ list-style:disc; padding-left:1.4rem; }}
+  .digest-note {{ font-size:.85rem; color:var(--muted); margin-top:8px; }}
+  .archive-timeline {{ list-style:none; padding-left:0; }}
+  .archive-timeline li {{ padding:5px 0; border-bottom:1px solid var(--ring); font-size:.9rem; }}
+  .archive-timeline li:last-child {{ border-bottom:none; }}
+  .archive-domain {{ font-size:.75rem; font-weight:600; padding:1px 7px; border-radius:10px; margin:0 4px; text-transform:uppercase; letter-spacing:.4px; }}
+  .archive-domain-environmental {{ background:#0d2e1e; color:var(--env); }}
+  .archive-domain-cybersecurity {{ background:#2d1a0a; color:var(--cyb); }}
+  .archive-domain-astronomical {{ background:#1e1640; color:var(--ast); }}
+  .starlink-domain-archive ul {{ list-style:none; padding-left:0; }}
+  .starlink-domain-archive li {{ padding:5px 0; border-bottom:1px solid var(--ring); font-size:.9rem; }}
+  .starlink-domain-archive li:last-child {{ border-bottom:none; }}
+  .archive-list-environmental li {{ border-left:3px solid var(--env); padding-left:10px; }}
+  .archive-list-cybersecurity li {{ border-left:3px solid var(--cyb); padding-left:10px; }}
+  .archive-list-astronomical  li {{ border-left:3px solid var(--ast); padding-left:10px; }}
+  section {{ margin-bottom:24px; }}
 </style>
 </head>
 <body>
 <header>
-  <div class="wrap">
-    <h1>Starlink Watch — Metrics & Digest</h1>
-    <div class="muted">Built {html.escape(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"))}</div>
+  <div class="wrap" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <div>
+      <h1 style="font-size:1.4rem">Starlink Watch</h1>
+      <div class="muted">Environmental · Cybersecurity · Astronomical</div>
+    </div>
+    <div class="muted" style="margin-left:auto;font-size:.82rem">Built {html.escape(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"))}</div>
   </div>
 </header>
 
-<main class="wrap" style="padding:22px 0 36px">
+<main class="wrap" style="padding:24px 0 48px">
+
   <section class="card">
-    <h2>Starlink metrics</h2>
+    <h2>Constellation Metrics</h2>
     {tiles}
-    <div class="grid" style="margin-top:8px">
-      <div class="card">
+    <div class="grid">
+      <div class="card" style="padding:14px">
         <h3>Active satellites
           <a class="info" href="{html.escape(src_gp)}" target="_blank" title="CelesTrak Starlink group (GP/CSV)">ⓘ</a>
         </h3>
-        <img class="chart" src="assets/active.png" alt="">
+        <img class="chart" src="assets/active.png" alt="Active satellite count over time">
       </div>
-      <div class="card">
+      <div class="card" style="padding:14px">
         <h3>On-orbit mass (kg)
           <a class="info" href="{html.escape(src_gp)}" target="_blank" title="Derived from active counts × generation masses (configurable)">ⓘ</a>
         </h3>
-        <img class="chart" src="assets/onorbit.png" alt="">
+        <img class="chart" src="assets/onorbit.png" alt="Estimated on-orbit mass">
       </div>
-      <div class="card">
+      <div class="card" style="padding:14px">
         <h3>Re-entered mass (kg)
           <a class="info" href="{html.escape(src_decayed)}" target="_blank" title="Accumulated Starlink decays (CelesTrak SATCAT) × generation masses">ⓘ</a>
         </h3>
-        <img class="chart" src="assets/reentry.png" alt="">
+        <img class="chart" src="assets/reentry.png" alt="Estimated re-entered mass">
       </div>
-      <div class="card">
+      <div class="card" style="padding:14px">
         <h3>Al₂O₃ estimate (kg)
           <a class="info" href="#" title="Al fraction × 1.89 kg Al₂O₃ per kg Al (upper-bound stoichiometry); tune in data/starlink_config.yml">ⓘ</a>
         </h3>
-        <img class="chart" src="assets/alumina.png" alt="">
+        <img class="chart" src="assets/alumina.png" alt="Estimated alumina formed">
       </div>
     </div>
-    <p class="muted">
-      Assumptions and mass mix are editable in <code>data/starlink_config.yml</code>.
-      Metrics are derived from public datasets; see citations below.
+    <p class="muted" style="margin-top:12px">
+      Mass mix and assumptions editable in <code>data/starlink_config.yml</code>. Charts regenerate on each run.
     </p>
   </section>
 
-  <section class="starlink-digest">
+  {digest_section_html}
 
-    <!-- Header / Lede -->
-    <h2>Latest Digest</h2>
-    <h3>Starlink Daily Digest — 2025-12-09</h3>
-
-    <p>
-      No new Starlink-specific environmental, cybersecurity, or astronomical developments were identified on
-      <strong>2025-12-09</strong> during routine cross-domain monitoring. The constellation’s risk posture for this cycle
-      appears stable within the limits of currently available public data.
-    </p>
-
-    <hr />
-
-    <!-- Key Findings -->
-    <h3>Key Findings</h3>
-
-    <div class="digest-key-findings">
-
-      <article class="digest-card">
-        <h4>Environmental</h4>
-        <p><strong>Status:</strong> No Starlink-specific changes detected.</p>
-        <p>
-          Recent checks of atmospheric re-entry logs, orbital decay catalogs, and regulatory bulletins showed no newly
-          confirmed Starlink re-entries, debris notices, or enforcement actions since the prior digest. Within the
-          constraints of available data, the cumulative alumina load and debris profile remain consistent with previous
-          cycles, suggesting no short-term deviation from the modeled environmental risk trajectory.
-        </p>
-      </article>
-
-      <article class="digest-card">
-        <h4>Cybersecurity</h4>
-        <p><strong>Status:</strong> No Starlink-specific changes detected.</p>
-        <p>
-          Reviews of vulnerability disclosures, CERT/CC and national CERT feeds, vendor advisories, and open
-          threat-intelligence reporting produced no fresh references to Starlink user terminals, ground infrastructure,
-          or associated supply-chain compromises. The absence of new public advisories this cycle indicates a steady
-          threat surface rather than evidence of safety, and continued monitoring remains warranted given Starlink’s role
-          in critical connectivity.
-        </p>
-      </article>
-
-      <article class="digest-card">
-        <h4>Astronomical</h4>
-        <p><strong>Status:</strong> No Starlink-specific changes detected.</p>
-        <p>
-          Optical streak reports, radio-frequency interference notes, and observatory mitigation updates showed no new
-          Starlink-attributed survey-contamination events or RFI anomalies since the last check. Existing mitigation
-          practices and survey workarounds appear unchanged, leaving the overall astronomical impact profile similar to
-          prior assessments for this short interval.
-        </p>
-      </article>
-
-    </div>
-
-    <hr />
-
-    <!-- Summary Table -->
-    <h3>Summary of Changes</h3>
-
-    <table class="digest-summary">
-      <thead>
-        <tr>
-          <th>Domain</th>
-          <th>Updates Detected</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Environmental</td>
-          <td>No</td>
-        </tr>
-        <tr>
-          <td>Cybersecurity</td>
-          <td>No</td>
-        </tr>
-        <tr>
-          <td>Astronomical</td>
-          <td>No</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <hr />
-
-    <!-- Incident Timeline (running history; DO NOT delete older items on future runs) -->
-    <h3>Incident Timeline</h3>
-
+  <section class="card">
+    <h2>Incident Timeline</h2>
     <ul class="digest-timeline">
       {timeline_html}
     </ul>
-
     <p class="digest-note">
-      Quiet days are logged explicitly to preserve an auditable history of checks, distinguish true low-activity periods
-      from monitoring gaps, and support future trend analysis.
+      Quiet days are logged explicitly to preserve an auditable history of checks.
     </p>
+  </section>
 
-    <hr />
-
-    <!-- Methodology & Rationale -->
+  <section class="card">
     <h2>Methodology &amp; Rationale</h2>
 
     <h3>Why These Domains Are Tracked</h3>
-    <p>
-      This project tracks three classes of risk where a constellation as large as Starlink can generate outsized
-      systemic effects:
-    </p>
+    <p>Three classes of risk where a constellation the size of Starlink can generate outsized systemic effects:</p>
     <ul>
-      <li><strong>Environmental</strong> — Atmospheric re-entries, alumina production, debris generation, and any regulatory or scientific findings relating to climate and ozone impacts.</li>
-      <li><strong>Cybersecurity</strong> — Vulnerabilities, exploitation, and operational security issues involving user terminals, ground infrastructure, or Starlink’s role in high-value networks.</li>
-      <li><strong>Astronomical</strong> — Optical streaks, survey contamination, radio interference, and mitigation measures affecting professional observatories and large survey projects.</li>
+      <li><strong style="color:var(--env)">Environmental</strong> — Atmospheric re-entries, alumina production, debris generation, and regulatory or scientific findings relating to climate and ozone impacts.</li>
+      <li><strong style="color:var(--cyb)">Cybersecurity</strong> — Vulnerabilities, exploitation, and operational security issues involving user terminals, ground infrastructure, or Starlink’s role in high-value networks.</li>
+      <li><strong style="color:var(--ast)">Astronomical</strong> — Optical streaks, survey contamination, radio interference, and mitigation measures affecting professional observatories and large survey projects.</li>
     </ul>
-    <p>
-      The goal is not to predict every outcome but to maintain a disciplined, source-driven record of developments that
-      could materially change the constellation’s risk profile over time.
-    </p>
 
     <h3>Environmental Modeling</h3>
-    <p>
-      Environmental assessments combine object counts, re-entry events, and simple alumina mass estimates:
-    </p>
     <ul>
-      <li>
-        <strong>Object and decay tracking</strong> rely on CelesTrak Starlink GP/CSV files for active elements and SATCAT
-        “recently decayed” lists for confirmed re-entries.
-      </li>
-      <li>
-        <strong>Alumina estimates</strong> use a generation mass mix defined in
-        <code>data/starlink_config.yml</code>, encoding assumptions about per-satellite mass, aluminum content, and the
-        fraction converted to alumina during re-entry. These assumptions are drawn from published re-entry and
-        spacecraft-material studies and are intentionally conservative.
-      </li>
-      <li>
-        <strong>Cumulative impact</strong> is tracked as a running total of estimated alumina injected into the upper
-        atmosphere by confirmed Starlink re-entries, to make the approximate scale and growth of material deposition
-        explicit rather than abstract.
-      </li>
+      <li><strong>Object and decay tracking</strong> — CelesTrak Starlink GP/CSV (active elements) and SATCAT recently decayed (confirmed re-entries).</li>
+      <li><strong>Alumina estimates</strong> — Generation mass mix defined in <code>data/starlink_config.yml</code>; aluminum fraction × 1.89 kg Al₂O₃ per kg Al (upper-bound stoichiometry).</li>
+      <li><strong>Cumulative impact</strong> — Running total of estimated alumina injected into the upper atmosphere by confirmed re-entries.</li>
     </ul>
-    <p>
-      This matters because alumina can alter radiative forcing and interact with ozone chemistry. Even with wide error
-      bars, documenting the plausible mass and slope over time is more informative than relying on one-off marketing
-      claims or isolated estimates.
-    </p>
 
-    <h3>Cybersecurity Monitoring</h3>
-    <p>
-      Cyber assessments focus on how Starlink terminals and infrastructure appear in public security reporting:
-    </p>
-    <ul>
-      <li>
-        <strong>Primary inputs</strong> include CERT/CC and national CERT advisories, major vendor bulletins, and
-        reputable threat-intelligence publications.
-      </li>
-      <li>
-        <strong>Scope</strong> is limited to issues that explicitly reference Starlink hardware, firmware, or
-        infrastructure, plus clearly linked supply-chain or satellite-control vulnerabilities.
-      </li>
-      <li>
-        <strong>Interpretation</strong> emphasizes trend and posture: new advisories are treated as signals of an exposed
-        or actively targeted attack surface; quiet periods constrain what can be concluded from public data.
-      </li>
-    </ul>
-    <p>
-      Because Starlink is being woven into critical communications, battlefield connectivity, and research networks, even
-      incremental vulnerability disclosures are treated as important signals rather than routine patch notes.
-    </p>
+    <h3>Cybersecurity &amp; Astronomical Monitoring</h3>
+    <p>Cyber: CERT/CC and national CERT advisories, vendor bulletins, and threat-intelligence publications scoped to Starlink hardware, firmware, and infrastructure.
+    Astronomical: optical streak reports, RFI notes, and observatory mitigation updates from survey science publications.</p>
 
-    <h3>Astronomical Impact Assessment</h3>
-    <p>
-      Astronomical impact monitoring tracks how Starlink appears in the literature and reporting on sky surveys:
-    </p>
-    <ul>
-      <li><strong>Optical effects</strong> — satellite streaks in wide-field survey images, changes in streak frequency, and mitigation tactics such as avoidance windows or exposure adjustments.</li>
-      <li><strong>Radio-frequency interference (RFI)</strong> — observatory notes and survey documentation describing interference from satellite constellations in relevant bands.</li>
-      <li><strong>Mitigation updates</strong> — darker coatings, attitude changes, or coordination protocols that alter expected long-term impact.</li>
-    </ul>
-    <p>
-      Survey science depends on clean, statistically stable skies. A constellation that injects structured noise into
-      those datasets changes both the cost and feasibility of key astronomical programs.
-    </p>
+    <h3>Why "Quiet" Days Are Still Logged</h3>
+    <p>Each digest date is recorded even with no new developments — it provides a continuous audit trail, distinguishes genuine low-activity periods from monitoring gaps, and supports future trend analysis.</p>
 
-    <h3>Why “Quiet” Days Are Still Logged</h3>
-    <p>
-      Each digest date is recorded even when no new Starlink-specific developments are found because:
-    </p>
-    <ul>
-      <li>It provides a continuous audit trail of which sources were checked and when.</li>
-      <li>It distinguishes genuine low-activity periods from monitoring gaps.</li>
-      <li>It allows future researchers to correlate bursts of activity with documented baselines.</li>
-    </ul>
-    <p>
-      A “no change” entry is therefore treated as a real data point rather than an empty placeholder.
-    </p>
-
-    <hr />
-
-    <!-- Data Sources -->
+    <hr>
     <h3>Data Sources</h3>
-    <p>
-      This digest draws from the following public datasets and model assumptions:
-    </p>
     <ul>
       {sources_html}
     </ul>
-    <p>
-      All assumptions and mass-mix parameters remain editable in <code>data/starlink_config.yml</code>, and charts on
-      this site are derived directly from these datasets and configuration values on each run.
-    </p>
-
+    <p class="muted">All assumptions and mass-mix parameters are editable in <code>data/starlink_config.yml</code>.</p>
   </section>
 
 {global_archive_html}
 
 {domain_archives_html}
 
-  <!-- Optional minimal styling hooks (you may move these into the main CSS file) -->
   <style>
-    .starlink-digest {{ margin-top: 1.5rem; }}
-    .digest-key-findings {{
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
+    /* archive domain pill colour helpers */
+    .archive-domain {{
+      display:inline-block;
     }}
-    .digest-card {{
-      padding: 1rem;
-      border-radius: 0.5rem;
-      background-color: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-    }}
+    /* keep digest-summary table in case it appears from older builds */
     .digest-summary {{
       width: 100%;
       border-collapse: collapse;

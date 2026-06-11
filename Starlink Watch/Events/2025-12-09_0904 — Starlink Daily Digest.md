@@ -137,7 +137,7 @@
     <li>
 
 
-      <strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT “decayed objects” dataset remains unchanged relative to the prior digest unless otherwise noted above.
+      <strong>Most recent confirmed Starlink re-entry</strong> — The latest Starlink re-entry record in the CelesTrak/SATCAT &ldquo;decayed objects&rdquo; dataset remains unchanged relative to the prior digest unless otherwise noted above.
 
 
     </li>
