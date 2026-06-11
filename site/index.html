@@ -50,6 +50,11 @@
 
   /* chart cards */
   img.chart { width:100%; height:auto; border-radius:8px; display:block; }
+  .chart-caption { color:var(--muted); font-size:.85rem; margin-top:10px; margin-bottom:0; }
+  .chart-caption strong { color:var(--fg); font-weight:600; }
+  .step { display:inline-block; background:#12203a; color:var(--accent); font-size:.7rem;
+           font-weight:700; letter-spacing:.6px; text-transform:uppercase;
+           padding:2px 8px; border-radius:10px; margin-right:8px; vertical-align:middle; }
 
   /* digest section */
   .digest-header { display:flex; align-items:baseline; gap:12px; margin-bottom:16px; }
@@ -91,7 +96,7 @@
       <h1 style="font-size:1.4rem">Starlink Watch</h1>
       <div class="muted">Environmental · Cybersecurity · Astronomical</div>
     </div>
-    <div class="muted" style="margin-left:auto;font-size:.82rem">Built 2026-06-11 15:24 UTC</div>
+    <div class="muted" style="margin-left:auto;font-size:.82rem">Built 2026-06-11 16:02 UTC</div>
   </div>
 </header>
 
@@ -99,6 +104,12 @@
 
   <section class="card">
     <h2>Constellation Metrics</h2>
+    <p>
+      These numbers trace a single physical chain: every satellite launched today is, by design,
+      a re-entry event roughly five years from now — and every re-entry leaves chemistry behind
+      in the upper atmosphere. The tiles below are the current state of that chain; the charts
+      that follow walk through it step by step.
+    </p>
     
         <div class="tiles">
           <div class="tile tile-active">
@@ -133,34 +144,115 @@
           </div>
         </div>
         
+  </section>
+
+  <section class="card">
+    <h2>The Story the Charts Tell: From Launch to the Ozone Layer</h2>
+    <p>
+      Starlink satellites are intentionally short-lived. Each spacecraft operates for about five
+      years and is then deorbited to burn up completely in the atmosphere (&ldquo;design for demise&rdquo;).
+      Burning up is not the same as disappearing: a satellite that is roughly 40&ndash;70% aluminum by
+      mass vaporizes during re-entry, and much of that aluminum oxidizes into aluminum oxide
+      (Al₂O₃, &ldquo;alumina&rdquo;) nanoparticles deposited at 50&ndash;85&nbsp;km altitude. Those particles
+      drift down into the stratosphere over years to decades — directly into the ozone layer.
+      The four charts below follow the mass through that pipeline.
+    </p>
+
     <div class="grid">
       <div class="card" style="padding:14px">
-        <h3>Active satellites
+        <h3><span class="step">Step 1</span> Active satellites
           <a class="info" href="https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&amp;FORMAT=csv" target="_blank" title="CelesTrak Starlink group (GP/CSV)">ⓘ</a>
         </h3>
         <img class="chart" src="assets/active.png" alt="Active satellite count over time">
+        <p class="chart-caption">
+          <strong>What it shows:</strong> the number of Starlink satellites currently on orbit
+          (CelesTrak GP data, counted daily).
+          <strong>Why it matters:</strong> launch cadence sets the size of the constellation, and —
+          because every satellite has a ~5-year design life — today&rsquo;s count is a preview of the
+          re-entry rate roughly five years out. A growing curve here guarantees a growing curve
+          in Steps 3 and 4.
+        </p>
       </div>
       <div class="card" style="padding:14px">
-        <h3>On-orbit mass (kg)
+        <h3><span class="step">Step 2</span> On-orbit mass (kg)
           <a class="info" href="https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&amp;FORMAT=csv" target="_blank" title="Derived from active counts × generation masses (configurable)">ⓘ</a>
         </h3>
         <img class="chart" src="assets/onorbit.png" alt="Estimated on-orbit mass">
+        <p class="chart-caption">
+          <strong>What it shows:</strong> the active count converted to kilograms using the
+          generation mass mix (v1.0 ≈ 260&nbsp;kg, v1.5 ≈ 295&nbsp;kg, v2&nbsp;Mini ≈ 730&nbsp;kg).
+          <strong>Why it matters:</strong> this is the atmosphere&rsquo;s future intake. Essentially all
+          of this mass is scheduled to burn up in the upper atmosphere — it is a backlog, not a
+          steady state. Note how heavier v2 Mini satellites grow the mass faster than the count.
+        </p>
       </div>
       <div class="card" style="padding:14px">
-        <h3>Re-entered mass (kg)
+        <h3><span class="step">Step 3</span> Re-entered mass (kg)
           <a class="info" href="https://celestrak.org/satcat/decayed-with-last.php" target="_blank" title="Accumulated Starlink decays (CelesTrak SATCAT) × generation masses">ⓘ</a>
         </h3>
         <img class="chart" src="assets/reentry.png" alt="Estimated re-entered mass">
+        <p class="chart-caption">
+          <strong>What it shows:</strong> cumulative mass of confirmed Starlink re-entries
+          (CelesTrak SATCAT decay records × generation masses).
+          <strong>Why it matters:</strong> this is the mass already delivered to the mesosphere as
+          vapor and particles. Each re-entry ablates the spacecraft across a swath of the upper
+          atmosphere; with multiple Starlink re-entries per day in busy periods, the input is
+          effectively continuous rather than episodic.
+        </p>
       </div>
       <div class="card" style="padding:14px">
-        <h3>Al₂O₃ estimate (kg)
+        <h3><span class="step">Step 4</span> Al₂O₃ estimate (kg)
           <a class="info" href="#" title="Al fraction × 1.89 kg Al₂O₃ per kg Al (upper-bound stoichiometry); tune in data/starlink_config.yml">ⓘ</a>
         </h3>
         <img class="chart" src="assets/alumina.png" alt="Estimated alumina formed">
+        <p class="chart-caption">
+          <strong>What it shows:</strong> the re-entered mass converted to an upper-bound estimate
+          of alumina: re-entered&nbsp;kg × aluminum fraction (0.70) × 1.89&nbsp;kg Al₂O₃ per kg Al
+          (stoichiometric Al→Al₂O₃).
+          <strong>Why it matters:</strong> alumina nanoparticles are the ozone link. Their surfaces
+          catalyze chlorine activation — the same heterogeneous chemistry that drives polar ozone
+          loss — and they persist for decades while settling into the stratosphere. This is the
+          chart the rest of the site exists to contextualize.
+        </p>
       </div>
     </div>
-    <p class="muted" style="margin-top:12px">
-      Mass mix and assumptions editable in <code>data/starlink_config.yml</code>. Charts regenerate on each run.
+
+    <h3 style="margin-top:18px">Why alumina threatens ozone — what the research says</h3>
+    <ul>
+      <li>
+        <strong>The metals are already up there.</strong>
+        <a href="https://www.pnas.org/doi/10.1073/pnas.2313374120" target="_blank" rel="noopener noreferrer">Murphy et&nbsp;al. 2023 (PNAS)</a>
+        sampled stratospheric aerosol directly from aircraft and found that about 10% of
+        sulfuric-acid particles already contain aluminum and other metals from spacecraft
+        re-entries — expected to reach ~50% as planned constellations are built out.
+      </li>
+      <li>
+        <strong>Re-entry chemistry produces nanoparticle alumina.</strong>
+        <a href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2024GL109280" target="_blank" rel="noopener noreferrer">Ferreira et&nbsp;al. 2024 (Geophysical Research Letters)</a>
+        modeled satellite demise and estimated a typical ~250&nbsp;kg satellite yields roughly
+        30&nbsp;kg of Al₂O₃ nanoparticles. 2022&rsquo;s re-entries added an estimated ~17&nbsp;tonnes;
+        a full megaconstellation era could inject 360+&nbsp;tonnes per year — several times the
+        natural meteoric aluminum background.
+      </li>
+      <li>
+        <strong>The damage is delayed, not avoided.</strong> Particles are released at 50&ndash;85&nbsp;km
+        and take years to decades to settle to ozone-layer altitudes, so the chemical consequences
+        of today&rsquo;s re-entries are largely still in transit. Alumina surfaces support the
+        ClONO₂&nbsp;+&nbsp;HCl reaction that releases active chlorine, which then destroys ozone
+        catalytically — one chlorine atom can destroy many thousands of ozone molecules.
+      </li>
+      <li>
+        <strong>Starlink dominates the flux.</strong> Starlink is by far the largest constellation
+        and re-entry source in low Earth orbit, and its five-year replacement cycle means the
+        re-entry rate tracks the launch rate at steady state. That is why this site tracks
+        Starlink specifically: it is the bulk of the signal.
+      </li>
+    </ul>
+    <p class="muted">
+      Caveats: the alumina series here is a transparent upper-bound estimate (stoichiometric
+      conversion, configurable aluminum fraction and mass mix in <code>data/starlink_config.yml</code>),
+      not a measurement. Ablation efficiency, particle size, and transport are active research
+      questions — see the Environmental archive below for the underlying literature.
     </p>
   </section>
 
