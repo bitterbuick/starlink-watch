@@ -5,6 +5,9 @@ on:
     - cron: "0 16,0 * * *"   # twice daily; ~0900 and ~1700 PDT (16:00 UTC = 09:00 PDT, 00:00 UTC = 17:00 PDT)
   workflow_dispatch: {}
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   contents: write
   pages: write
