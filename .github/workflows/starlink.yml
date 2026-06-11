@@ -9,6 +9,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  actions: write  # required by the delete-stale-artifacts step in build-pages
 
 concurrency:
   group: "pages"
