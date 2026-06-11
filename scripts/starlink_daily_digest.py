@@ -3,14 +3,14 @@ import os, sys, time, json, datetime, re, argparse
 from pathlib import Path
 
 try:
-    import feedparser, yaml, requests
+    import feedparser, yaml
 except ImportError:
-    print("Install deps: feedparser pyyaml requests", file=sys.stderr)
+    print("Install deps: feedparser pyyaml", file=sys.stderr)
     sys.exit(1)
 
 # Import shared utils
 sys.path.append(str(Path(__file__).resolve().parent))
-from starlink_utils import now_pt, looks_starlink_critical
+from starlink_utils import now_pt, looks_starlink_critical, classify_domain
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VAULT = REPO_ROOT
@@ -33,8 +33,6 @@ if FEEDS_FILE.exists():
     FEEDS = yaml.safe_load(FEEDS_FILE.read_text())
 else:
     FEEDS = {"feeds": []}
-
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
 
 def gather_items():
     items = []
@@ -75,60 +73,79 @@ def gather_items():
             })
 
     items.sort(key=lambda x: x["date"], reverse=True)
-    return items[:50]  # cap for cost
+    return items[:50]
 
-def openai_digest_json(items):
-    if not OPENAI_API_KEY:
-        print("OPENAI_API_KEY not set", file=sys.stderr)
-        return None
+# ---------- Deterministic digest (no external API) ----------
+SEEN_FILE = STATE / "seen_items.json"
 
-    url = "https://api.openai.com/v1/chat/completions"
-    today_str = now_pt().strftime("%Y-%m-%d")
+def load_seen():
+    if SEEN_FILE.exists():
+        try:
+            return set(json.loads(SEEN_FILE.read_text(encoding="utf-8")))
+        except Exception:
+            return set()
+    return set()
 
-    system = (
-        "You are an AI assistant that generates a **Starlink-only** Daily Digest JSON. "
-        "Filter for strict criticisms, risks, and concrete events in: "
-        "Environmental, Cybersecurity, and Astronomical domains. "
-        "Ignore marketing, generic launches, or non-Starlink items. "
-        "Return a JSON object with this structure:\n"
-        "{\n"
-        "  \"digest_date\": \"YYYY-MM-DD\",\n"
-        "  \"environmental_update\": boolean,\n"
-        "  \"cybersecurity_update\": boolean,\n"
-        "  \"astronomical_update\": boolean,\n"
-        "  \"environmental_summary\": \"Text summary of env news...\",\n"
-        "  \"cybersecurity_summary\": \"Text summary of cyber news...\",\n"
-        "  \"astronomical_summary\": \"Text summary of astro news...\",\n"
-        "  \"archive_environmental\": [ { \"date\": \"YYYY-MM-DD HH:mm PT\", \"headline\": \"...\", \"source\": \"...\", \"url\": \"...\" } ],\n"
-        "  \"archive_cybersecurity\": [],\n"
-        "  \"archive_astronomical\": []\n"
-        "}\n"
-        "If no new items, set update=false, summary to 'No Starlink-specific changes detected...', and archive list to empty."
+def save_seen(seen):
+    # Cap the file so it can't grow without bound; old links age out of feeds anyway
+    SEEN_FILE.write_text(json.dumps(sorted(seen)[-2000:]), encoding="utf-8")
+
+def item_key(item):
+    return item.get("link") or item.get("title", "")
+
+def summarize_domain(domain, new_items):
+    if not new_items:
+        return f"No new Starlink-specific {domain.lower()} items detected in monitored feeds."
+    heads = "; ".join(
+        f"“{i['title']}” ({i['source']})" for i in new_items[:3]
     )
+    more = f" Plus {len(new_items) - 3} more item(s) in the archive below." if len(new_items) > 3 else ""
+    return f"{len(new_items)} new item(s) flagged: {heads}.{more}"
 
-    user_content = f"Items JSON:\n{json.dumps(items, ensure_ascii=False)}\n\nGenerate digest for {today_str}."
+def build_digest_data(items):
+    """Bucket filtered feed items into domains and build the digest structure
+    that format_digest_markdown expects — pure keyword logic, no LLM."""
+    today_str = now_pt().strftime("%Y-%m-%d")
+    seen = load_seen()
 
-    body = {
-        "model": "gpt-4o-mini",
-        "response_format": { "type": "json_object" },
-        "messages": [{"role":"system","content":system},{"role":"user","content":user_content}],
-        "temperature": 0.2
+    buckets = {"Environmental": [], "Cybersecurity": [], "Astronomical": []}
+    for item in items:
+        if item_key(item) in seen:
+            continue
+        domain = classify_domain(item["title"], item["summary"], item["link"])
+        if domain in buckets:
+            buckets[domain].append(item)
+
+    def archive_entries(domain_items):
+        out = []
+        for i in domain_items:
+            date = (i.get("date") or today_str)[:10]
+            out.append({
+                "date": date,
+                "headline": i["title"].strip(),
+                "source": i["source"].strip(),
+                "url": i["link"].strip(),
+            })
+        return out
+
+    data = {
+        "digest_date": today_str,
+        "environmental_update": bool(buckets["Environmental"]),
+        "cybersecurity_update": bool(buckets["Cybersecurity"]),
+        "astronomical_update": bool(buckets["Astronomical"]),
+        "environmental_summary": summarize_domain("Environmental", buckets["Environmental"]),
+        "cybersecurity_summary": summarize_domain("Cybersecurity", buckets["Cybersecurity"]),
+        "astronomical_summary": summarize_domain("Astronomical", buckets["Astronomical"]),
+        "archive_environmental": archive_entries(buckets["Environmental"]),
+        "archive_cybersecurity": archive_entries(buckets["Cybersecurity"]),
+        "archive_astronomical": archive_entries(buckets["Astronomical"]),
     }
 
-    try:
-        resp = requests.post(
-            url,
-            json=body,
-            headers={"Authorization": f"Bearer {OPENAI_API_KEY}"},
-            timeout=120
-        )
-        resp.raise_for_status()
-        out = resp.json()
-        content = out["choices"][0]["message"]["content"]
-        return json.loads(content)
-    except Exception as err:
-        print(f"OpenAI API Error: {err}", file=sys.stderr)
-        return None
+    for domain_items in buckets.values():
+        seen.update(item_key(i) for i in domain_items)
+    save_seen(seen)
+
+    return data
 
 def format_digest_markdown(data):
     today = data.get("digest_date", now_pt().strftime("%Y-%m-%d"))
@@ -172,8 +189,8 @@ def format_digest_markdown(data):
             out += "No change\n"
         else:
             for i in items:
-                # Format: - YYYY-MM-DD HH:mm PT | Headline | Source | URL
-                out += f"- {i.get('date')} | {i.get('headline')} | {i.get('source')} | {i.get('url')}\n"
+                # Bold headline so build_site.py's archive parser picks the entry up
+                out += f"- {i.get('date')} | **{i.get('headline')}** — {i.get('source')} {i.get('url')}\n"
         return out
 
     md += format_archive("Environmental", data.get("archive_environmental", [])) + "\n"
@@ -235,7 +252,7 @@ def write_digest(md):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--force", action="store_true", help="Force run regardless of time")
-    parser.add_argument("--dry-run", action="store_true", help="Don't query OpenAI, use mock data")
+    parser.add_argument("--dry-run", action="store_true", help="Gather and classify items without writing the digest")
     args = parser.parse_args()
 
     if not should_emit_now(args.force):
@@ -243,16 +260,14 @@ def main():
         return
 
     items = gather_items()
-    
+
     if args.dry_run:
         print(f"Dry run: Gathered {len(items)} items.")
+        for i in items:
+            print(f"  [{classify_domain(i['title'], i['summary'], i['link']) or '??'}] {i['title']}")
         return
 
-    json_data = openai_digest_json(items)
-    if not json_data:
-        print("Failed to generate digest JSON.")
-        return
-        
+    json_data = build_digest_data(items)
     md = format_digest_markdown(json_data)
     p = write_digest(md)
     append_archives(md)
