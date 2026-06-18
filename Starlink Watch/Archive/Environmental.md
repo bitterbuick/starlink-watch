@@ -16,3 +16,4 @@
 - No new items.
 - No new items reported.
 - 2026-03-30 23:50 PT | Second Starlink satellite suffers anomaly, generating debris | SpaceNews | https://spacenews.com/second-starlink-satellite-suffers-anomaly-generating-debris/
+- 2026-06-18 | **What the satellite servicing economy can borrow from carbon credits** — SpaceNews (All) https://spacenews.com/what-the-satellite-servicing-economy-can-borrow-from-carbon-credits/
