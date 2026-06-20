@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-06-19T16:53:23Z",
+  "generated_at": "2026-06-20T00:59:48Z",
   "active_count": 10637,
-  "decayed_total": 74,
+  "decayed_total": 71,
   "on_orbit_mass_kg": 3933030.8,
-  "reentered_mass_kg": 21756.0,
-  "alumina_kg": 28783.2,
+  "reentered_mass_kg": 20874.0,
+  "alumina_kg": 27616.3,
   "assumptions": {
     "masses": {
       "v1": 260,
