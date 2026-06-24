@@ -16,3 +16,4 @@
 - 2022-01 | **Popular coverage of ZTF streaks** — contextual reporting. https://www.scientificamerican.com/article/spacexs-starlink-satellites-leave-streaks-in-asteroid-hunting-telescopes-images/ | https://www.space.com/starlink-streaks-disrupt-asteroid-science-zwicky-observatory
 - No new items.
 - No new items reported.
+- 2026-06-24 | **NGSO trade association launches without industry giant SpaceX** — SpaceNews (All) https://spacenews.com/ngso-trade-association-launches-without-industry-giant-spacex/
