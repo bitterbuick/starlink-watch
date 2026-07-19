@@ -21,7 +21,9 @@ The `Starlink Daily Digest` workflow runs twice daily (~09:00 and ~17:00 PT) and
    archive entries. Classification is deterministic keyword scoring — no LLM,
    no external API.
 3. **Builds and deploys the static site** (`scripts/build_site.py`)
-   — regenerates the charts and publishes to GitHub Pages.
+   — embeds the daily series into interactive SVG charts (hover tooltips,
+   range filters, and linear trend projections rendered client-side; no
+   charting libraries) and publishes to GitHub Pages.
 
 There is nothing to configure. Fork it, enable Actions and Pages, and it runs.
 

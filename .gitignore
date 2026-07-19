@@ -9,8 +9,8 @@ __pycache__/
 venv/
 ENV/
 
-# Local state
-.state/
+# Note: .state/ is intentionally tracked — compute_starlink_metrics.py keeps the
+# cumulative set of decayed Starlinks there, and CI needs it to persist between runs.
 
 # OS
 .DS_Store

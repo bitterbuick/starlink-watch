@@ -2,5 +2,3 @@ feedparser
 pyyaml
 requests
 beautifulsoup4
-pandas
-matplotlib
