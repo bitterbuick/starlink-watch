@@ -22,11 +22,18 @@ STATE = REPO_ROOT / ".state"
 for p in (EVENTS, ARCHIVE, STATE):
     p.mkdir(parents=True, exist_ok=True)
 
+# Domains, in report order. "Regulatory" is the catch-all: an item that clears
+# the Starlink-criticism filter but matches none of the three topic vocabularies
+# used to be discarded silently, which is how legal, policy and FCC stories went
+# missing from the digest.
+DOMAINS = ("Environmental", "Cybersecurity", "Astronomical", "Regulatory")
+FALLBACK_DOMAIN = "Regulatory"
+
 # Ensure archive files exist
-for name in ("Environmental.md", "Cybersecurity.md", "Astronomical.md"):
-    f = ARCHIVE / name
+for name in DOMAINS:
+    f = ARCHIVE / f"{name}.md"
     if not f.exists():
-        f.write_text(f"# {name.split('.')[0]} — Archive\n", encoding="utf-8")
+        f.write_text(f"# {name} — Archive\n", encoding="utf-8")
 
 FEEDS_FILE = REPO_ROOT / "scripts" / "feeds.yml"
 if FEEDS_FILE.exists():
@@ -34,20 +41,71 @@ if FEEDS_FILE.exists():
 else:
     FEEDS = {"feeds": []}
 
+MAX_ITEMS = 80
+FEED_HEALTH_FILE = REPO_ROOT / "data" / "feed_health.json"
+
+# No single feed is worth much waiting, and there are a lot of them: keep the
+# per-feed retries short and cap the whole pass so a run of slow feeds can't
+# push the job into its timeout. Anything not reached is reported as skipped.
+FEED_TIMEOUT = (5, 20)
+FEED_ATTEMPTS = 2
+FEED_BUDGET_SECONDS = 420
+
+# Google News and the like append " - Publisher" to headlines; strip it so the
+# same story arriving from two feeds collapses into one item.
+RX_TITLE_SUFFIX = re.compile(r"\s+[-–—|]\s+[^-–—|]{2,40}$")
+
+
+def title_key(title):
+    """Normalized headline used to dedupe the same story across feeds."""
+    text = RX_TITLE_SUFFIX.sub("", (title or "").strip())
+    return re.sub(r"[^a-z0-9]+", " ", text.lower()).strip()
+
+
+def dedupe_items(items):
+    """Keep the first occurrence of each story; feeds overlap heavily."""
+    out, seen_titles, seen_links = [], set(), set()
+    for item in items:
+        tkey = title_key(item["title"])
+        link = (item.get("link") or "").strip()
+        if (tkey and tkey in seen_titles) or (link and link in seen_links):
+            continue
+        if tkey:
+            seen_titles.add(tkey)
+        if link:
+            seen_links.add(link)
+        out.append(item)
+    return out
+
+
 def gather_items():
     items = []
+    health = []
     now = datetime.datetime.utcnow()
     cutoff = now - datetime.timedelta(days=30)
+    started = time.monotonic()
     for f in FEEDS.get("feeds", []):
+        name = f.get("name", f["url"])
+        if time.monotonic() - started > FEED_BUDGET_SECONDS:
+            print(f"Feed budget exhausted; skipping {name}", file=sys.stderr)
+            health.append({"name": name, "status": "skipped", "entries": 0,
+                           "recent": 0, "matched": 0,
+                           "detail": "not reached within the feed time budget"})
+            continue
         # Fetch ourselves rather than letting feedparser open the URL: it has no
         # timeout, so one unresponsive feed could hang the scheduled run.
         try:
-            d = feedparser.parse(http_get(f["url"]).content)
+            d = feedparser.parse(
+                http_get(f["url"], timeout=FEED_TIMEOUT, attempts=FEED_ATTEMPTS).content)
         except Exception as err:
             print(f"Failed to fetch {f.get('url')}: {err}", file=sys.stderr)
+            health.append({"name": name, "status": "error", "entries": 0,
+                           "recent": 0, "matched": 0, "detail": str(err)[:200]})
             continue
 
+        entries = recent = matched = 0
         for entry in d.entries:
+            entries += 1
             dt = None
             for key in ("published_parsed","updated_parsed"):
                 val = getattr(entry, key, None)
@@ -58,6 +116,7 @@ def gather_items():
                 dt = now
             if dt < cutoff:
                 continue
+            recent += 1
 
             title = getattr(entry, "title", "") or ""
             summary = getattr(entry, "summary", "") or ""
@@ -65,32 +124,68 @@ def gather_items():
 
             if not looks_starlink_critical(title, summary, link):
                 continue
+            matched += 1
 
             items.append({
-                "source": f.get("name", f["url"]),
+                "source": name,
                 "title": title,
                 "summary": summary,
                 "link": link,
                 "date": dt.isoformat()
             })
 
+        status = "ok" if entries else "empty"
+        health.append({"name": name, "status": status, "entries": entries,
+                       "recent": recent, "matched": matched, "detail": ""})
+        print(f"{name}: {entries} entries, {recent} within 30d, {matched} matched")
+
     items.sort(key=lambda x: x["date"], reverse=True)
-    return items[:50]
+    items = dedupe_items(items)[:MAX_ITEMS]
+    write_feed_health(health, len(items))
+    return items
+
+
+def write_feed_health(health, kept):
+    """Publish per-feed yield so a quiet digest is diagnosable, not mysterious."""
+    ok = [h for h in health if h["status"] == "ok"]
+    payload = {
+        "generated_at": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "feeds_configured": len(health),
+        "feeds_ok": len(ok),
+        "feeds_failed": len([h for h in health if h["status"] == "error"]),
+        "feeds_empty": len([h for h in health if h["status"] == "empty"]),
+        "feeds_skipped": len([h for h in health if h["status"] == "skipped"]),
+        "entries_seen": sum(h["entries"] for h in health),
+        "entries_recent": sum(h["recent"] for h in health),
+        "items_matched": sum(h["matched"] for h in health),
+        "items_kept": kept,
+        "feeds": sorted(health, key=lambda h: (-h["matched"], h["name"])),
+    }
+    FEED_HEALTH_FILE.parent.mkdir(parents=True, exist_ok=True)
+    FEED_HEALTH_FILE.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    print(f"Feeds: {payload['feeds_ok']}/{payload['feeds_configured']} ok, "
+          f"{payload['entries_recent']} recent entries, "
+          f"{payload['items_matched']} matched, {kept} kept after dedupe.")
 
 # ---------- Deterministic digest (no external API) ----------
 SEEN_FILE = STATE / "seen_items.json"
 
+SEEN_CAP = 2000
+
 def load_seen():
+    """Keys of already-digested items, oldest first."""
     if SEEN_FILE.exists():
         try:
-            return set(json.loads(SEEN_FILE.read_text(encoding="utf-8")))
+            return list(json.loads(SEEN_FILE.read_text(encoding="utf-8")))
         except Exception:
-            return set()
-    return set()
+            return []
+    return []
 
 def save_seen(seen):
-    # Cap the file so it can't grow without bound; old links age out of feeds anyway
-    SEEN_FILE.write_text(json.dumps(sorted(seen)[-2000:]), encoding="utf-8")
+    # Cap the file so it can't grow without bound, keeping the most recent keys.
+    # (Sorting before truncating used to drop keys alphabetically, which could
+    # evict a recent link and let an old story resurface.)
+    SEEN_FILE.write_text(json.dumps(list(seen)[-SEEN_CAP:]), encoding="utf-8")
 
 def item_key(item):
     return item.get("link") or item.get("title", "")
@@ -109,14 +204,14 @@ def build_digest_data(items):
     that format_digest_markdown expects — pure keyword logic, no LLM."""
     today_str = now_pt().strftime("%Y-%m-%d")
     seen = load_seen()
+    seen_lookup = set(seen)
 
-    buckets = {"Environmental": [], "Cybersecurity": [], "Astronomical": []}
+    buckets = {name: [] for name in DOMAINS}
     for item in items:
-        if item_key(item) in seen:
+        if item_key(item) in seen_lookup:
             continue
         domain = classify_domain(item["title"], item["summary"], item["link"])
-        if domain in buckets:
-            buckets[domain].append(item)
+        buckets[domain if domain in buckets else FALLBACK_DOMAIN].append(item)
 
     def archive_entries(domain_items):
         out = []
@@ -130,61 +225,48 @@ def build_digest_data(items):
             })
         return out
 
-    data = {
-        "digest_date": today_str,
-        "environmental_update": bool(buckets["Environmental"]),
-        "cybersecurity_update": bool(buckets["Cybersecurity"]),
-        "astronomical_update": bool(buckets["Astronomical"]),
-        "environmental_summary": summarize_domain("Environmental", buckets["Environmental"]),
-        "cybersecurity_summary": summarize_domain("Cybersecurity", buckets["Cybersecurity"]),
-        "astronomical_summary": summarize_domain("Astronomical", buckets["Astronomical"]),
-        "archive_environmental": archive_entries(buckets["Environmental"]),
-        "archive_cybersecurity": archive_entries(buckets["Cybersecurity"]),
-        "archive_astronomical": archive_entries(buckets["Astronomical"]),
-    }
+    data = {"digest_date": today_str}
+    for name in DOMAINS:
+        slug = name.lower()
+        data[f"{slug}_update"] = bool(buckets[name])
+        data[f"{slug}_summary"] = summarize_domain(name, buckets[name])
+        data[f"archive_{slug}"] = archive_entries(buckets[name])
 
     for domain_items in buckets.values():
-        seen.update(item_key(i) for i in domain_items)
+        for i in domain_items:
+            key = item_key(i)
+            if key not in seen_lookup:
+                seen_lookup.add(key)
+                seen.append(key)
     save_seen(seen)
 
     return data
 
 def format_digest_markdown(data):
     today = data.get("digest_date", now_pt().strftime("%Y-%m-%d"))
-    
-    # Defaults
-    env_sum = data.get("environmental_summary", "No updates.")
-    cyb_sum = data.get("cybersecurity_summary", "No updates.")
-    ast_sum = data.get("astronomical_summary", "No updates.")
-    
-    env_up = "Yes" if data.get("environmental_update") else "No"
-    cyb_up = "Yes" if data.get("cybersecurity_update") else "No"
-    ast_up = "Yes" if data.get("astronomical_update") else "No"
+
+    sections = "\n".join(
+        f"### {name}\n{data.get(f'{name.lower()}_summary', 'No updates.')}\n"
+        for name in DOMAINS
+    )
+    table_rows = "\n".join(
+        f"| {name} | {'Yes' if data.get(f'{name.lower()}_update') else 'No'} |"
+        for name in DOMAINS
+    )
 
     md = f"""## Starlink Daily Digest — {today}
 
-### Environmental
-{env_sum}
-
-### Cybersecurity
-{cyb_sum}
-
-### Astronomical
-{ast_sum}
-
+{sections}
 ## Summary of Changes
 | Domain | Updates Detected |
 |-------|-------------------|
-| Environmental | {env_up} |
-| Cybersecurity | {cyb_up} |
-| Astronomical  | {ast_up} |
+{table_rows}
 
 """
-    
+
     # Archive sections (reconstruct format for append logic)
     # The append logic looks for "**Archive — Domain**" and lists.
-    # We can just output them here.
-    
+
     def format_archive(domain, items):
         out = f"**Archive — {domain}**\n"
         if not items:
@@ -195,17 +277,18 @@ def format_digest_markdown(data):
                 out += f"- {i.get('date')} | **{i.get('headline')}** — {i.get('source')} {i.get('url')}\n"
         return out
 
-    md += format_archive("Environmental", data.get("archive_environmental", [])) + "\n"
-    md += format_archive("Cybersecurity", data.get("archive_cybersecurity", [])) + "\n"
-    md += format_archive("Astronomical", data.get("archive_astronomical", [])) + "\n"
-    
+    for name in DOMAINS:
+        md += format_archive(name, data.get(f"archive_{name.lower()}", [])) + "\n"
+
     return md
 
-RX_ARCHIVE = {
-  "Environmental": r"(\*\*Archive\s+—\s+Environmental\*\*)([\s\S]*?)(\*\*Archive\s+—\s+Cybersecurity\*\*|\*\*Archive\s+—\s+Astronomical\*\*|$)",
-  "Cybersecurity": r"(\*\*Archive\s+—\s+Cybersecurity\*\*)([\s\S]*?)(\*\*Archive\s+—\s+Astronomical\*\*|$)",
-  "Astronomical":  r"(\*\*Archive\s+—\s+Astronomical\*\*)([\s\S]*?)$"
-}
+
+def _archive_rx(domain):
+    """Match one archive block, stopping at whichever archive header comes next."""
+    later = "|".join(rf"\*\*Archive\s+—\s+{d}\*\*" for d in DOMAINS if d != domain)
+    return rf"(\*\*Archive\s+—\s+{domain}\*\*)([\s\S]*?)({later}|$)"
+
+RX_ARCHIVE = {name: _archive_rx(name) for name in DOMAINS}
 
 def append_archives(md):
     for domain, rx in RX_ARCHIVE.items():

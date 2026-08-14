@@ -7,7 +7,7 @@
     --bg:#0b1220; --fg:#e6edf3; --muted:#9fb0bd;
     --card:#0f172a; --card2:#0d1528; --ring:#1f2937;
     --accent:#60a5fa;
-    --env:#34d399; --cyb:#f97316; --ast:#a78bfa;
+    --env:#34d399; --cyb:#f97316; --ast:#a78bfa; --reg:#f472b6;
   }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { background:var(--bg); color:var(--fg); font:16px/1.6 ui-sans-serif,system-ui,'Segoe UI',Roboto,sans-serif; }
@@ -114,6 +114,7 @@
   .digest-card-env { border-left:3px solid var(--env); }
   .digest-card-cyb { border-left:3px solid var(--cyb); }
   .digest-card-ast { border-left:3px solid var(--ast); }
+  .digest-card-reg { border-left:3px solid var(--reg); }
   .digest-card-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
   .badge { font-size:.72rem; font-weight:600; padding:2px 8px; border-radius:20px; letter-spacing:.4px; text-transform:uppercase; }
   .badge-yes { background:#134e2a; color:#4ade80; border:1px solid #166534; }
@@ -131,9 +132,17 @@
   .archive-domain-environmental { background:#0d2e1e; color:var(--env); }
   .archive-domain-cybersecurity { background:#2d1a0a; color:var(--cyb); }
   .archive-domain-astronomical { background:#1e1640; color:var(--ast); }
+  .archive-domain-regulatory { background:#33101f; color:var(--reg); }
   .archive-list-environmental li { border-left:3px solid var(--env); padding-left:10px; }
   .archive-list-cybersecurity li { border-left:3px solid var(--cyb); padding-left:10px; }
   .archive-list-astronomical  li { border-left:3px solid var(--ast); padding-left:10px; }
+  .archive-list-regulatory    li { border-left:3px solid var(--reg); padding-left:10px; }
+
+  /* feed health */
+  .feed-status { font-size:.72rem; font-weight:600; padding:1px 7px; border-radius:10px; }
+  .feed-ok { background:#0d2e1e; color:#4ade80; }
+  .feed-empty { background:#2d2a0a; color:#facc15; }
+  .feed-error { background:#3a1414; color:#f87171; }
 </style>
 </head>
 <body>
@@ -141,9 +150,9 @@
   <div class="wrap" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
     <div>
       <h1 style="font-size:1.4rem">Starlink Watch</h1>
-      <div class="muted">Environmental · Cybersecurity · Astronomical</div>
+      <div class="muted">Environmental · Cybersecurity · Astronomical · Regulatory</div>
     </div>
-    <div class="muted" style="margin-left:auto;font-size:.82rem">Built 2026-08-14 06:07 UTC</div>
+    <div class="muted" style="margin-left:auto;font-size:.82rem">Built 2026-08-14 06:19 UTC</div>
   </div>
 </header>
 
@@ -345,6 +354,10 @@
         <div class="digest-card-head"><h4>Astronomical</h4><span class="badge badge-no">No change</span></div>
         <p>No new Starlink-specific astronomical items detected in monitored feeds.</p>
       </article>
+      <article class="digest-card digest-card-reg">
+        <div class="digest-card-head"><h4>Regulatory</h4><span class="badge badge-no">No change</span></div>
+        <p>Not covered by this digest.</p>
+      </article>
     </div>
   </section>
 
@@ -367,6 +380,7 @@
       <li><strong style="color:var(--env)">Environmental</strong> — re-entries, alumina production, debris, and climate/ozone findings.</li>
       <li><strong style="color:var(--cyb)">Cybersecurity</strong> — vulnerabilities and incidents involving terminals, ground infrastructure, or Starlink-dependent networks.</li>
       <li><strong style="color:var(--ast)">Astronomical</strong> — optical streaks, survey contamination, radio interference, and observatory mitigations.</li>
+      <li><strong style="color:var(--reg)">Regulatory</strong> — filings, licences, litigation, and anything else that clears the Starlink-criticism filter without matching the three topic vocabularies.</li>
     </ul>
     <p>
       Object tracking uses CelesTrak Starlink GP/CSV (active) and SATCAT decay records
@@ -375,7 +389,9 @@
       deterministic keyword filter over the RSS feeds in <code>scripts/feeds.yml</code> — no LLM,
       no external API.
     </p>
-    <h3>Data Sources</h3>
+    
+
+    <h3 style="margin-top:18px">Data Sources</h3>
     <ul>
       <li><strong>CelesTrak Starlink GP/CSV</strong> — Active Starlink elements, orbital parameters, and counts used to understand constellation scale and decay eligibility.</li>
       <li><strong>CelesTrak SATCAT – Recently Decayed</strong> — Confirmed decay events, including Starlink entries, used to timestamp and tally re-entries.</li>
@@ -485,6 +501,14 @@
       <li><strong>2024-12</strong> | <a href="https://www.aanda.org/articles/aa/full_html/2024/12/aa51663-24/aa51663-24.html" target="_blank" rel="noopener noreferrer">Automated detection of satellite trails (ASTA)</a> — (A&amp;A) — deep‑learning trail detection for survey pipelines.</li>
       <li><strong>2022-01</strong> | <a href="https://www.scientificamerican.com/article/spacexs-starlink-satellites-leave-streaks-in-asteroid-hunting-telescopes-images/" target="_blank" rel="noopener noreferrer">Popular coverage of ZTF streaks</a> — contextual reporting.</li>
       <li><strong>2026-06-24</strong> | <a href="https://spacenews.com/ngso-trade-association-launches-without-industry-giant-spacex/" target="_blank" rel="noopener noreferrer">NGSO trade association launches without industry giant SpaceX</a> — SpaceNews (All)</li>
+    </ul>
+  </section>
+
+  <section class="starlink-domain-archive card">
+    <h2>Regulatory — Archive</h2>
+    <p class="muted"></p>
+    <ul class="archive-list archive-list-regulatory">
+
     </ul>
   </section>
 

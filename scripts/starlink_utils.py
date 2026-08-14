@@ -71,26 +71,46 @@ POS = [
     r"\bstarshield\b",
     r"\bspacex\b.*\bstarlink\b",
 ]
+# Subjects that mean the story is about something *else*. These are checked
+# against the headline only, and only when Starlink isn't in the headline:
+# scanning the whole blob used to drop real Starlink stories for mentioning the
+# ISS or a Falcon 9 in passing, which was the main source of missed items.
 NEG = [
-    r"\bstarship\b(?!.*\bstarlink\b)",
-    r"\bfalcon\b\s?\d?\b(?!.*\bstarlink\b)",
+    r"\bstarship\b",
+    r"\bfalcon\b\s?\d?\b",
     r"\bartemis\b|\biss\b|\bmars\b|\bcrew[- ]\d+\b|\bcargo\b",
     r"\boneweb\b|\bkuiper\b|\bblue origin\b|\bvirgin\b",
 ]
 CRITICISM = [
     r"\b(outage|degrad\w*|down|jam\w*|spoof\w*|interference|rf interference|rfi|light pollution|streak\w*|reflection\w*|bright\w*)\b",
     r"\b(vulnerab\w*|exploit\w*|cve|hack\w*|breach\w*|compromise\w*|malware|apt|cisa|mitre|advisory|nation[- ]state|sanction\w*)\b",
-    r"\b(debris|collision|re[- ]?entry|reentry|burn[- ]?up|deorbit\w*|emission\w*|soot|aluminum oxide|alumina|atmosphere|ozone)\b",
-    r"\b(regulat\w*|proceeding\w*|filing\w*|fcc|itu|esa|noaa|faa|licen[cs]e\w*|policy|ban|restriction\w*)\b",
-    r"\b(astronomer\w*|observatory|telescope\w*|iau|darkit|dark sky)\b",
+    r"\b(debris|collision|re[- ]?entry|reentry|burn[- ]?up|deorbit\w*|emission\w*|soot|aluminum oxide|alumina|atmosphere|ozone|stratospher\w*)\b",
+    r"\b(regulat\w*|proceeding\w*|filing\w*|fcc|itu|esa|noaa|faa|licen[cs]e\w*|policy|ban|restriction\w*|spectrum)\b",
+    r"\b(astronomer\w*|observator\w*|telescope\w*|iau|darkit|dark sky|dark and quiet|survey\w*)\b",
+    # Research, legal and civic signals — the same criticism, reported in a
+    # register the original keyword set didn't cover.
+    r"\b(study|studies|research\w*|scientist\w*|paper|preprint|findings?|peer[- ]review\w*)\b",
+    r"\b(warn\w*|concern\w*|risk\w*|threat\w*|harm\w*|impact\w*|damage\w*|criticis\w*|critici[sz]\w*|backlash|protest\w*)\b",
+    r"\b(lawsuit|sued?|court|litigation|complaint|petition|investigat\w*|probe|fine[ds]?|penalt\w*)\b",
+    r"\b(pollut\w*|contaminat\w*|climate|environment\w*|emissions?)\b",
+    r"\b(gps|navigation|radio astronomy|radio[- ]?quiet|conjunction|near miss|close approach|maneuver\w*|manoeuvr\w*)\b",
 ]
 # Note: Added 'astronomer', 'observatory', etc to CRITICISM based on intent to capture astronomical impacts.
+
+
+def _off_topic_headline(title: str) -> bool:
+    """True when the headline is about another program and never names Starlink."""
+    head = (title or "").lower()
+    if re.search(r"\bstar\s?link\b|\bstarshield\b", head, re.I):
+        return False
+    return any(re.search(rx, head, re.I) for rx in NEG)
+
 
 def looks_starlink_critical(title: str, summary: str, link: str) -> bool:
     t = " ".join([(title or ""), (summary or ""), (link or "")]).lower()
     if not any(re.search(rx, t, re.I) for rx in POS):
         return False
-    if any(re.search(rx, t, re.I) for rx in NEG):
+    if _off_topic_headline(title):
         return False
     # require criticism/event signal (not marketing or generic launch)
     return any(re.search(rx, t, re.I) for rx in CRITICISM)

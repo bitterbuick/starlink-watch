@@ -13,14 +13,22 @@ The `Starlink Daily Digest` workflow runs twice daily (~09:00 and ~17:00 PT) and
    — pulls active Starlink elements and confirmed decay records from CelesTrak,
    converts them to mass estimates using the generation mass mix in
    `data/starlink_config.yml`, and derives an upper-bound alumina (Al₂O₃) estimate.
-2. **Generates the daily digest** (`scripts/starlink_daily_digest.py`)
+2. **Compares Starlink against the whole catalogue** (`scripts/compute_space_totals.py`)
+   — reads CelesTrak's full SATCAT (every tracked object, with decay dates) and
+   splits on-orbit mass, re-entered mass and alumina into Starlink vs everything
+   else, so the site can show the delta with and without Starlink. SATCAT has no
+   mass column, so non-Starlink masses are estimated from radar cross-section
+   under the `space_totals` assumptions in `data/starlink_config.yml`.
+3. **Generates the daily digest** (`scripts/starlink_daily_digest.py`)
    — scans the RSS feeds in `scripts/feeds.yml`, keeps only Starlink-specific
    criticism/risk/event items (keyword filter in `scripts/starlink_utils.py`),
-   classifies each into Environmental / Cybersecurity / Astronomical, and writes
+   classifies each into Environmental / Cybersecurity / Astronomical / Regulatory,
+   de-duplicates stories that arrive from several feeds, and writes
    `Starlink Watch/Events/<timestamp> — Starlink Daily Digest.md` plus per-domain
    archive entries. Classification is deterministic keyword scoring — no LLM,
-   no external API.
-3. **Builds and deploys the static site** (`scripts/build_site.py`)
+   no external API. Per-feed yield is published to `data/feed_health.json` and
+   shown on the site, so a thin digest is diagnosable.
+4. **Builds and deploys the static site** (`scripts/build_site.py`)
    — embeds the daily series into interactive SVG charts (hover tooltips,
    range filters, and linear trend projections rendered client-side; no
    charting libraries) and publishes to GitHub Pages.
@@ -44,6 +52,11 @@ The site's four charts follow the mass through that pipeline:
 | 3 | Re-entered mass | Mass already delivered to the upper atmosphere |
 | 4 | Al₂O₃ estimate | Upper-bound alumina injected (Al fraction × 1.89 kg Al₂O₃ per kg Al) |
 
+The **Starlink vs Everything Else in Orbit** section then puts those numbers in
+context: Starlink's share of all catalogued on-orbit mass, and per-year re-entered
+mass and Al₂O₃ split Starlink vs every other tracked object — the delta being what
+the atmosphere receives with Starlink that it would not receive without it.
+
 Key research: Murphy et al. 2023 (PNAS) found spacecraft metals in ~10% of
 stratospheric aerosol particles; Ferreira et al. 2024 (GRL) modeled ~30 kg of alumina
 nanoparticles per ~250 kg satellite and projected megaconstellation-era injection well
@@ -55,12 +68,18 @@ literature trail.
 ```bash
 pip install -r requirements.txt
 python scripts/compute_starlink_metrics.py
+python scripts/compute_space_totals.py
 python scripts/starlink_daily_digest.py --force   # --dry-run to preview classification
 python scripts/build_site.py                       # writes site/index.html
-python -m unittest discover tests                  # run filter tests
+python -m unittest discover tests                  # run the test suite
 ```
 
 The repo doubles as an Obsidian vault — digests land in `Starlink Watch/Events/` and
 rolling archives in `Starlink Watch/Archive/` (install Obsidian Git to auto-pull).
 
-All mass/alumina assumptions are tunable in `data/starlink_config.yml`.
+All mass/alumina assumptions are tunable in `data/starlink_config.yml`, including the
+`space_totals` block that governs how non-Starlink objects are weighed.
+
+Every network fetch retries with backoff and has a timeout. When a source is
+unreachable the run keeps the last good data and still publishes, rather than
+failing the pipeline.

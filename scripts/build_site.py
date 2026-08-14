@@ -19,6 +19,9 @@ ARCH = VAULT / "Archive"
 DATA = REPO / "data"
 SITE = REPO / "site"
 
+# Report order; mirrors DOMAINS in starlink_daily_digest.py.
+DOMAINS = ("Environmental", "Cybersecurity", "Astronomical", "Regulatory")
+
 # Colors validated (CVD + contrast) against the dark card surface in this order.
 CHART_SPECS = [
     {
@@ -149,7 +152,7 @@ def parse_archive_file(domain, path):
 
 def load_archives():
     archives = []
-    for name in ("Environmental", "Cybersecurity", "Astronomical"):
+    for name in DOMAINS:
         path = ARCH / f"{name}.md"
         if path.exists():
             archives.append(parse_archive_file(name, path))
@@ -177,7 +180,7 @@ def load_latest_digest():
         "date": date.group(1) if date else latest.stem[:10],
         "sections": [
             (name, section(name), update_flag(name))
-            for name in ("Environmental", "Cybersecurity", "Astronomical")
+            for name in DOMAINS
         ],
     }
 
@@ -267,7 +270,9 @@ def render_digest_section(digest):
     for name, summary, flag in digest["sections"]:
         badge = ('<span class="badge badge-yes">Updated</span>' if flag == "Yes"
                  else '<span class="badge badge-no">No change</span>')
-        paras = [p.strip() for p in summary.split("\n\n") if p.strip()] or [summary]
+        # Digests written before a domain existed have no section for it.
+        paras = ([p.strip() for p in summary.split("\n\n") if p.strip()]
+                 or ["Not covered by this digest."])
         body = "".join(f"<p>{esc(p)}</p>" for p in paras)
         slug = name[:3].lower()
         cards.append(f"""
@@ -586,6 +591,42 @@ def render_chart_cards(series_by_key, sources):
     return "\n".join(cards)
 
 
+def render_feed_health(health):
+    """Per-feed yield, so a thin digest points at a cause instead of a shrug."""
+    feeds = (health or {}).get("feeds") or []
+    if not feeds:
+        return ""
+
+    rows = []
+    for f in feeds:
+        status = f.get("status", "")
+        cls = {"ok": "feed-ok", "empty": "feed-empty",
+               "skipped": "feed-empty"}.get(status, "feed-error")
+        label = {"ok": "ok", "empty": "no entries",
+                 "skipped": "skipped"}.get(status, "unreachable")
+        detail = f.get("detail", "")
+        rows.append(
+            f'<tr><td>{esc(f.get("name", ""))}</td>'
+            f'<td><span class="feed-status {cls}" title="{esc(detail)}">{label}</span></td>'
+            f'<td>{f.get("entries", 0):,}</td><td>{f.get("recent", 0):,}</td>'
+            f'<td>{f.get("matched", 0):,}</td></tr>')
+
+    return f"""
+    <h3 style="margin-top:18px">Feed Health</h3>
+    <p class="muted">
+      {health.get("feeds_ok", 0)} of {health.get("feeds_configured", 0)} feeds responded on the
+      last run · {health.get("entries_recent", 0):,} entries from the last 30 days ·
+      {health.get("items_matched", 0):,} passed the Starlink filter ·
+      {health.get("items_kept", 0):,} kept after de-duplication.
+      A low match count with healthy feeds means the filter is strict, not that the feeds are down.
+    </p>
+    <details class="chart-table">
+      <summary>Per-feed detail</summary>
+      <table><thead><tr><th>Feed</th><th>Status</th><th>Entries</th><th>Last 30d</th><th>Matched</th></tr></thead>
+      <tbody>{"".join(rows)}</tbody></table>
+    </details>"""
+
+
 def render_sources(sources):
     items = []
     for s in sources:
@@ -602,7 +643,7 @@ CSS = """
     --bg:#0b1220; --fg:#e6edf3; --muted:#9fb0bd;
     --card:#0f172a; --card2:#0d1528; --ring:#1f2937;
     --accent:#60a5fa;
-    --env:#34d399; --cyb:#f97316; --ast:#a78bfa;
+    --env:#34d399; --cyb:#f97316; --ast:#a78bfa; --reg:#f472b6;
   }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { background:var(--bg); color:var(--fg); font:16px/1.6 ui-sans-serif,system-ui,'Segoe UI',Roboto,sans-serif; }
@@ -709,6 +750,7 @@ CSS = """
   .digest-card-env { border-left:3px solid var(--env); }
   .digest-card-cyb { border-left:3px solid var(--cyb); }
   .digest-card-ast { border-left:3px solid var(--ast); }
+  .digest-card-reg { border-left:3px solid var(--reg); }
   .digest-card-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
   .badge { font-size:.72rem; font-weight:600; padding:2px 8px; border-radius:20px; letter-spacing:.4px; text-transform:uppercase; }
   .badge-yes { background:#134e2a; color:#4ade80; border:1px solid #166534; }
@@ -726,9 +768,17 @@ CSS = """
   .archive-domain-environmental { background:#0d2e1e; color:var(--env); }
   .archive-domain-cybersecurity { background:#2d1a0a; color:var(--cyb); }
   .archive-domain-astronomical { background:#1e1640; color:var(--ast); }
+  .archive-domain-regulatory { background:#33101f; color:var(--reg); }
   .archive-list-environmental li { border-left:3px solid var(--env); padding-left:10px; }
   .archive-list-cybersecurity li { border-left:3px solid var(--cyb); padding-left:10px; }
   .archive-list-astronomical  li { border-left:3px solid var(--ast); padding-left:10px; }
+  .archive-list-regulatory    li { border-left:3px solid var(--reg); padding-left:10px; }
+
+  /* feed health */
+  .feed-status { font-size:.72rem; font-weight:600; padding:1px 7px; border-radius:10px; }
+  .feed-ok { background:#0d2e1e; color:#4ade80; }
+  .feed-empty { background:#2d2a0a; color:#facc15; }
+  .feed-error { background:#3a1414; color:#f87171; }
 """
 
 # Client-side chart renderer: line + area wash for observed data, dashed linear
@@ -1017,6 +1067,7 @@ def build():
     }
 
     space_totals = load_json(DATA / "space_totals.json", {})
+    feed_health = load_json(DATA / "feed_health.json", {})
     incidents = load_json(DATA / "incidents.json", [])
     sources = load_json(DATA / "sources.json", [])
     archives = load_archives()
@@ -1050,7 +1101,7 @@ def build():
   <div class="wrap" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
     <div>
       <h1 style="font-size:1.4rem">Starlink Watch</h1>
-      <div class="muted">Environmental · Cybersecurity · Astronomical</div>
+      <div class="muted">Environmental · Cybersecurity · Astronomical · Regulatory</div>
     </div>
     <div class="muted" style="margin-left:auto;font-size:.82rem">Built {esc(built)}</div>
   </div>
@@ -1140,6 +1191,7 @@ def build():
       <li><strong style="color:var(--env)">Environmental</strong> — re-entries, alumina production, debris, and climate/ozone findings.</li>
       <li><strong style="color:var(--cyb)">Cybersecurity</strong> — vulnerabilities and incidents involving terminals, ground infrastructure, or Starlink-dependent networks.</li>
       <li><strong style="color:var(--ast)">Astronomical</strong> — optical streaks, survey contamination, radio interference, and observatory mitigations.</li>
+      <li><strong style="color:var(--reg)">Regulatory</strong> — filings, licences, litigation, and anything else that clears the Starlink-criticism filter without matching the three topic vocabularies.</li>
     </ul>
     <p>
       Object tracking uses CelesTrak Starlink GP/CSV (active) and SATCAT decay records
@@ -1148,7 +1200,9 @@ def build():
       deterministic keyword filter over the RSS feeds in <code>scripts/feeds.yml</code> — no LLM,
       no external API.
     </p>
-    <h3>Data Sources</h3>
+    {render_feed_health(feed_health)}
+
+    <h3 style="margin-top:18px">Data Sources</h3>
     <ul>
 {render_sources(sources)}
     </ul>
