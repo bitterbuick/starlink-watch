@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-import csv, json, math, re, time, datetime, pathlib, io
+import csv, json, math, re, sys, time, datetime, pathlib, io
 from pathlib import Path
 import requests
 import yaml
 from bs4 import BeautifulSoup  # lightweight HTML parsing for decayed list
+
+sys.path.append(str(Path(__file__).resolve().parent))
+from starlink_utils import http_get, FetchError
 
 REPO = Path(__file__).resolve().parents[1]
 DATA = REPO / "data"
@@ -22,27 +25,39 @@ def ts():
     return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
 def fetch_starlink_active_count():
-    resp = requests.get(STARLINK_CSV, timeout=60)
-    resp.raise_for_status()
+    resp = http_get(STARLINK_CSV)
     reader = csv.DictReader(io.StringIO(resp.text))
     rows = [row for row in reader]
     # Filter only rows whose OBJECT_NAME contains 'STARLINK'
     rows = [row for row in rows if "STARLINK" in (row.get("OBJECT_NAME","").upper())]
     return len(rows)
 
+def load_decayed_store():
+    store = STATE / "decayed_starlinks.json"
+    if store.exists():
+        try:
+            return store, set(json.loads(store.read_text(encoding="utf-8")))
+        except (json.JSONDecodeError, ValueError):
+            print("Decayed store unreadable; starting a fresh set.", file=sys.stderr)
+    return store, set()
+
 def fetch_recent_decayed_starlink():
-    """Parse CelesTrak 'recently decayed' page; accumulate STARLINK- entries into a set for historical total."""
-    resp = requests.get(DECAYED_HTML, timeout=60)
-    resp.raise_for_status()
+    """Parse CelesTrak 'recently decayed' page; accumulate STARLINK- entries into a set for historical total.
+
+    The total is cumulative, so if the page is unreachable we keep the stored
+    set: it stays a valid (if slightly stale) count rather than failing the run.
+    """
+    store, seen = load_decayed_store()
+    try:
+        resp = http_get(DECAYED_HTML)
+    except FetchError as err:
+        print(f"Decayed list unavailable ({err}); reusing {len(seen)} stored entries.",
+              file=sys.stderr)
+        return len(seen)
     soup = BeautifulSoup(resp.text, "html.parser")
     text = soup.get_text(" ", strip=True)
     # Match chunks like "... 47995, STARLINK-2309 ; ..."
     ids = set(re.findall(r"\bSTARLINK-\d+\b", text.upper()))
-    # Merge into persistent set
-    store = STATE / "decayed_starlinks.json"
-    seen = set()
-    if store.exists():
-        seen = set(json.loads(store.read_text(encoding="utf-8")))
     seen |= ids
     store.write_text(json.dumps(sorted(seen)), encoding="utf-8")
     return len(seen)
@@ -73,7 +88,21 @@ def rolling_series_push(series_file, point):
     return ser
 
 def main():
-    active = fetch_starlink_active_count()
+    try:
+        active = fetch_starlink_active_count()
+    except FetchError as err:
+        # The active count anchors every metric and the day's series point, so
+        # there is nothing honest to write without it. Keep the last good
+        # snapshot and let the rest of the pipeline publish that, instead of
+        # failing the run over a transient CelesTrak outage.
+        if (DATA / "metrics.json").exists():
+            print(f"Active count unavailable ({err}); keeping the previous snapshot "
+                  f"and skipping this update.", file=sys.stderr)
+            return 0
+        print(f"Active count unavailable ({err}) and no previous snapshot to fall "
+              f"back on.", file=sys.stderr)
+        return 1
+
     decayed_total = fetch_recent_decayed_starlink()  # keeps a running total
 
     # Mass estimates
@@ -113,6 +142,7 @@ def main():
     rolling_series_push(series_dir / "alumina_kg.json", {"date": date, "value": round(alumina_kg,1)})
 
     print(f"Metrics computed: {active} active, {decayed_total} decayed, {round(on_orbit_mass,1)} kg on-orbit, {round(alumina_kg,1)} kg alumina")
+    return 0
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

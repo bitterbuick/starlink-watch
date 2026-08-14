@@ -1,5 +1,7 @@
 
 import re
+import sys
+import time
 import datetime
 
 # ---- Pacific Time (PT) ----
@@ -13,6 +15,55 @@ def now_pt():
     if PT:
         return datetime.datetime.now(tz=PT)
     return datetime.datetime.utcnow() - datetime.timedelta(hours=7)
+
+# ---------- Resilient HTTP ----------
+# CelesTrak and the news feeds occasionally time out or return a 5xx. A single
+# unretried failure used to abort the whole scheduled run, so every fetch goes
+# through here: bounded retries with exponential backoff, and an explicit
+# FetchError so callers can decide whether to degrade instead of crash.
+USER_AGENT = "starlink-watch/1.0 (+https://github.com/bitterbuick/starlink-watch)"
+HTTP_TIMEOUT = (10, 60)   # (connect, read) seconds — never wait forever
+HTTP_ATTEMPTS = 4
+
+class FetchError(RuntimeError):
+    """Raised when a URL could not be fetched after every retry."""
+
+def _is_retryable(err):
+    import requests
+    if isinstance(err, (requests.exceptions.Timeout,
+                        requests.exceptions.ConnectionError,
+                        requests.exceptions.ChunkedEncodingError)):
+        return True
+    if isinstance(err, requests.exceptions.HTTPError):
+        resp = getattr(err, "response", None)
+        status = getattr(resp, "status_code", None)
+        return status is not None and (status >= 500 or status == 429)
+    return False
+
+def http_get(url, timeout=HTTP_TIMEOUT, attempts=HTTP_ATTEMPTS, backoff=2.0, session=None):
+    """GET `url`, retrying transient failures with exponential backoff.
+
+    Retries connection/read timeouts and 429/5xx responses; a 4xx (other than
+    429) fails immediately since retrying won't help. Raises FetchError when
+    every attempt is exhausted.
+    """
+    import requests
+    getter = session.get if session is not None else requests.get
+    last = None
+    for attempt in range(1, attempts + 1):
+        try:
+            resp = getter(url, timeout=timeout, headers={"User-Agent": USER_AGENT})
+            resp.raise_for_status()
+            return resp
+        except Exception as err:
+            last = err
+            if attempt == attempts or not _is_retryable(err):
+                break
+            delay = backoff ** attempt   # 2s, 4s, 8s
+            print(f"Fetch attempt {attempt}/{attempts} for {url} failed ({err}); "
+                  f"retrying in {delay:.0f}s", file=sys.stderr)
+            time.sleep(delay)
+    raise FetchError(f"GET {url} failed after {attempts} attempt(s): {last}") from last
 
 # ---------- Starlink-only filter with “criticism/event” signal ----------
 POS = [

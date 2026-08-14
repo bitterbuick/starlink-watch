@@ -10,7 +10,7 @@ except ImportError:
 
 # Import shared utils
 sys.path.append(str(Path(__file__).resolve().parent))
-from starlink_utils import now_pt, looks_starlink_critical, classify_domain
+from starlink_utils import now_pt, looks_starlink_critical, classify_domain, http_get
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 VAULT = REPO_ROOT
@@ -39,10 +39,12 @@ def gather_items():
     now = datetime.datetime.utcnow()
     cutoff = now - datetime.timedelta(days=30)
     for f in FEEDS.get("feeds", []):
+        # Fetch ourselves rather than letting feedparser open the URL: it has no
+        # timeout, so one unresponsive feed could hang the scheduled run.
         try:
-            d = feedparser.parse(f["url"])
+            d = feedparser.parse(http_get(f["url"]).content)
         except Exception as err:
-            print(f"Failed to parse {f.get('url')}: {err}", file=sys.stderr)
+            print(f"Failed to fetch {f.get('url')}: {err}", file=sys.stderr)
             continue
 
         for entry in d.entries:
@@ -221,26 +223,27 @@ def append_archives(md):
             existing = existing.rstrip() + "\n" + "\n".join(new_lines) + "\n"
             target.write_text(existing, encoding="utf-8")
 
+def run_flag(force=False):
+    """Path of the once-per-window marker: UTC hour when forced, PT hour otherwise."""
+    t = datetime.datetime.utcnow() if (force or os.environ.get("FORCE_EMIT", "") == "1") else now_pt()
+    return STATE / f"run_{t.strftime('%Y%m%d_%H')}.flag"
+
+def mark_emitted(force=False):
+    """Claim this window — only once the digest has actually been written, so a
+    run that dies mid-flight doesn't lock out its own retry."""
+    run_flag(force).write_text("ok", encoding="utf-8")
+
 def should_emit_now(force=False):
     if force or os.environ.get("FORCE_EMIT", "") == "1":
         # Still prevent double-emission in the same UTC hour (e.g. workflow reruns)
-        t = datetime.datetime.utcnow()
-        mark = STATE / f"run_{t.strftime('%Y%m%d_%H')}.flag"
-        if mark.exists():
+        if run_flag(force).exists():
             print("Already emitted this UTC hour; skipping duplicate.")
             return False
-        mark.write_text("ok", encoding="utf-8")
         return True
     # Fallback: only emit at the scheduled PT hours when run manually without --force
-    t = now_pt()
-    hour = t.hour
-    mark = STATE / f"run_{t.strftime('%Y%m%d_%H')}.flag"
-    if hour not in (9, 17):
+    if now_pt().hour not in (9, 17):
         return False
-    if mark.exists():
-        return False
-    mark.write_text("ok", encoding="utf-8")
-    return True
+    return not run_flag(force).exists()
 
 def write_digest(md):
     t = now_pt()
@@ -271,6 +274,7 @@ def main():
     md = format_digest_markdown(json_data)
     p = write_digest(md)
     append_archives(md)
+    mark_emitted(args.force)
     print(f"Wrote digest: {p}")
 
 if __name__ == "__main__":
