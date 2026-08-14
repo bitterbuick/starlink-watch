@@ -39,5 +39,68 @@ class TestBuildSite(unittest.TestCase):
         self.assertIn('class="chart" data-key="active_count"', page)
 
 
+class TestComparisonSection(unittest.TestCase):
+    """The Starlink-vs-catalogue panels render from data/space_totals.json."""
+
+    def sample_totals(self):
+        this_year = build_site.datetime.date.today().year
+        years = [
+            {"year": this_year - 2, "starlink_kg": 50_000.0, "other_kg": 100_000.0,
+             "starlink_alumina_kg": 66_150.0, "other_alumina_kg": 94_500.0},
+            {"year": this_year - 1, "starlink_kg": 90_000.0, "other_kg": 110_000.0,
+             "starlink_alumina_kg": 119_070.0, "other_alumina_kg": 103_950.0},
+            {"year": this_year, "starlink_kg": 40_000.0, "other_kg": 60_000.0,
+             "starlink_alumina_kg": 52_920.0, "other_alumina_kg": 56_700.0},
+        ]
+        return {
+            "on_orbit": {"total_kg": 11_000_000.0, "starlink_kg": 3_000_000.0,
+                         "other_kg": 8_000_000.0, "starlink_share": 0.2727,
+                         "starlink_objects": 8000, "other_objects": 21000},
+            "reentry_by_year": years,
+            "chart_from_year": this_year - 5,
+            "latest_complete_year": this_year - 1,
+            "latest_year_delta": {
+                "alumina_kg_with_starlink": 223_020.0,
+                "alumina_kg_without_starlink": 103_950.0,
+                "alumina_delta_kg": 119_070.0,
+                "starlink_share_of_alumina": 0.5339,
+            },
+            "cumulative_alumina": {"with_starlink_kg": 493_290.0,
+                                   "without_starlink_kg": 255_150.0,
+                                   "delta_kg": 238_140.0, "starlink_share": 0.4827},
+        }
+
+    def test_renders_nothing_without_data(self):
+        self.assertEqual(build_site.render_comparison({}), "")
+        self.assertEqual(build_site.render_comparison({"reentry_by_year": []}), "")
+
+    def test_renders_tiles_charts_and_the_delta(self):
+        html = build_site.render_comparison(self.sample_totals())
+        self.assertIn("Starlink vs Everything Else in Orbit", html)
+        self.assertIn("cmp-chart", html)
+        self.assertIn("Starlink share of on-orbit mass", html)
+        # both series are named, so identity is never carried by color alone
+        self.assertIn(">Starlink</span>", html)
+        self.assertIn("All other catalogued objects", html)
+        # the headline delta, in tonnes
+        self.assertIn("119.1 t", html)
+
+    def test_honors_chart_from_year(self):
+        totals = self.sample_totals()
+        totals["chart_from_year"] = build_site.datetime.date.today().year
+        html = build_site.render_comparison(totals)
+        self.assertIn(str(build_site.datetime.date.today().year), html)
+        self.assertNotIn(f'>{build_site.datetime.date.today().year - 2}</text>', html)
+
+    def test_current_year_bars_are_marked_partial(self):
+        html = build_site.render_comparison(self.sample_totals())
+        self.assertIn("year to date", html)
+        self.assertIn('opacity="0.55"', html)
+
+    def test_stacked_bars_handle_an_empty_year_list(self):
+        self.assertIn("No catalogue comparison yet.",
+                      build_site.render_stacked_bars([], build_site.COMPARISON_CHARTS[0]))
+
+
 if __name__ == "__main__":
     unittest.main()

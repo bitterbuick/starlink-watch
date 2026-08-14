@@ -8,6 +8,7 @@ from embedded series data — no matplotlib/pandas, stdlib only.
 import datetime
 import html
 import json
+import math
 import re
 from pathlib import Path
 
@@ -323,6 +324,237 @@ def render_tiles(met, src_gp, src_decayed, deltas):
     return f'<div class="tiles">{"".join(out)}</div>'
 
 
+# ---------- Starlink vs the rest of the catalogue ----------
+# Two categorical series, fixed order, never cycled. Validated for CVD
+# separation and contrast against the dark card surface (#0f172a).
+CMP_STARLINK = "#d95926"
+CMP_OTHER = "#3987e5"
+
+COMPARISON_CHARTS = [
+    {
+        "slug": "reentry-mass",
+        "title": "Re-entered mass per year",
+        "unit": "t",
+        "starlink_key": "starlink_kg",
+        "other_key": "other_kg",
+        "caption": "Mass that came down each year, split Starlink vs every other "
+                   "catalogued object. Launch vehicle stages count as other objects, "
+                   "so this is the satellites-only share.",
+    },
+    {
+        "slug": "alumina-year",
+        "title": "Al₂O₃ produced per year",
+        "unit": "t",
+        "starlink_key": "starlink_alumina_kg",
+        "other_key": "other_alumina_kg",
+        "caption": "The same re-entries as alumina. The orange band is the delta — "
+                   "what the atmosphere receives with Starlink that it would not "
+                   "receive without it.",
+    },
+]
+
+
+def tonnes(kg):
+    return (kg or 0) / 1000.0
+
+
+def fmt_t(kg, digits=0):
+    return f"{tonnes(kg):,.{digits}f}"
+
+
+def nice_step(span, target=4):
+    """A 1/2/5×10ⁿ axis step covering `span` in roughly `target` divisions."""
+    if span <= 0:
+        return 1.0
+    raw = span / target
+    mag = 10 ** math.floor(math.log10(raw))
+    norm = raw / mag
+    return (10 if norm >= 5 else 5 if norm >= 2 else 2 if norm >= 1 else 1) * mag
+
+
+def render_stacked_bars(years, spec):
+    """Server-rendered stacked bars — no JS beyond the browser's own <title> tips."""
+    if not years:
+        return '<p class="muted">No catalogue comparison yet.</p>'
+
+    W, H = 620, 260
+    M = {"l": 52, "r": 12, "t": 16, "b": 30}
+    plot_w, plot_h = W - M["l"] - M["r"], H - M["t"] - M["b"]
+
+    totals = [y[spec["starlink_key"]] + y[spec["other_key"]] for y in years]
+    v_max = max(totals) or 1.0
+    step = nice_step(tonnes(v_max), 4)
+    top = max(step * math.ceil(tonnes(v_max) / step), step)   # in tonnes
+
+    def y_px(t_value):
+        return M["t"] + (1 - t_value / top) * plot_h
+
+    slot = plot_w / len(years)
+    bar_w = min(38.0, max(6.0, slot * 0.62))
+    this_year = datetime.date.today().year
+    parts = []
+
+    # recessive grid + y labels
+    ticks = int(round(top / step))
+    for i in range(ticks + 1):
+        value = step * i
+        y = y_px(value)
+        parts.append(f'<line class="cmp-grid" x1="{M["l"]}" x2="{W - M["r"]}" y1="{y:.1f}" y2="{y:.1f}" />')
+        parts.append(f'<text class="cmp-axis" x="{M["l"] - 8}" y="{y + 4:.1f}" text-anchor="end">{value:,.0f}</text>')
+    parts.append(f'<text class="cmp-axis" x="{M["l"] + 2}" y="{M["t"] - 5}" '
+                 f'text-anchor="start">{esc(spec["unit"])}</text>')
+
+    label_every = max(1, math.ceil(len(years) / 10))
+    last_year = years[-1]
+
+    for i, year in enumerate(years):
+        cx = M["l"] + slot * (i + 0.5)
+        x = cx - bar_w / 2
+        other_t, star_t = tonnes(year[spec["other_key"]]), tonnes(year[spec["starlink_key"]])
+        base = y_px(0)
+
+        # "Other" sits on the baseline; Starlink stacks on top, 2px surface gap
+        # between the two fills so the boundary reads without a stroke.
+        other_h = max(0.0, base - y_px(other_t))
+        star_h = max(0.0, y_px(other_t) - y_px(other_t + star_t))
+        gap = 2 if (other_h > 3 and star_h > 3) else 0
+
+        # The current year is still filling up; show it, but visibly unfinished.
+        partial = year["year"] >= this_year
+        opacity = ' opacity="0.55"' if partial else ""
+        tag = " (year to date)" if partial else ""
+        unit = esc(spec["unit"])
+
+        if other_h > 0.5:
+            h = max(1.0, other_h - (gap if star_h > 3 else 0))
+            parts.append(
+                f'<rect class="cmp-bar" x="{x:.1f}" y="{base - h:.1f}" width="{bar_w:.1f}" '
+                f'height="{h:.1f}" fill="{CMP_OTHER}"{opacity}>'
+                f'<title>{year["year"]}{tag} · other catalogued objects: {other_t:,.1f} {unit}</title></rect>')
+        if star_h > 0.5:
+            y_top = y_px(other_t + star_t)
+            parts.append(
+                f'<rect class="cmp-bar" x="{x:.1f}" y="{y_top:.1f}" width="{bar_w:.1f}" '
+                f'height="{max(1.0, star_h):.1f}" rx="4" fill="{CMP_STARLINK}"{opacity}>'
+                f'<title>{year["year"]}{tag} · Starlink: {star_t:,.1f} {unit}</title></rect>')
+
+        if i % label_every == 0 or year is last_year:
+            parts.append(f'<text class="cmp-axis" x="{cx:.1f}" y="{H - 10}" text-anchor="middle">{year["year"]}</text>')
+
+    # One selective direct label: the most recent complete year's total.
+    complete = [i for i, y in enumerate(years) if y["year"] < this_year]
+    idx = complete[-1] if complete else len(years) - 1
+    labelled = years[idx]
+    total_t = tonnes(labelled[spec["starlink_key"]] + labelled[spec["other_key"]])
+    lx = M["l"] + slot * (idx + 0.5)
+    parts.append(
+        f'<text class="cmp-value" x="{min(lx, W - M["r"] - 4):.1f}" '
+        f'y="{max(M["t"] + 10, y_px(total_t) - 8):.1f}" text-anchor="middle">'
+        f'{labelled["year"]}: {total_t:,.0f} {esc(spec["unit"])}</text>')
+
+    return (f'<svg class="cmp-chart" viewBox="0 0 {W} {H}" role="img" '
+            f'aria-label="{esc(spec["title"])}, Starlink versus all other catalogued objects, '
+            f'stacked by year">{"".join(parts)}</svg>')
+
+
+def render_comparison_charts(years):
+    cards = []
+    for spec in COMPARISON_CHARTS:
+        rows = "".join(
+            f'<tr><td>{y["year"]}</td><td>{y[spec["starlink_key"]]:,.0f}</td>'
+            f'<td>{y[spec["other_key"]]:,.0f}</td>'
+            f'<td>{y[spec["starlink_key"]] + y[spec["other_key"]]:,.0f}</td></tr>'
+            for y in reversed(years)
+        )
+        cards.append(f"""
+      <div class="card chart-card">
+        <h3>{esc(spec["title"])}</h3>
+        <div class="chart-legend">
+          <span class="key"><span class="key-swatch" style="background:{CMP_STARLINK}"></span>Starlink</span>
+          <span class="key"><span class="key-swatch" style="background:{CMP_OTHER}"></span>All other catalogued objects</span>
+        </div>
+        {render_stacked_bars(years, spec)}
+        <p class="chart-caption">{esc(spec["caption"])} The faded bar is the current
+          year, still in progress.</p>
+        <details class="chart-table">
+          <summary>Data table (kg)</summary>
+          <table><thead><tr><th>Year</th><th>Starlink</th><th>Other</th><th>Total</th></tr></thead>
+          <tbody>{rows}</tbody></table>
+        </details>
+      </div>""")
+    return "\n".join(cards)
+
+
+def render_comparison(totals):
+    """The with/without-Starlink deltas, or nothing until the catalogue lands."""
+    if not totals or not totals.get("reentry_by_year"):
+        return ""
+
+    on_orbit = totals.get("on_orbit", {})
+    cum = totals.get("cumulative_alumina", {})
+    latest = totals.get("latest_year_delta")
+    latest_year = totals.get("latest_complete_year")
+    from_year = int(totals.get("chart_from_year") or 2000)
+    years = [y for y in totals["reentry_by_year"] if y["year"] >= from_year]
+
+    tiles = [
+        ("cmp-share", f'{on_orbit.get("starlink_share", 0) * 100:,.0f}%',
+         "Starlink share of on-orbit mass",
+         f'{fmt_t(on_orbit.get("starlink_kg"))} t of {fmt_t(on_orbit.get("total_kg"))} t '
+         f'across {on_orbit.get("starlink_objects", 0) + on_orbit.get("other_objects", 0):,} '
+         f'tracked objects'),
+        ("cmp-total", f'{fmt_t(on_orbit.get("total_kg"))} t', "All catalogued on-orbit mass",
+         "Every tracked object still in orbit — payloads, spent stages, debris"),
+        ("cmp-delta", f'{fmt_t(cum.get("delta_kg"), 1)} t', "Cumulative Al₂O₃ from Starlink",
+         f'Of {fmt_t(cum.get("with_starlink_kg"), 1)} t from all re-entries on record '
+         f'({cum.get("starlink_share", 0) * 100:,.0f}%)'),
+    ]
+    tile_html = '<div class="tiles">' + "".join(
+        f"""
+      <div class="tile tile-{slug}">
+        <div class="k">{value}</div>
+        <div class="t">{esc(label)}</div>
+        <div class="delta">{esc(note)}</div>
+      </div>""" for slug, value, label, note in tiles) + "</div>"
+
+    delta_html = ""
+    if latest:
+        with_kg = latest.get("alumina_kg_with_starlink", 0)
+        without_kg = latest.get("alumina_kg_without_starlink", 0)
+        pct = latest.get("starlink_share_of_alumina", 0) * 100
+        delta_html = f"""
+    <div class="cmp-delta-row">
+      <div><span class="cmp-lab">{latest_year} Al₂O₃, with Starlink</span>
+        <strong>{fmt_t(with_kg, 1)} t</strong></div>
+      <div><span class="cmp-lab">without Starlink</span><strong>{fmt_t(without_kg, 1)} t</strong></div>
+      <div><span class="cmp-lab">delta</span>
+        <strong style="color:{CMP_STARLINK}">+{fmt_t(latest.get("alumina_delta_kg"), 1)} t
+        ({pct:,.0f}%)</strong></div>
+    </div>"""
+
+    return f"""
+  <section class="card">
+    <h2>Starlink vs Everything Else in Orbit</h2>
+    <p>
+      Starlink&rsquo;s numbers only mean something next to the rest of the catalogue. These
+      panels take every object CelesTrak tracks — payloads, spent rocket stages and debris,
+      on orbit and already re-entered — and split the mass and the alumina it implies into
+      Starlink and everything else.
+    </p>
+    {tile_html}
+    {delta_html}
+    <div class="grid grid-charts" style="margin-top:16px">
+{render_comparison_charts(years)}
+    </div>
+    <p class="muted">
+      SATCAT publishes radar cross-section, not mass. Non-Starlink masses are estimated from
+      RCS with per-type bounds; Starlink objects use the same generation mass mix as the rest
+      of this page. Both are order-of-magnitude estimates, tunable under
+      <code>space_totals</code> in <code>data/starlink_config.yml</code>.
+    </p>
+  </section>"""
+
+
 def render_chart_cards(series_by_key, sources):
     cards = []
     for spec in CHART_SPECS:
@@ -429,6 +661,23 @@ CSS = """
   .key { display:inline-flex; align-items:center; gap:6px; }
   .key-line { display:inline-block; width:18px; height:2px; }
   .key-dash { height:0; border-top:2px dashed; background:none; }
+  .key-swatch { display:inline-block; width:12px; height:12px; border-radius:3px; }
+
+  /* Starlink vs catalogue comparison */
+  .cmp-chart { display:block; width:100%; height:auto; }
+  .cmp-grid { stroke:var(--ring); stroke-width:1; }
+  .cmp-axis { fill:var(--muted); font-size:11px; }
+  .cmp-value { fill:var(--fg); font-size:11px; font-weight:700; }
+  .cmp-bar:hover { filter:brightness(1.15); }
+  .cmp-delta-row {
+    display:flex; flex-wrap:wrap; gap:10px 28px; margin-top:14px; padding:12px 16px;
+    background:var(--card2); border:1px solid #1a2c47; border-radius:12px;
+  }
+  .cmp-delta-row strong { font-size:1.15rem; display:block; font-variant-numeric:tabular-nums; }
+  .cmp-lab { color:var(--muted); font-size:.78rem; display:block; }
+  .tile-cmp-share .k { color:#d95926; }
+  .tile-cmp-total .k { color:#3987e5; }
+  .tile-cmp-delta .k { color:#d95926; }
   .chart { margin:0; }
   .chart-plot { position:relative; }
   .chart-plot svg { display:block; width:100%; }
@@ -767,6 +1016,7 @@ def build():
         "decayed": src.get("celestrak_decayed", "https://celestrak.org/satcat/decayed-with-last.php"),
     }
 
+    space_totals = load_json(DATA / "space_totals.json", {})
     incidents = load_json(DATA / "incidents.json", [])
     sources = load_json(DATA / "sources.json", [])
     archives = load_archives()
@@ -877,6 +1127,8 @@ def build():
       assumptions are tunable in <code>data/starlink_config.yml</code>.
     </p>
   </section>
+
+  {render_comparison(space_totals)}
 
   {render_digest_section(digest)}
 

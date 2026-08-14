@@ -66,6 +66,23 @@
   .key { display:inline-flex; align-items:center; gap:6px; }
   .key-line { display:inline-block; width:18px; height:2px; }
   .key-dash { height:0; border-top:2px dashed; background:none; }
+  .key-swatch { display:inline-block; width:12px; height:12px; border-radius:3px; }
+
+  /* Starlink vs catalogue comparison */
+  .cmp-chart { display:block; width:100%; height:auto; }
+  .cmp-grid { stroke:var(--ring); stroke-width:1; }
+  .cmp-axis { fill:var(--muted); font-size:11px; }
+  .cmp-value { fill:var(--fg); font-size:11px; font-weight:700; }
+  .cmp-bar:hover { filter:brightness(1.15); }
+  .cmp-delta-row {
+    display:flex; flex-wrap:wrap; gap:10px 28px; margin-top:14px; padding:12px 16px;
+    background:var(--card2); border:1px solid #1a2c47; border-radius:12px;
+  }
+  .cmp-delta-row strong { font-size:1.15rem; display:block; font-variant-numeric:tabular-nums; }
+  .cmp-lab { color:var(--muted); font-size:.78rem; display:block; }
+  .tile-cmp-share .k { color:#d95926; }
+  .tile-cmp-total .k { color:#3987e5; }
+  .tile-cmp-delta .k { color:#d95926; }
   .chart { margin:0; }
   .chart-plot { position:relative; }
   .chart-plot svg { display:block; width:100%; }
@@ -126,7 +143,7 @@
       <h1 style="font-size:1.4rem">Starlink Watch</h1>
       <div class="muted">Environmental · Cybersecurity · Astronomical</div>
     </div>
-    <div class="muted" style="margin-left:auto;font-size:.82rem">Built 2026-08-14 06:00 UTC</div>
+    <div class="muted" style="margin-left:auto;font-size:.82rem">Built 2026-08-14 06:07 UTC</div>
   </div>
 </header>
 
@@ -308,6 +325,8 @@
   </section>
 
   
+
+  
   <section class="starlink-digest card">
     <div class="digest-header">
       <h2>Latest Digest</h2>
@@ -360,6 +379,7 @@
     <ul>
       <li><strong>CelesTrak Starlink GP/CSV</strong> — Active Starlink elements, orbital parameters, and counts used to understand constellation scale and decay eligibility.</li>
       <li><strong>CelesTrak SATCAT – Recently Decayed</strong> — Confirmed decay events, including Starlink entries, used to timestamp and tally re-entries.</li>
+      <li><strong><a href="https://celestrak.org/pub/satcat.csv" target="_blank" rel="noopener noreferrer">CelesTrak SATCAT (full catalogue)</a></strong> — Every tracked object ever launched, with decay dates and radar cross-section — the basis for the Starlink vs all-other-objects mass and alumina comparison.</li>
       <li><strong>Vulnerability and advisory feeds (CERT/CC, national CERTs, vendor bulletins)</strong> — Publicly disclosed vulnerabilities or incidents referencing Starlink user terminals or supporting infrastructure.</li>
       <li><strong>Astronomical reports and RFI notes</strong> — Observatory mitigation reports, optical streak surveys, and radio-interference summaries that mention Starlink or similar constellations.</li>
       <li><strong>Generation mass mix and alumina assumptions</strong> — Parameters defined in data/starlink_config.yml for satellite mass, aluminum fraction, and alumina conversion used in environmental calculations.</li>
