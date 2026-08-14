@@ -34,6 +34,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run tests
+        run: |
+          python -m unittest discover -s tests
+
       - name: Compute Starlink metrics
         run: |
           python scripts/compute_starlink_metrics.py
