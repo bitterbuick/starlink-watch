@@ -22,10 +22,41 @@ mix_decayed:
 alumina_kg_per_kg_aluminum: 1.89   # stoichiometric max ~1.89 (Al->Al2O3). Tune down if you want a lower bound.
 aluminum_fraction_of_satellite: 0.70  # fraction of satellite dry mass that's aluminum (tunable)
 
-# Data sources (CelesTrak GP JSON/CSV + “recently decayed”)
+# Data sources (CelesTrak GP JSON/CSV + “recently decayed” + full SATCAT)
 endpoints:
   starlink_gp_csv: "https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=csv"
   decayed_recent_html: "https://celestrak.org/satcat/decayed-with-last.php"
+  # Full satellite catalogue: every tracked object ever launched, with decay dates.
+  # This is what lets us compare Starlink against all other catalogued objects.
+  satcat_csv: "https://celestrak.org/pub/satcat.csv"
+
+# ---- Mass model for NON-Starlink catalogued objects ----
+# SATCAT publishes radar cross-section (RCS, m²) but not mass, so mass is
+# estimated. Treat RCS as a projected area, take L = sqrt(RCS) as a
+# characteristic length, and apply an effective bulk density:
+#     mass ≈ effective_density_kg_m3 × L³
+# clamped to per-type bounds, with a per-type default when RCS is missing.
+# Every number here is an order-of-magnitude assumption — tune freely.
+# SATCAT OBJECT_TYPE codes: PAY = payload, R/B = rocket body, DEB = debris,
+# UNK = unknown.
+space_totals:
+  effective_density_kg_m3: 92.0
+  default_mass_kg:
+    PAY: 500
+    R/B: 1400
+    DEB: 5
+    UNK: 5
+  mass_bounds_kg:          # [min, max] clamp on the RCS-derived estimate
+    PAY: [10, 20000]
+    R/B: [100, 20000]
+    DEB: [0.1, 1000]
+    UNK: [0.1, 1000]
+  aluminum_fraction:       # Starlink uses aluminum_fraction_of_satellite above
+    PAY: 0.40
+    R/B: 0.60
+    DEB: 0.50
+    UNK: 0.50
+  chart_from_year: 2000    # earliest year shown in the comparison charts
 
 # Keep charts for last N days (for small repo footprint)
 retention_days: 120

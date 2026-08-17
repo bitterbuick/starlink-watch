@@ -10,6 +10,11 @@
     "url": ""
   },
   {
+    "label": "CelesTrak SATCAT (full catalogue)",
+    "description": "Every tracked object ever launched, with decay dates and radar cross-section \u2014 the basis for the Starlink vs all-other-objects mass and alumina comparison.",
+    "url": "https://celestrak.org/pub/satcat.csv"
+  },
+  {
     "label": "Vulnerability and advisory feeds (CERT/CC, national CERTs, vendor bulletins)",
     "description": "Publicly disclosed vulnerabilities or incidents referencing Starlink user terminals or supporting infrastructure.",
     "url": ""

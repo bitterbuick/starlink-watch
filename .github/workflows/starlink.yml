@@ -18,6 +18,7 @@ concurrency:
 jobs:
   digest-and-metrics:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
       FORCE_EMIT: ${{ vars.FORCE_EMIT }}
     steps:
@@ -33,9 +34,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run tests
+        run: |
+          python -m unittest discover -s tests
+
       - name: Compute Starlink metrics
         run: |
           python scripts/compute_starlink_metrics.py
+
+      - name: Compare Starlink against the full catalogue
+        run: |
+          python scripts/compute_space_totals.py
 
       - name: Generate digest (PT-aware)
         run: |
@@ -46,11 +55,26 @@ jobs:
           git config user.name  "starlink-bot"
           git config user.email "starlink-bot@users.noreply.github.com"
           git add -A
-          git diff --cached --quiet || (git commit -m "Update metrics and digest" && git push)
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Update metrics and digest"
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "Push attempt $attempt failed; rebasing on origin/${GITHUB_REF_NAME} and retrying."
+            git pull --rebase origin "${GITHUB_REF_NAME}" || exit 1
+            sleep $((attempt * 5))
+          done
+          echo "Push failed after 3 attempts." >&2
+          exit 1
 
   build-pages:
     needs: digest-and-metrics
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
         with:
@@ -95,6 +119,7 @@ jobs:
   deploy-pages:
     needs: build-pages
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

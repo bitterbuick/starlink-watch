@@ -1,16 +1,63 @@
+# Feeds are fetched with a timeout and retries; a feed that fails or returns
+# nothing is reported in data/feed_health.json rather than failing the run.
+# The keyword filter in starlink_utils.py is what narrows these to
+# Starlink-specific criticism, so broad general-interest feeds are fine here.
 feeds:
-  # General, but our script filters to Starlink-only
+  # ---- Space trade press (broad; filtered down) ----
   - name: SpaceNews (All)
     url: https://spacenews.com/feed/
   - name: Space.com (All)
     url: https://www.space.com/feeds/all
+  - name: NASASpaceflight
+    url: https://www.nasaspaceflight.com/feed/
+  - name: Ars Technica – Space
+    url: https://feeds.arstechnica.com/arstechnica/space
+  - name: Phys.org – Space News
+    url: https://phys.org/rss-feed/space-news/
   - name: Scientific American – Space
     url: https://www.scientificamerican.com/feed/space/
+
+  # ---- Environment / atmosphere ----
   - name: Guardian – Environment
     url: https://www.theguardian.com/environment/rss
-  - name: SecurityWeek
-    url: https://www.securityweek.com/feed/
-  - name: CISA Current Activity
-    url: https://www.cisa.gov/news-events/cisa-updates.xml
   - name: ESA – Space Safety
     url: https://www.esa.int/rssfeed/Our_Activities/Space_Safety
+
+  # ---- Security ----
+  - name: SecurityWeek
+    url: https://www.securityweek.com/feed/
+  - name: BleepingComputer
+    url: https://www.bleepingcomputer.com/feed/
+  - name: The Register – Security
+    url: https://www.theregister.com/security/headlines.atom
+  - name: CISA Current Activity
+    url: https://www.cisa.gov/news-events/cisa-updates.xml
+
+  # ---- Astronomy ----
+  - name: Sky & Telescope
+    url: https://skyandtelescope.org/feed/
+  - name: IAU CPS (Dark & Quiet Sky)
+    url: https://cps.iau.org/news/feed/
+
+  # ---- Peer-reviewed / preprint ----
+  # arXiv full-text search; the API speaks Atom, so feedparser reads it directly.
+  - name: arXiv – Starlink
+    url: "http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40"
+  - name: arXiv – satellite constellations
+    url: "http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40"
+
+  # ---- Targeted news queries ----
+  # Aggregators reach outlets we don't subscribe to individually. These are the
+  # highest-recall part of the list: topic-scoped so they stay on-subject.
+  - name: News – Starlink (all)
+    url: "https://news.google.com/rss/search?q=Starlink+when:14d&hl=en-US&gl=US&ceid=US:en"
+  - name: News – Starlink re-entry & atmosphere
+    url: "https://news.google.com/rss/search?q=Starlink+(reentry+OR+deorbit+OR+atmosphere+OR+ozone+OR+alumina+OR+debris)+when:30d&hl=en-US&gl=US&ceid=US:en"
+  - name: News – Starlink astronomy impact
+    url: "https://news.google.com/rss/search?q=Starlink+(astronomers+OR+telescope+OR+observatory+OR+%22radio+interference%22+OR+%22dark+sky%22)+when:30d&hl=en-US&gl=US&ceid=US:en"
+  - name: News – Starlink security & outages
+    url: "https://news.google.com/rss/search?q=Starlink+(vulnerability+OR+hacked+OR+jamming+OR+spoofing+OR+outage+OR+breach)+when:30d&hl=en-US&gl=US&ceid=US:en"
+  - name: News – Starlink regulation & litigation
+    url: "https://news.google.com/rss/search?q=Starlink+(FCC+OR+regulator+OR+lawsuit+OR+filing+OR+licence+OR+license)+when:30d&hl=en-US&gl=US&ceid=US:en"
+  - name: News – Starshield
+    url: "https://news.google.com/rss/search?q=Starshield+when:30d&hl=en-US&gl=US&ceid=US:en"
