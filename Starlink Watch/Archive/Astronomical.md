@@ -17,3 +17,5 @@
 - No new items.
 - No new items reported.
 - 2026-06-24 | **NGSO trade association launches without industry giant SpaceX** — SpaceNews (All) https://spacenews.com/ngso-trade-association-launches-without-industry-giant-spacex/
+- 2026-08-10 | **Iberia Transforms Airbus A321XLR into Observatory at 33,000 Feet to "Chase" Total Eclipse Over Spain with Live Streaming via Starlink - CPG Click Oil and Gas** — News – Starlink astronomy impact https://news.google.com/rss/articles/CBMigwJBVV95cUxPVzg1RTl0ak1LX2pFYXdhZUVuQ0FhZkNjWWRjaUlLZjBocENpV1d4MGlpRUpJQXYzT0lYREF2N0x5SDZjZ0FqU0d4OHRPTkcxNGhZNlJsbjZ0UkpaOTItaHp3b041ZEtVeVo0TzhPbmtRTHJZdlM4QVE0Z0NwQnhwWFgzdnNwWGtzXzJLNWRKWU1DMzNmb1NtalJEYU12dXhUX000Mlp4MzV3REhpbDZmLUxteGFWOGFfVmsxUmFsRXVicWUzem1mZ0gzV3BUU0ZkM1RVMEc1VFNDU0pKQ0hzdGlONzIyMmwydUgxTkx5ODNLZHJyY0taUmV2NTRHa2F3QjJN?oc=5
+- 2026-07-30 | **Starlink satellites: Facts, tracking and impact on astronomy - Space** — News – Starlink re-entry & atmosphere https://news.google.com/rss/articles/CBMiY0FVX3lxTE5WRVBBcHJoM1U2M1ZqXzlmMVJuY3dHXy1wdVE2ZW1rbE80ZEI5NE11M3gwTnVDeGdPWm01WENZa1pvWDUyRXJJWGRtSm13MkhJNGlfb2hDQ2x2aFRGRDZDT1l1UQ?oc=5

@@ -1,0 +1,190 @@
+{
+  "generated_at": "2026-08-18T01:17:14Z",
+  "feeds_configured": 22,
+  "feeds_ok": 16,
+  "feeds_failed": 5,
+  "feeds_empty": 1,
+  "feeds_skipped": 0,
+  "entries_seen": 584,
+  "entries_recent": 561,
+  "items_matched": 74,
+  "items_kept": 59,
+  "feeds": [
+    {
+      "name": "News \u2013 Starlink regulation & litigation",
+      "status": "ok",
+      "entries": 60,
+      "recent": 60,
+      "matched": 23,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink (all)",
+      "status": "ok",
+      "entries": 100,
+      "recent": 100,
+      "matched": 16,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink re-entry & atmosphere",
+      "status": "ok",
+      "entries": 55,
+      "recent": 55,
+      "matched": 15,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink security & outages",
+      "status": "ok",
+      "entries": 56,
+      "recent": 56,
+      "matched": 12,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink astronomy impact",
+      "status": "ok",
+      "entries": 41,
+      "recent": 41,
+      "matched": 6,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starshield",
+      "status": "ok",
+      "entries": 24,
+      "recent": 24,
+      "matched": 2,
+      "detail": ""
+    },
+    {
+      "name": "Ars Technica \u2013 Space",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET https://feeds.arstechnica.com/arstechnica/space failed after 2 attempt(s): 404 Client Error: Not Found for url: https://feeds.arstechnica.com/arstechnica/space"
+    },
+    {
+      "name": "BleepingComputer",
+      "status": "ok",
+      "entries": 15,
+      "recent": 15,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "CISA Current Activity",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET https://www.cisa.gov/news-events/cisa-updates.xml failed after 2 attempt(s): 404 Client Error: Not Found for url: https://www.cisa.gov/news-events/cisa-updates.xml"
+    },
+    {
+      "name": "ESA \u2013 Space Safety",
+      "status": "ok",
+      "entries": 15,
+      "recent": 0,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "Guardian \u2013 Environment",
+      "status": "ok",
+      "entries": 34,
+      "recent": 26,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "IAU CPS (Dark & Quiet Sky)",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET https://cps.iau.org/news/feed/ failed after 2 attempt(s): 404 Client Error: Not Found for url: https://cps.iau.org/news/feed/"
+    },
+    {
+      "name": "NASASpaceflight",
+      "status": "ok",
+      "entries": 10,
+      "recent": 10,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "Phys.org \u2013 Space News",
+      "status": "ok",
+      "entries": 30,
+      "recent": 30,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "Scientific American \u2013 Space",
+      "status": "empty",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "SecurityWeek",
+      "status": "ok",
+      "entries": 10,
+      "recent": 10,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "Sky & Telescope",
+      "status": "ok",
+      "entries": 10,
+      "recent": 10,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "Space.com (All)",
+      "status": "ok",
+      "entries": 50,
+      "recent": 50,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "SpaceNews (All)",
+      "status": "ok",
+      "entries": 24,
+      "recent": 24,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "The Register \u2013 Security",
+      "status": "ok",
+      "entries": 50,
+      "recent": 50,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Unknown Error for url: https://exp"
+    },
+    {
+      "name": "arXiv \u2013 satellite constellations",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Unknown Err"
+    }
+  ]
+}

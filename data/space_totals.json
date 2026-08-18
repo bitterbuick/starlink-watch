@@ -1,0 +1,700 @@
+{
+  "generated_at": "2026-08-18T01:16:30Z",
+  "catalog_objects": 70292,
+  "on_orbit": {
+    "total_kg": 19634010.8,
+    "starlink_kg": 4041737.2,
+    "other_kg": 15592273.5,
+    "starlink_share": 0.2059,
+    "starlink_objects": 10931,
+    "other_objects": 23888
+  },
+  "reentry_by_year": [
+    {
+      "year": 1957,
+      "starlink_kg": 0.0,
+      "other_kg": 8489.3,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 9626.9,
+      "starlink_n": 0,
+      "other_n": 1
+    },
+    {
+      "year": 1958,
+      "starlink_kg": 0.0,
+      "other_kg": 3410.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 3107.2,
+      "starlink_n": 0,
+      "other_n": 6
+    },
+    {
+      "year": 1959,
+      "starlink_kg": 0.0,
+      "other_kg": 4000.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 3024.0,
+      "starlink_n": 0,
+      "other_n": 8
+    },
+    {
+      "year": 1960,
+      "starlink_kg": 0.0,
+      "other_kg": 12483.1,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 11031.5,
+      "starlink_n": 0,
+      "other_n": 20
+    },
+    {
+      "year": 1961,
+      "starlink_kg": 0.0,
+      "other_kg": 26720.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 25552.8,
+      "starlink_n": 0,
+      "other_n": 60
+    },
+    {
+      "year": 1962,
+      "starlink_kg": 0.0,
+      "other_kg": 53979.6,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 51492.8,
+      "starlink_n": 0,
+      "other_n": 140
+    },
+    {
+      "year": 1963,
+      "starlink_kg": 0.0,
+      "other_kg": 49646.7,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 48144.6,
+      "starlink_n": 0,
+      "other_n": 90
+    },
+    {
+      "year": 1964,
+      "starlink_kg": 0.0,
+      "other_kg": 90600.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 85031.1,
+      "starlink_n": 0,
+      "other_n": 225
+    },
+    {
+      "year": 1965,
+      "starlink_kg": 0.0,
+      "other_kg": 106122.2,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 106279.0,
+      "starlink_n": 0,
+      "other_n": 404
+    },
+    {
+      "year": 1966,
+      "starlink_kg": 0.0,
+      "other_kg": 130852.5,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 129474.9,
+      "starlink_n": 0,
+      "other_n": 513
+    },
+    {
+      "year": 1967,
+      "starlink_kg": 0.0,
+      "other_kg": 150088.5,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 152808.1,
+      "starlink_n": 0,
+      "other_n": 336
+    },
+    {
+      "year": 1968,
+      "starlink_kg": 0.0,
+      "other_kg": 147236.5,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 148483.3,
+      "starlink_n": 0,
+      "other_n": 305
+    },
+    {
+      "year": 1969,
+      "starlink_kg": 0.0,
+      "other_kg": 149156.8,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 151020.8,
+      "starlink_n": 0,
+      "other_n": 334
+    },
+    {
+      "year": 1970,
+      "starlink_kg": 0.0,
+      "other_kg": 144375.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 147904.8,
+      "starlink_n": 0,
+      "other_n": 290
+    },
+    {
+      "year": 1971,
+      "starlink_kg": 0.0,
+      "other_kg": 126665.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 129280.7,
+      "starlink_n": 0,
+      "other_n": 331
+    },
+    {
+      "year": 1972,
+      "starlink_kg": 0.0,
+      "other_kg": 127460.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 132035.4,
+      "starlink_n": 0,
+      "other_n": 364
+    },
+    {
+      "year": 1973,
+      "starlink_kg": 0.0,
+      "other_kg": 147040.8,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 154068.5,
+      "starlink_n": 0,
+      "other_n": 545
+    },
+    {
+      "year": 1974,
+      "starlink_kg": 0.0,
+      "other_kg": 143775.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 150174.7,
+      "starlink_n": 0,
+      "other_n": 360
+    },
+    {
+      "year": 1975,
+      "starlink_kg": 0.0,
+      "other_kg": 146295.3,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 152724.5,
+      "starlink_n": 0,
+      "other_n": 486
+    },
+    {
+      "year": 1976,
+      "starlink_kg": 0.0,
+      "other_kg": 163663.1,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 172067.6,
+      "starlink_n": 0,
+      "other_n": 669
+    },
+    {
+      "year": 1977,
+      "starlink_kg": 0.0,
+      "other_kg": 338542.9,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 340765.2,
+      "starlink_n": 0,
+      "other_n": 531
+    },
+    {
+      "year": 1978,
+      "starlink_kg": 0.0,
+      "other_kg": 374051.5,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 366333.6,
+      "starlink_n": 0,
+      "other_n": 538
+    },
+    {
+      "year": 1979,
+      "starlink_kg": 0.0,
+      "other_kg": 331276.9,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 324380.8,
+      "starlink_n": 0,
+      "other_n": 635
+    },
+    {
+      "year": 1980,
+      "starlink_kg": 0.0,
+      "other_kg": 451663.2,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 454993.4,
+      "starlink_n": 0,
+      "other_n": 573
+    },
+    {
+      "year": 1981,
+      "starlink_kg": 0.0,
+      "other_kg": 628872.5,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 585958.5,
+      "starlink_n": 0,
+      "other_n": 643
+    },
+    {
+      "year": 1982,
+      "starlink_kg": 0.0,
+      "other_kg": 927165.2,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 850246.3,
+      "starlink_n": 0,
+      "other_n": 569
+    },
+    {
+      "year": 1983,
+      "starlink_kg": 0.0,
+      "other_kg": 1024023.2,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 956371.9,
+      "starlink_n": 0,
+      "other_n": 507
+    },
+    {
+      "year": 1984,
+      "starlink_kg": 0.0,
+      "other_kg": 1199736.6,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 1127858.0,
+      "starlink_n": 0,
+      "other_n": 578
+    },
+    {
+      "year": 1985,
+      "starlink_kg": 0.0,
+      "other_kg": 1185068.3,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 1168632.5,
+      "starlink_n": 0,
+      "other_n": 458
+    },
+    {
+      "year": 1986,
+      "starlink_kg": 0.0,
+      "other_kg": 1117871.2,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 1085249.6,
+      "starlink_n": 0,
+      "other_n": 546
+    },
+    {
+      "year": 1987,
+      "starlink_kg": 0.0,
+      "other_kg": 1426848.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 1371926.5,
+      "starlink_n": 0,
+      "other_n": 630
+    },
+    {
+      "year": 1988,
+      "starlink_kg": 0.0,
+      "other_kg": 1766600.8,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 1709705.4,
+      "starlink_n": 0,
+      "other_n": 955
+    },
+    {
+      "year": 1989,
+      "starlink_kg": 0.0,
+      "other_kg": 1323630.6,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 1289184.3,
+      "starlink_n": 0,
+      "other_n": 1065
+    },
+    {
+      "year": 1990,
+      "starlink_kg": 0.0,
+      "other_kg": 869680.7,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 854189.5,
+      "starlink_n": 0,
+      "other_n": 560
+    },
+    {
+      "year": 1991,
+      "starlink_kg": 0.0,
+      "other_kg": 675181.6,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 627077.4,
+      "starlink_n": 0,
+      "other_n": 558
+    },
+    {
+      "year": 1992,
+      "starlink_kg": 0.0,
+      "other_kg": 673923.9,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 627401.0,
+      "starlink_n": 0,
+      "other_n": 360
+    },
+    {
+      "year": 1993,
+      "starlink_kg": 0.0,
+      "other_kg": 456813.5,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 407724.2,
+      "starlink_n": 0,
+      "other_n": 233
+    },
+    {
+      "year": 1994,
+      "starlink_kg": 0.0,
+      "other_kg": 325367.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 321649.0,
+      "starlink_n": 0,
+      "other_n": 190
+    },
+    {
+      "year": 1995,
+      "starlink_kg": 0.0,
+      "other_kg": 496654.2,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 473023.0,
+      "starlink_n": 0,
+      "other_n": 172
+    },
+    {
+      "year": 1996,
+      "starlink_kg": 0.0,
+      "other_kg": 405266.8,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 403727.8,
+      "starlink_n": 0,
+      "other_n": 241
+    },
+    {
+      "year": 1997,
+      "starlink_kg": 0.0,
+      "other_kg": 415107.7,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 409351.5,
+      "starlink_n": 0,
+      "other_n": 415
+    },
+    {
+      "year": 1998,
+      "starlink_kg": 0.0,
+      "other_kg": 414368.2,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 425859.3,
+      "starlink_n": 0,
+      "other_n": 397
+    },
+    {
+      "year": 1999,
+      "starlink_kg": 0.0,
+      "other_kg": 500196.5,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 509781.6,
+      "starlink_n": 0,
+      "other_n": 437
+    },
+    {
+      "year": 2000,
+      "starlink_kg": 0.0,
+      "other_kg": 584524.6,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 595547.6,
+      "starlink_n": 0,
+      "other_n": 403
+    },
+    {
+      "year": 2001,
+      "starlink_kg": 0.0,
+      "other_kg": 561030.7,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 526676.0,
+      "starlink_n": 0,
+      "other_n": 412
+    },
+    {
+      "year": 2002,
+      "starlink_kg": 0.0,
+      "other_kg": 471122.5,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 476167.9,
+      "starlink_n": 0,
+      "other_n": 509
+    },
+    {
+      "year": 2003,
+      "starlink_kg": 0.0,
+      "other_kg": 214639.9,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 220964.9,
+      "starlink_n": 0,
+      "other_n": 304
+    },
+    {
+      "year": 2004,
+      "starlink_kg": 0.0,
+      "other_kg": 343496.3,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 353026.5,
+      "starlink_n": 0,
+      "other_n": 200
+    },
+    {
+      "year": 2005,
+      "starlink_kg": 0.0,
+      "other_kg": 205121.1,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 201344.7,
+      "starlink_n": 0,
+      "other_n": 214
+    },
+    {
+      "year": 2006,
+      "starlink_kg": 0.0,
+      "other_kg": 206098.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 201339.9,
+      "starlink_n": 0,
+      "other_n": 279
+    },
+    {
+      "year": 2007,
+      "starlink_kg": 0.0,
+      "other_kg": 198754.2,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 182884.3,
+      "starlink_n": 0,
+      "other_n": 199
+    },
+    {
+      "year": 2008,
+      "starlink_kg": 0.0,
+      "other_kg": 213647.3,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 203914.7,
+      "starlink_n": 0,
+      "other_n": 749
+    },
+    {
+      "year": 2009,
+      "starlink_kg": 0.0,
+      "other_kg": 189520.4,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 175996.5,
+      "starlink_n": 0,
+      "other_n": 307
+    },
+    {
+      "year": 2010,
+      "starlink_kg": 0.0,
+      "other_kg": 125499.6,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 113558.4,
+      "starlink_n": 0,
+      "other_n": 384
+    },
+    {
+      "year": 2011,
+      "starlink_kg": 0.0,
+      "other_kg": 212995.6,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 195499.2,
+      "starlink_n": 0,
+      "other_n": 504
+    },
+    {
+      "year": 2012,
+      "starlink_kg": 0.0,
+      "other_kg": 209256.7,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 209265.6,
+      "starlink_n": 0,
+      "other_n": 476
+    },
+    {
+      "year": 2013,
+      "starlink_kg": 0.0,
+      "other_kg": 211702.7,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 204618.0,
+      "starlink_n": 0,
+      "other_n": 456
+    },
+    {
+      "year": 2014,
+      "starlink_kg": 0.0,
+      "other_kg": 198758.4,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 197799.4,
+      "starlink_n": 0,
+      "other_n": 686
+    },
+    {
+      "year": 2015,
+      "starlink_kg": 0.0,
+      "other_kg": 203041.3,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 193942.7,
+      "starlink_n": 0,
+      "other_n": 483
+    },
+    {
+      "year": 2016,
+      "starlink_kg": 0.0,
+      "other_kg": 193025.0,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 197283.9,
+      "starlink_n": 0,
+      "other_n": 269
+    },
+    {
+      "year": 2017,
+      "starlink_kg": 0.0,
+      "other_kg": 121933.2,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 122426.2,
+      "starlink_n": 0,
+      "other_n": 205
+    },
+    {
+      "year": 2018,
+      "starlink_kg": 0.0,
+      "other_kg": 104613.3,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 96893.0,
+      "starlink_n": 0,
+      "other_n": 252
+    },
+    {
+      "year": 2019,
+      "starlink_kg": 0.0,
+      "other_kg": 153230.9,
+      "starlink_alumina_kg": 0.0,
+      "other_alumina_kg": 153036.8,
+      "starlink_n": 0,
+      "other_n": 332
+    },
+    {
+      "year": 2020,
+      "starlink_kg": 17934.0,
+      "other_kg": 120394.5,
+      "starlink_alumina_kg": 23726.7,
+      "other_alumina_kg": 123943.5,
+      "starlink_n": 61,
+      "other_n": 370
+    },
+    {
+      "year": 2021,
+      "starlink_kg": 26460.0,
+      "other_kg": 164906.3,
+      "starlink_alumina_kg": 35006.6,
+      "other_alumina_kg": 164972.0,
+      "starlink_n": 90,
+      "other_n": 456
+    },
+    {
+      "year": 2022,
+      "starlink_kg": 31458.0,
+      "other_kg": 251533.9,
+      "starlink_alumina_kg": 41618.9,
+      "other_alumina_kg": 236174.9,
+      "starlink_n": 107,
+      "other_n": 2395
+    },
+    {
+      "year": 2023,
+      "starlink_kg": 26460.0,
+      "other_kg": 402537.6,
+      "starlink_alumina_kg": 35006.6,
+      "other_alumina_kg": 362159.2,
+      "starlink_n": 90,
+      "other_n": 2000
+    },
+    {
+      "year": 2024,
+      "starlink_kg": 98196.0,
+      "other_kg": 572186.1,
+      "starlink_alumina_kg": 129913.3,
+      "other_alumina_kg": 504167.7,
+      "starlink_n": 334,
+      "other_n": 1895
+    },
+    {
+      "year": 2025,
+      "starlink_kg": 197274.0,
+      "other_kg": 403407.7,
+      "starlink_alumina_kg": 260993.5,
+      "other_alumina_kg": 368744.1,
+      "starlink_n": 671,
+      "other_n": 1233
+    },
+    {
+      "year": 2026,
+      "starlink_kg": 99372.0,
+      "other_kg": 239470.3,
+      "starlink_alumina_kg": 131469.2,
+      "other_alumina_kg": 219544.4,
+      "starlink_n": 338,
+      "other_n": 532
+    }
+  ],
+  "chart_from_year": 2000,
+  "latest_complete_year": 2025,
+  "latest_year_delta": {
+    "reentered_kg_with_starlink": 600681.7,
+    "reentered_kg_without_starlink": 403407.7,
+    "alumina_kg_with_starlink": 629737.6,
+    "alumina_kg_without_starlink": 368744.1,
+    "alumina_delta_kg": 260993.5,
+    "starlink_share_of_alumina": 0.4144
+  },
+  "cumulative_alumina": {
+    "with_starlink_kg": 26114350.3,
+    "without_starlink_kg": 25456615.5,
+    "delta_kg": 657734.8,
+    "starlink_share": 0.0252
+  },
+  "assumptions": {
+    "note": "SATCAT publishes radar cross-section, not mass. Non-Starlink masses are RCS-derived estimates; Starlink objects use the generation mass mix in starlink_config.yml.",
+    "effective_density_kg_m3": 92.0,
+    "default_mass_kg": {
+      "PAY": 500,
+      "R/B": 1400,
+      "DEB": 5,
+      "UNK": 5
+    },
+    "mass_bounds_kg": {
+      "PAY": [
+        10,
+        20000
+      ],
+      "R/B": [
+        100,
+        20000
+      ],
+      "DEB": [
+        0.1,
+        1000
+      ],
+      "UNK": [
+        0.1,
+        1000
+      ]
+    },
+    "aluminum_fraction": {
+      "PAY": 0.4,
+      "R/B": 0.6,
+      "DEB": 0.5,
+      "UNK": 0.5
+    },
+    "starlink_aluminum_fraction": 0.7,
+    "alumina_yield": 1.89,
+    "starlink_attribution": "Objects whose SATCAT name contains STARLINK. Launch vehicle stages count as other objects."
+  },
+  "sources": {
+    "celestrak_satcat_csv": "https://celestrak.org/pub/satcat.csv"
+  }
+}
