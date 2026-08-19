@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-08-18T16:33:08Z",
+  "generated_at": "2026-08-19T01:19:04Z",
   "feeds_configured": 22,
   "feeds_ok": 17,
-  "feeds_failed": 3,
-  "feeds_empty": 2,
+  "feeds_failed": 4,
+  "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 615,
-  "entries_recent": 530,
-  "items_matched": 75,
+  "entries_seen": 627,
+  "entries_recent": 570,
+  "items_matched": 76,
   "items_kept": 62,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 61,
-      "recent": 61,
-      "matched": 23,
+      "entries": 59,
+      "recent": 59,
+      "matched": 24,
       "detail": ""
     },
     {
@@ -23,7 +23,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 17,
+      "matched": 18,
       "detail": ""
     },
     {
@@ -37,8 +37,8 @@
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 58,
-      "recent": 58,
+      "entries": 60,
+      "recent": 60,
       "matched": 10,
       "detail": ""
     },
@@ -47,7 +47,7 @@
       "status": "ok",
       "entries": 38,
       "recent": 38,
-      "matched": 6,
+      "matched": 5,
       "detail": ""
     },
     {
@@ -61,8 +61,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 25,
-      "recent": 25,
+      "entries": 27,
+      "recent": 27,
       "matched": 1,
       "detail": ""
     },
@@ -172,19 +172,19 @@
     },
     {
       "name": "The Register \u2013 Security",
-      "status": "empty",
-      "entries": 0,
-      "recent": 0,
+      "status": "ok",
+      "entries": 50,
+      "recent": 50,
       "matched": 0,
       "detail": ""
     },
     {
       "name": "arXiv \u2013 satellite constellations",
-      "status": "ok",
-      "entries": 40,
-      "recent": 12,
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
       "matched": 0,
-      "detail": ""
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
     }
   ]
 }
