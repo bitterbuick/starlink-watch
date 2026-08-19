@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-08-19T01:19:04Z",
+  "generated_at": "2026-08-19T16:32:39Z",
   "feeds_configured": 22,
-  "feeds_ok": 17,
-  "feeds_failed": 4,
+  "feeds_ok": 18,
+  "feeds_failed": 3,
   "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 627,
-  "entries_recent": 570,
-  "items_matched": 76,
-  "items_kept": 62,
+  "entries_seen": 673,
+  "entries_recent": 588,
+  "items_matched": 72,
+  "items_kept": 60,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 59,
-      "recent": 59,
+      "entries": 54,
+      "recent": 54,
       "matched": 24,
       "detail": ""
     },
@@ -23,30 +23,30 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 18,
+      "matched": 16,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 55,
-      "recent": 55,
-      "matched": 14,
+      "entries": 56,
+      "recent": 56,
+      "matched": 13,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 60,
-      "recent": 60,
-      "matched": 10,
+      "entries": 64,
+      "recent": 64,
+      "matched": 9,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 38,
-      "recent": 38,
+      "entries": 44,
+      "recent": 44,
       "matched": 5,
       "detail": ""
     },
@@ -180,11 +180,11 @@
     },
     {
       "name": "arXiv \u2013 satellite constellations",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
+      "status": "ok",
+      "entries": 40,
+      "recent": 12,
       "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
+      "detail": ""
     }
   ]
 }
