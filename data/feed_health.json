@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-08-20T01:18:33Z",
+  "generated_at": "2026-08-20T16:37:49Z",
   "feeds_configured": 22,
-  "feeds_ok": 16,
-  "feeds_failed": 5,
+  "feeds_ok": 18,
+  "feeds_failed": 3,
   "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 582,
-  "entries_recent": 559,
-  "items_matched": 70,
-  "items_kept": 58,
+  "entries_seen": 655,
+  "entries_recent": 570,
+  "items_matched": 73,
+  "items_kept": 61,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 55,
-      "recent": 55,
+      "entries": 54,
+      "recent": 54,
       "matched": 23,
       "detail": ""
     },
@@ -23,38 +23,46 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 18,
+      "matched": 17,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 55,
-      "recent": 55,
-      "matched": 13,
+      "entries": 57,
+      "recent": 57,
+      "matched": 14,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 65,
-      "recent": 65,
+      "entries": 63,
+      "recent": 63,
       "matched": 11,
+      "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "ok",
+      "entries": 40,
+      "recent": 6,
+      "matched": 4,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 32,
-      "recent": 32,
-      "matched": 4,
+      "entries": 29,
+      "recent": 29,
+      "matched": 3,
       "detail": ""
     },
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 27,
-      "recent": 27,
+      "entries": 24,
+      "recent": 24,
       "matched": 1,
       "detail": ""
     },
@@ -171,20 +179,12 @@
       "detail": ""
     },
     {
-      "name": "arXiv \u2013 Starlink",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
-      "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='export.arxiv.org', port=44"
-    },
-    {
       "name": "arXiv \u2013 satellite constellations",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
+      "status": "ok",
+      "entries": 40,
+      "recent": 12,
       "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Too Many Re"
+      "detail": ""
     }
   ]
 }
