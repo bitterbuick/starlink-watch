@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-08-22T01:17:22Z",
+  "generated_at": "2026-08-22T16:25:31Z",
   "feeds_configured": 22,
-  "feeds_ok": 16,
-  "feeds_failed": 6,
-  "feeds_empty": 0,
+  "feeds_ok": 17,
+  "feeds_failed": 4,
+  "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 580,
-  "entries_recent": 557,
-  "items_matched": 61,
-  "items_kept": 53,
+  "entries_seen": 616,
+  "entries_recent": 533,
+  "items_matched": 66,
+  "items_kept": 57,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 58,
-      "recent": 58,
-      "matched": 28,
+      "entries": 61,
+      "recent": 61,
+      "matched": 29,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 64,
-      "recent": 64,
-      "matched": 15,
+      "entries": 65,
+      "recent": 65,
+      "matched": 14,
       "detail": ""
     },
     {
@@ -31,22 +31,38 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 11,
+      "matched": 9,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 63,
-      "recent": 63,
-      "matched": 6,
+      "entries": 66,
+      "recent": 66,
+      "matched": 8,
+      "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "ok",
+      "entries": 40,
+      "recent": 6,
+      "matched": 4,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 31,
-      "recent": 31,
+      "entries": 32,
+      "recent": 32,
+      "matched": 1,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starshield",
+      "status": "ok",
+      "entries": 18,
+      "recent": 18,
       "matched": 1,
       "detail": ""
     },
@@ -107,14 +123,6 @@
       "detail": ""
     },
     {
-      "name": "News \u2013 Starshield",
-      "status": "ok",
-      "entries": 20,
-      "recent": 20,
-      "matched": 0,
-      "detail": ""
-    },
-    {
       "name": "Phys.org \u2013 Space News",
       "status": "ok",
       "entries": 30,
@@ -164,27 +172,19 @@
     },
     {
       "name": "The Register \u2013 Security",
-      "status": "ok",
-      "entries": 50,
-      "recent": 50,
+      "status": "empty",
+      "entries": 0,
+      "recent": 0,
       "matched": 0,
       "detail": ""
     },
     {
-      "name": "arXiv \u2013 Starlink",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
-      "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='export.arxiv.org', port=44"
-    },
-    {
       "name": "arXiv \u2013 satellite constellations",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
+      "status": "ok",
+      "entries": 40,
+      "recent": 14,
       "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
+      "detail": ""
     }
   ]
 }
