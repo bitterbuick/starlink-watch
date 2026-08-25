@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-25T01:18:20Z",
-  "catalog_objects": 70355,
+  "generated_at": "2026-08-25T16:38:34Z",
+  "catalog_objects": 70382,
   "on_orbit": {
-    "total_kg": 19649180.6,
-    "starlink_kg": 4057266.8,
-    "other_kg": 15591913.9,
-    "starlink_share": 0.2065,
-    "starlink_objects": 10973,
-    "other_objects": 23882
+    "total_kg": 19657699.9,
+    "starlink_kg": 4065771.0,
+    "other_kg": 15591928.9,
+    "starlink_share": 0.2068,
+    "starlink_objects": 10996,
+    "other_objects": 23885
   },
   "reentry_by_year": [
     {
@@ -633,11 +633,11 @@
     },
     {
       "year": 2026,
-      "starlink_kg": 102606.0,
+      "starlink_kg": 102900.0,
       "other_kg": 243255.0,
-      "starlink_alumina_kg": 135747.7,
+      "starlink_alumina_kg": 136136.7,
       "other_alumina_kg": 222508.4,
-      "starlink_n": 349,
+      "starlink_n": 350,
       "other_n": 548
     }
   ],
@@ -652,10 +652,10 @@
     "starlink_share_of_alumina": 0.4144
   },
   "cumulative_alumina": {
-    "with_starlink_kg": 26121592.8,
+    "with_starlink_kg": 26121981.8,
     "without_starlink_kg": 25459579.5,
-    "delta_kg": 662013.3,
-    "starlink_share": 0.0253
+    "delta_kg": 662402.3,
+    "starlink_share": 0.0254
   },
   "assumptions": {
     "note": "SATCAT publishes radar cross-section, not mass. Non-Starlink masses are RCS-derived estimates; Starlink objects use the generation mass mix in starlink_config.yml.",
