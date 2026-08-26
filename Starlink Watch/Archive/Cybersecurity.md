@@ -30,3 +30,4 @@
 - 2026-08-17 | **Expanding Access, Exposing Risk: A Short Study of Exposed Starlink Hosts** — arXiv – Starlink https://arxiv.org/abs/2608.16839v1
 - 2026-08-01 | **Streamable Neural Video Compression: A Mixed Precision Approach for Cross-Platform Deployment** — arXiv – Starlink https://arxiv.org/abs/2608.00483v1
 - 2026-07-29 | **Russia is Intensifying its Efforts to Jam Starlink - Technology Org** — News – Starlink security & outages https://news.google.com/rss/articles/CBMikwFBVV95cUxQV083UnI1TTJHdjAteGN1VzI5M3BwYndRVi1KdkNwNk5HYlhyU1JOQnZRMXBYSGpjNlhDWGdWWWRvUTdCT2l1NmhMUnY5ejRjTElTTXRFdWgzYWxCT2NRX3d2NGR2TTNmUW1pODZYLTFaUWYxblI1RzE5ZkNka1QyTFNXLXNzODZxRGt0bUNkRmhzVGc?oc=5
+- 2026-08-24 | **Velocity-coupled Representation Refinement for Satellite Orbit Prediction** — arXiv – Starlink https://arxiv.org/abs/2608.23728v1
