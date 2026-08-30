@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-08-29T19:17:23Z",
+  "generated_at": "2026-08-30T04:11:29Z",
   "feeds_configured": 22,
   "feeds_ok": 18,
   "feeds_failed": 4,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 673,
-  "entries_recent": 595,
+  "entries_seen": 678,
+  "entries_recent": 600,
   "items_matched": 100,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 88,
-      "recent": 88,
+      "entries": 87,
+      "recent": 87,
       "matched": 52,
       "detail": ""
     },
@@ -37,8 +37,8 @@
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 33,
-      "recent": 33,
+      "entries": 34,
+      "recent": 34,
       "matched": 8,
       "detail": ""
     },
@@ -53,8 +53,8 @@
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 52,
-      "recent": 52,
+      "entries": 57,
+      "recent": 57,
       "matched": 4,
       "detail": ""
     },
@@ -104,7 +104,7 @@
       "entries": 0,
       "recent": 0,
       "matched": 0,
-      "detail": "GET https://www.cisa.gov/news-events/cisa-updates.xml failed after 2 attempt(s): 503 Server Error: Service Unavailable for url: https://www.cisa.gov/news-events/cisa-updates.xml"
+      "detail": "GET https://www.cisa.gov/news-events/cisa-updates.xml failed after 2 attempt(s): 404 Client Error: Not Found for url: https://www.cisa.gov/news-events/cisa-updates.xml"
     },
     {
       "name": "ESA \u2013 Space Safety",
