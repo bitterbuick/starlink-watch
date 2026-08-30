@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-08-30T04:11:29Z",
+  "generated_at": "2026-08-30T19:06:18Z",
   "feeds_configured": 22,
   "feeds_ok": 18,
   "feeds_failed": 4,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 678,
-  "entries_recent": 600,
-  "items_matched": 100,
+  "entries_seen": 687,
+  "entries_recent": 608,
+  "items_matched": 109,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 87,
-      "recent": 87,
-      "matched": 52,
+      "entries": 94,
+      "recent": 94,
+      "matched": 60,
       "detail": ""
     },
     {
@@ -31,7 +31,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 11,
+      "matched": 12,
       "detail": ""
     },
     {
@@ -53,8 +53,8 @@
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 57,
-      "recent": 57,
+      "entries": 59,
+      "recent": 59,
       "matched": 4,
       "detail": ""
     },
@@ -78,7 +78,7 @@
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
-      "recent": 14,
+      "recent": 13,
       "matched": 1,
       "detail": ""
     },
