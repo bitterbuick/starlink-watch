@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-08-30T19:06:18Z",
+  "generated_at": "2026-08-31T04:15:38Z",
   "feeds_configured": 22,
   "feeds_ok": 18,
   "feeds_failed": 4,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 687,
-  "entries_recent": 608,
-  "items_matched": 109,
+  "entries_seen": 689,
+  "entries_recent": 612,
+  "items_matched": 110,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 94,
-      "recent": 94,
-      "matched": 60,
+      "entries": 97,
+      "recent": 97,
+      "matched": 61,
       "detail": ""
     },
     {
@@ -35,26 +35,26 @@
       "detail": ""
     },
     {
-      "name": "News \u2013 Starlink security & outages",
-      "status": "ok",
-      "entries": 34,
-      "recent": 34,
-      "matched": 8,
-      "detail": ""
-    },
-    {
       "name": "arXiv \u2013 Starlink",
       "status": "ok",
       "entries": 40,
-      "recent": 9,
+      "recent": 11,
+      "matched": 9,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink security & outages",
+      "status": "ok",
+      "entries": 33,
+      "recent": 33,
       "matched": 7,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 59,
-      "recent": 59,
+      "entries": 60,
+      "recent": 60,
       "matched": 4,
       "detail": ""
     },
@@ -63,14 +63,6 @@
       "status": "ok",
       "entries": 10,
       "recent": 10,
-      "matched": 1,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starshield",
-      "status": "ok",
-      "entries": 16,
-      "recent": 16,
       "matched": 1,
       "detail": ""
     },
@@ -129,6 +121,14 @@
       "recent": 0,
       "matched": 0,
       "detail": "GET https://cps.iau.org/news/feed/ failed after 2 attempt(s): 404 Client Error: Not Found for url: https://cps.iau.org/news/feed/"
+    },
+    {
+      "name": "News \u2013 Starshield",
+      "status": "ok",
+      "entries": 15,
+      "recent": 15,
+      "matched": 0,
+      "detail": ""
     },
     {
       "name": "Phys.org \u2013 Space News",
