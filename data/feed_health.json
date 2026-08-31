@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-08-31T04:15:38Z",
+  "generated_at": "2026-08-31T21:20:59Z",
   "feeds_configured": 22,
   "feeds_ok": 18,
   "feeds_failed": 4,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 689,
-  "entries_recent": 612,
-  "items_matched": 110,
+  "entries_seen": 709,
+  "entries_recent": 631,
+  "items_matched": 115,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 97,
-      "recent": 97,
+      "entries": 100,
+      "recent": 100,
       "matched": 61,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 60,
-      "recent": 60,
-      "matched": 15,
+      "entries": 63,
+      "recent": 63,
+      "matched": 18,
       "detail": ""
     },
     {
@@ -31,23 +31,23 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 12,
+      "matched": 13,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink security & outages",
+      "status": "ok",
+      "entries": 37,
+      "recent": 37,
+      "matched": 8,
       "detail": ""
     },
     {
       "name": "arXiv \u2013 Starlink",
       "status": "ok",
       "entries": 40,
-      "recent": 11,
-      "matched": 9,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starlink security & outages",
-      "status": "ok",
-      "entries": 33,
-      "recent": 33,
-      "matched": 7,
+      "recent": 10,
+      "matched": 8,
       "detail": ""
     },
     {
@@ -55,7 +55,7 @@
       "status": "ok",
       "entries": 60,
       "recent": 60,
-      "matched": 4,
+      "matched": 5,
       "detail": ""
     },
     {
@@ -125,8 +125,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 15,
-      "recent": 15,
+      "entries": 24,
+      "recent": 24,
       "matched": 0,
       "detail": ""
     },
@@ -173,8 +173,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 20,
-      "recent": 20,
+      "entries": 21,
+      "recent": 21,
       "matched": 0,
       "detail": ""
     },
