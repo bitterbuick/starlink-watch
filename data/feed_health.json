@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-31T21:20:59Z",
+  "generated_at": "2026-09-01T04:02:04Z",
   "feeds_configured": 22,
-  "feeds_ok": 18,
-  "feeds_failed": 4,
+  "feeds_ok": 15,
+  "feeds_failed": 7,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 709,
-  "entries_recent": 631,
-  "items_matched": 115,
+  "entries_seen": 605,
+  "entries_recent": 584,
+  "items_matched": 108,
   "items_kept": 80,
   "feeds": [
     {
@@ -15,15 +15,15 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 61,
+      "matched": 62,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 63,
-      "recent": 63,
-      "matched": 18,
+      "entries": 62,
+      "recent": 62,
+      "matched": 19,
       "detail": ""
     },
     {
@@ -37,16 +37,8 @@
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 37,
-      "recent": 37,
-      "matched": 8,
-      "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 Starlink",
-      "status": "ok",
-      "entries": 40,
-      "recent": 10,
+      "entries": 35,
+      "recent": 35,
       "matched": 8,
       "detail": ""
     },
@@ -63,14 +55,6 @@
       "status": "ok",
       "entries": 10,
       "recent": 10,
-      "matched": 1,
-      "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 satellite constellations",
-      "status": "ok",
-      "entries": 40,
-      "recent": 13,
       "matched": 1,
       "detail": ""
     },
@@ -125,8 +109,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 24,
-      "recent": 24,
+      "entries": 14,
+      "recent": 14,
       "matched": 0,
       "detail": ""
     },
@@ -156,11 +140,11 @@
     },
     {
       "name": "Sky & Telescope",
-      "status": "ok",
-      "entries": 10,
-      "recent": 10,
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
       "matched": 0,
-      "detail": ""
+      "detail": "GET https://skyandtelescope.org/feed/ failed after 2 attempt(s): 403 Client Error: Forbidden for url: https://skyandtelescope.org/feed/"
     },
     {
       "name": "Space.com (All)",
@@ -173,8 +157,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 21,
-      "recent": 21,
+      "entries": 20,
+      "recent": 20,
       "matched": 0,
       "detail": ""
     },
@@ -185,6 +169,22 @@
       "recent": 50,
       "matched": 0,
       "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Unknown Error for url: https://exp"
+    },
+    {
+      "name": "arXiv \u2013 satellite constellations",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
     }
   ]
 }
