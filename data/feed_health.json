@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-09-02T03:22:22Z",
+  "generated_at": "2026-09-02T19:15:39Z",
   "feeds_configured": 22,
   "feeds_ok": 17,
   "feeds_failed": 5,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 677,
-  "entries_recent": 601,
-  "items_matched": 109,
+  "entries_seen": 665,
+  "entries_recent": 589,
+  "items_matched": 101,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 88,
-      "recent": 88,
-      "matched": 57,
+      "entries": 82,
+      "recent": 82,
+      "matched": 51,
       "detail": ""
     },
     {
@@ -23,7 +23,15 @@
       "status": "ok",
       "entries": 69,
       "recent": 69,
-      "matched": 20,
+      "matched": 14,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink (all)",
+      "status": "ok",
+      "entries": 100,
+      "recent": 100,
+      "matched": 12,
       "detail": ""
     },
     {
@@ -35,26 +43,18 @@
       "detail": ""
     },
     {
-      "name": "News \u2013 Starlink (all)",
-      "status": "ok",
-      "entries": 100,
-      "recent": 100,
-      "matched": 9,
-      "detail": ""
-    },
-    {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 37,
-      "recent": 37,
-      "matched": 8,
+      "entries": 31,
+      "recent": 31,
+      "matched": 9,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 56,
-      "recent": 56,
+      "entries": 57,
+      "recent": 57,
       "matched": 3,
       "detail": ""
     },
@@ -125,8 +125,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 15,
-      "recent": 15,
+      "entries": 17,
+      "recent": 17,
       "matched": 0,
       "detail": ""
     },
@@ -173,8 +173,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 18,
-      "recent": 18,
+      "entries": 15,
+      "recent": 15,
       "matched": 0,
       "detail": ""
     },
