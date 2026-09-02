@@ -23,3 +23,4 @@
 - 2026-08-24 | **NASA’s Roman Space Telescope takes flight and Starlink endures - Astronomy Magazine** — News – Starlink (all) https://news.google.com/rss/articles/CBMitAFBVV95cUxQWkRvN0dzQm5oNEZxeDV5ZXoxUUEycFhhMi1QVXNfQ1Z4TUl1bkwwM0o1bmp6RkhUMVRIeFZUanRrNHgwSUxWSWpVa2tIVi1IUnRxSm5ob3hQci14Rk5HcHdmbFVacUV4TVdGcGY4VEtQQlFpV3V6czE2ejYwSFZodlNjMHB3QnBkUkJ6VjkxRWpQV1RodmE0VmtZRVZOQ0NhcWNEMU9hX1V5Wm81TlNVQ2o1eTM?oc=5
 - 2026-08-24 | **Launch Preview: Falcon Heavy to launch Roman telescope, Falcon 9 to launch Starlink satellites** — NASASpaceflight https://www.nasaspaceflight.com/2026/08/launch-preview-082426/
 - 2026-08-29 | **STARLINC: Satellite Trail Artifact Removal using Inter-Frame Correlation** — arXiv – Starlink https://arxiv.org/abs/2608.29145v1
+- 2026-09-01 | **SkyShare: Constellation-wide Sky Sharing for LEO-Radio Astronomy Coexistence** — arXiv – Starlink https://arxiv.org/abs/2609.00821v1
