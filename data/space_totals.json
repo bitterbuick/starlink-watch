@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-04T03:21:58Z",
-  "catalog_objects": 70543,
+  "generated_at": "2026-09-05T03:24:35Z",
+  "catalog_objects": 70580,
   "on_orbit": {
-    "total_kg": 19711983.8,
-    "starlink_kg": 4101267.0,
-    "other_kg": 15610716.8,
-    "starlink_share": 0.2081,
-    "starlink_objects": 11092,
-    "other_objects": 23912
+    "total_kg": 19713174.4,
+    "starlink_kg": 4100897.2,
+    "other_kg": 15612277.2,
+    "starlink_share": 0.208,
+    "starlink_objects": 11091,
+    "other_objects": 23947
   },
   "reentry_by_year": [
     {
@@ -625,36 +625,36 @@
     {
       "year": 2025,
       "starlink_kg": 197274.0,
-      "other_kg": 403407.7,
+      "other_kg": 403907.7,
       "starlink_alumina_kg": 260993.5,
-      "other_alumina_kg": 368744.1,
+      "other_alumina_kg": 369122.1,
       "starlink_n": 671,
-      "other_n": 1233
+      "other_n": 1234
     },
     {
       "year": 2026,
-      "starlink_kg": 107604.0,
-      "other_kg": 251802.1,
-      "starlink_alumina_kg": 142360.1,
-      "other_alumina_kg": 230085.8,
-      "starlink_n": 366,
-      "other_n": 570
+      "starlink_kg": 107898.0,
+      "other_kg": 251816.7,
+      "starlink_alumina_kg": 142749.1,
+      "other_alumina_kg": 230096.8,
+      "starlink_n": 367,
+      "other_n": 571
     }
   ],
   "chart_from_year": 2000,
   "latest_complete_year": 2025,
   "latest_year_delta": {
-    "reentered_kg_with_starlink": 600681.7,
-    "reentered_kg_without_starlink": 403407.7,
-    "alumina_kg_with_starlink": 629737.6,
-    "alumina_kg_without_starlink": 368744.1,
+    "reentered_kg_with_starlink": 601181.7,
+    "reentered_kg_without_starlink": 403907.7,
+    "alumina_kg_with_starlink": 630115.6,
+    "alumina_kg_without_starlink": 369122.1,
     "alumina_delta_kg": 260993.5,
-    "starlink_share_of_alumina": 0.4144
+    "starlink_share_of_alumina": 0.4142
   },
   "cumulative_alumina": {
-    "with_starlink_kg": 26137365.5,
-    "without_starlink_kg": 25468739.8,
-    "delta_kg": 668625.7,
+    "with_starlink_kg": 26138143.5,
+    "without_starlink_kg": 25469128.8,
+    "delta_kg": 669014.7,
     "starlink_share": 0.0256
   },
   "assumptions": {

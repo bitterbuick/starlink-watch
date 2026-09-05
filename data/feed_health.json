@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-09-04T18:54:03Z",
+  "generated_at": "2026-09-05T03:24:43Z",
   "feeds_configured": 22,
   "feeds_ok": 17,
   "feeds_failed": 5,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 689,
-  "entries_recent": 613,
-  "items_matched": 104,
+  "entries_seen": 698,
+  "entries_recent": 622,
+  "items_matched": 103,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 88,
-      "recent": 88,
-      "matched": 56,
+      "entries": 93,
+      "recent": 93,
+      "matched": 57,
       "detail": ""
     },
     {
@@ -23,7 +23,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 13,
+      "matched": 12,
       "detail": ""
     },
     {
@@ -31,7 +31,7 @@
       "status": "ok",
       "entries": 65,
       "recent": 65,
-      "matched": 12,
+      "matched": 11,
       "detail": ""
     },
     {
@@ -45,9 +45,9 @@
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 39,
-      "recent": 39,
-      "matched": 8,
+      "entries": 42,
+      "recent": 42,
+      "matched": 9,
       "detail": ""
     },
     {
@@ -56,14 +56,6 @@
       "entries": 61,
       "recent": 61,
       "matched": 3,
-      "detail": ""
-    },
-    {
-      "name": "NASASpaceflight",
-      "status": "ok",
-      "entries": 10,
-      "recent": 10,
-      "matched": 1,
       "detail": ""
     },
     {
@@ -123,10 +115,18 @@
       "detail": "GET https://cps.iau.org/news/feed/ failed after 2 attempt(s): 404 Client Error: Not Found for url: https://cps.iau.org/news/feed/"
     },
     {
+      "name": "NASASpaceflight",
+      "status": "ok",
+      "entries": 10,
+      "recent": 10,
+      "matched": 0,
+      "detail": ""
+    },
+    {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 29,
-      "recent": 29,
+      "entries": 30,
+      "recent": 30,
       "matched": 0,
       "detail": ""
     },
