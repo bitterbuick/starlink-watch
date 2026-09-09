@@ -24,3 +24,4 @@
 - 2026-08-24 | **Launch Preview: Falcon Heavy to launch Roman telescope, Falcon 9 to launch Starlink satellites** — NASASpaceflight https://www.nasaspaceflight.com/2026/08/launch-preview-082426/
 - 2026-08-29 | **STARLINC: Satellite Trail Artifact Removal using Inter-Frame Correlation** — arXiv – Starlink https://arxiv.org/abs/2608.29145v1
 - 2026-09-01 | **SkyShare: Constellation-wide Sky Sharing for LEO-Radio Astronomy Coexistence** — arXiv – Starlink https://arxiv.org/abs/2609.00821v1
+- 2026-09-09 | **Starlink’s Signal Leakage Is Threatening Radio Astronomy’s Most Critical Frequencies - gadgetreview.com** — News – Starlink astronomy impact https://news.google.com/rss/articles/CBMisAFBVV95cUxPMDU0Y1MtT0gzeVVESFp1WUNxNFZjcTQ3UnV1N1E2RlcyLTlJR2Y0NnBTVUZCTWhtVnozSEYtM3hRNjdRX2lLNG9zYkl3RThfUXlyUDlTLWJYT29LcjNxZHVDSk1MUEJraVpnRVFMZnd4ellMVlZ2UEs2NUhpM09oVXYxcFh0aXZpcXhpZWVvU05EOHpwaVJJTHZzdnRBemE1X1cxSEJhSmhLRE11c3VFMg?oc=5
