@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-09-10T03:31:54Z",
+  "generated_at": "2026-09-10T18:59:24Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
-  "feeds_failed": 5,
-  "feeds_empty": 1,
+  "feeds_failed": 6,
+  "feeds_empty": 0,
   "feeds_skipped": 0,
   "entries_seen": 611,
-  "entries_recent": 534,
-  "items_matched": 95,
+  "entries_recent": 533,
+  "items_matched": 100,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 85,
-      "recent": 85,
-      "matched": 51,
+      "entries": 88,
+      "recent": 88,
+      "matched": 53,
       "detail": ""
     },
     {
@@ -31,30 +31,30 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 10,
+      "matched": 11,
       "detail": ""
     },
     {
       "name": "arXiv \u2013 Starlink",
       "status": "ok",
       "entries": 40,
-      "recent": 11,
+      "recent": 10,
       "matched": 10,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 35,
-      "recent": 35,
-      "matched": 6,
+      "entries": 32,
+      "recent": 32,
+      "matched": 8,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 45,
-      "recent": 45,
+      "entries": 48,
+      "recent": 48,
       "matched": 4,
       "detail": ""
     },
@@ -125,8 +125,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 29,
-      "recent": 29,
+      "entries": 28,
+      "recent": 28,
       "matched": 0,
       "detail": ""
     },
@@ -173,18 +173,18 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 8,
-      "recent": 8,
+      "entries": 6,
+      "recent": 6,
       "matched": 0,
       "detail": ""
     },
     {
       "name": "The Register \u2013 Security",
-      "status": "empty",
+      "status": "error",
       "entries": 0,
       "recent": 0,
       "matched": 0,
-      "detail": ""
+      "detail": "GET https://www.theregister.com/security/headlines.atom failed after 2 attempt(s): 403 Client Error: Forbidden for url: https://api.theregister.com/api/v1/article?orderBy=published&site_id=2&remapper="
     }
   ]
 }
