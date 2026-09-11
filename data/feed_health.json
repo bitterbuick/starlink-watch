@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-09-10T18:59:24Z",
+  "generated_at": "2026-09-11T03:30:26Z",
   "feeds_configured": 22,
-  "feeds_ok": 16,
-  "feeds_failed": 6,
+  "feeds_ok": 17,
+  "feeds_failed": 5,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 611,
-  "entries_recent": 533,
-  "items_matched": 100,
+  "entries_seen": 659,
+  "entries_recent": 581,
+  "items_matched": 102,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 88,
-      "recent": 88,
+      "entries": 89,
+      "recent": 89,
       "matched": 53,
       "detail": ""
     },
@@ -23,7 +23,7 @@
       "status": "ok",
       "entries": 65,
       "recent": 65,
-      "matched": 13,
+      "matched": 14,
       "detail": ""
     },
     {
@@ -31,7 +31,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 11,
+      "matched": 12,
       "detail": ""
     },
     {
@@ -45,16 +45,16 @@
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 32,
-      "recent": 32,
+      "entries": 33,
+      "recent": 33,
       "matched": 8,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 48,
-      "recent": 48,
+      "entries": 46,
+      "recent": 46,
       "matched": 4,
       "detail": ""
     },
@@ -125,8 +125,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 28,
-      "recent": 28,
+      "entries": 26,
+      "recent": 26,
       "matched": 0,
       "detail": ""
     },
@@ -180,11 +180,11 @@
     },
     {
       "name": "The Register \u2013 Security",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
+      "status": "ok",
+      "entries": 50,
+      "recent": 50,
       "matched": 0,
-      "detail": "GET https://www.theregister.com/security/headlines.atom failed after 2 attempt(s): 403 Client Error: Forbidden for url: https://api.theregister.com/api/v1/article?orderBy=published&site_id=2&remapper="
+      "detail": ""
     }
   ]
 }
