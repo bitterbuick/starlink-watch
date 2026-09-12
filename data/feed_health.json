@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-09-12T03:36:07Z",
+  "generated_at": "2026-09-12T18:11:58Z",
   "feeds_configured": 22,
   "feeds_ok": 15,
   "feeds_failed": 7,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 585,
-  "entries_recent": 564,
-  "items_matched": 83,
-  "items_kept": 69,
+  "entries_seen": 586,
+  "entries_recent": 565,
+  "items_matched": 81,
+  "items_kept": 67,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 84,
-      "recent": 84,
-      "matched": 48,
+      "entries": 85,
+      "recent": 85,
+      "matched": 47,
       "detail": ""
     },
     {
@@ -23,7 +23,7 @@
       "status": "ok",
       "entries": 68,
       "recent": 68,
-      "matched": 13,
+      "matched": 12,
       "detail": ""
     },
     {
@@ -37,16 +37,16 @@
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 33,
-      "recent": 33,
+      "entries": 35,
+      "recent": 35,
       "matched": 7,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 46,
-      "recent": 46,
+      "entries": 45,
+      "recent": 45,
       "matched": 4,
       "detail": ""
     },
@@ -157,8 +157,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 6,
-      "recent": 6,
+      "entries": 5,
+      "recent": 5,
       "matched": 0,
       "detail": ""
     },
@@ -176,7 +176,7 @@
       "entries": 0,
       "recent": 0,
       "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Unknown Error for url: https://exp"
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='export.arxiv.org', port=44"
     },
     {
       "name": "arXiv \u2013 satellite constellations",
@@ -184,7 +184,7 @@
       "entries": 0,
       "recent": 0,
       "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Too Many Re"
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
     }
   ]
 }
