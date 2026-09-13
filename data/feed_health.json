@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T18:11:58Z",
+  "generated_at": "2026-09-13T03:42:55Z",
   "feeds_configured": 22,
   "feeds_ok": 15,
   "feeds_failed": 7,
@@ -7,23 +7,23 @@
   "feeds_skipped": 0,
   "entries_seen": 586,
   "entries_recent": 565,
-  "items_matched": 81,
+  "items_matched": 80,
   "items_kept": 67,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 85,
-      "recent": 85,
-      "matched": 47,
+      "entries": 84,
+      "recent": 84,
+      "matched": 48,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 68,
-      "recent": 68,
-      "matched": 12,
+      "entries": 69,
+      "recent": 69,
+      "matched": 11,
       "detail": ""
     },
     {
@@ -31,7 +31,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 11,
+      "matched": 10,
       "detail": ""
     },
     {
@@ -184,7 +184,7 @@
       "entries": 0,
       "recent": 0,
       "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Too Many Re"
     }
   ]
 }
