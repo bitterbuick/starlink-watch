@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-09-13T03:42:55Z",
+  "generated_at": "2026-09-13T18:35:54Z",
   "feeds_configured": 22,
   "feeds_ok": 15,
   "feeds_failed": 7,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 586,
-  "entries_recent": 565,
-  "items_matched": 80,
-  "items_kept": 67,
+  "entries_seen": 583,
+  "entries_recent": 562,
+  "items_matched": 75,
+  "items_kept": 62,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 84,
-      "recent": 84,
-      "matched": 48,
+      "entries": 76,
+      "recent": 76,
+      "matched": 44,
       "detail": ""
     },
     {
@@ -31,14 +31,14 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 10,
+      "matched": 9,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 35,
-      "recent": 35,
+      "entries": 39,
+      "recent": 39,
       "matched": 7,
       "detail": ""
     },
@@ -109,8 +109,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 34,
-      "recent": 34,
+      "entries": 35,
+      "recent": 35,
       "matched": 0,
       "detail": ""
     },
@@ -184,7 +184,7 @@
       "entries": 0,
       "recent": 0,
       "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Too Many Re"
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Unknown Err"
     }
   ]
 }
