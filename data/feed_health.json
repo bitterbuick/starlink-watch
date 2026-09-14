@@ -1,21 +1,29 @@
 {
-  "generated_at": "2026-09-13T18:35:54Z",
+  "generated_at": "2026-09-14T03:51:55Z",
   "feeds_configured": 22,
   "feeds_ok": 15,
   "feeds_failed": 7,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 583,
-  "entries_recent": 562,
-  "items_matched": 75,
-  "items_kept": 62,
+  "entries_seen": 587,
+  "entries_recent": 566,
+  "items_matched": 77,
+  "items_kept": 64,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 76,
-      "recent": 76,
+      "entries": 77,
+      "recent": 77,
       "matched": 44,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink (all)",
+      "status": "ok",
+      "entries": 100,
+      "recent": 100,
+      "matched": 11,
       "detail": ""
     },
     {
@@ -27,26 +35,18 @@
       "detail": ""
     },
     {
-      "name": "News \u2013 Starlink (all)",
-      "status": "ok",
-      "entries": 100,
-      "recent": 100,
-      "matched": 9,
-      "detail": ""
-    },
-    {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 39,
-      "recent": 39,
+      "entries": 38,
+      "recent": 38,
       "matched": 7,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 45,
-      "recent": 45,
+      "entries": 49,
+      "recent": 49,
       "matched": 4,
       "detail": ""
     },
@@ -184,7 +184,7 @@
       "entries": 0,
       "recent": 0,
       "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Unknown Err"
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
     }
   ]
 }
