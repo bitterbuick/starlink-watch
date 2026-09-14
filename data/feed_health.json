@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-09-14T03:51:55Z",
+  "generated_at": "2026-09-14T20:10:45Z",
   "feeds_configured": 22,
-  "feeds_ok": 15,
-  "feeds_failed": 7,
+  "feeds_ok": 17,
+  "feeds_failed": 5,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 587,
-  "entries_recent": 566,
-  "items_matched": 77,
-  "items_kept": 64,
+  "entries_seen": 679,
+  "entries_recent": 597,
+  "items_matched": 89,
+  "items_kept": 76,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 77,
-      "recent": 77,
-      "matched": 44,
+      "entries": 80,
+      "recent": 80,
+      "matched": 45,
       "detail": ""
     },
     {
@@ -23,7 +23,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 11,
+      "matched": 12,
       "detail": ""
     },
     {
@@ -35,19 +35,35 @@
       "detail": ""
     },
     {
+      "name": "arXiv \u2013 Starlink",
+      "status": "ok",
+      "entries": 40,
+      "recent": 9,
+      "matched": 9,
+      "detail": ""
+    },
+    {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 38,
-      "recent": 38,
+      "entries": 39,
+      "recent": 39,
       "matched": 7,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 49,
-      "recent": 49,
+      "entries": 57,
+      "recent": 57,
       "matched": 4,
+      "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 satellite constellations",
+      "status": "ok",
+      "entries": 40,
+      "recent": 10,
+      "matched": 1,
       "detail": ""
     },
     {
@@ -169,22 +185,6 @@
       "recent": 50,
       "matched": 0,
       "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 Starlink",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
-      "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='export.arxiv.org', port=44"
-    },
-    {
-      "name": "arXiv \u2013 satellite constellations",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
-      "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
     }
   ]
 }
