@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-09-16T03:48:12Z",
+  "generated_at": "2026-09-16T19:24:41Z",
   "feeds_configured": 22,
-  "feeds_ok": 15,
-  "feeds_failed": 7,
+  "feeds_ok": 17,
+  "feeds_failed": 5,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 585,
-  "entries_recent": 564,
-  "items_matched": 67,
-  "items_kept": 57,
+  "entries_seen": 660,
+  "entries_recent": 580,
+  "items_matched": 78,
+  "items_kept": 65,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
       "entries": 72,
       "recent": 72,
-      "matched": 38,
+      "matched": 35,
       "detail": ""
     },
     {
@@ -23,15 +23,23 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
+      "matched": 11,
+      "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "ok",
+      "entries": 40,
+      "recent": 10,
       "matched": 10,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 64,
-      "recent": 64,
-      "matched": 7,
+      "entries": 65,
+      "recent": 65,
+      "matched": 8,
       "detail": ""
     },
     {
@@ -45,9 +53,25 @@
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 50,
-      "recent": 50,
-      "matched": 5,
+      "entries": 47,
+      "recent": 47,
+      "matched": 4,
+      "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 satellite constellations",
+      "status": "ok",
+      "entries": 40,
+      "recent": 11,
+      "matched": 2,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starshield",
+      "status": "ok",
+      "entries": 34,
+      "recent": 34,
+      "matched": 1,
       "detail": ""
     },
     {
@@ -107,14 +131,6 @@
       "detail": ""
     },
     {
-      "name": "News \u2013 Starshield",
-      "status": "ok",
-      "entries": 36,
-      "recent": 36,
-      "matched": 0,
-      "detail": ""
-    },
-    {
       "name": "Phys.org \u2013 Space News",
       "status": "ok",
       "entries": 30,
@@ -157,8 +173,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 6,
-      "recent": 6,
+      "entries": 5,
+      "recent": 5,
       "matched": 0,
       "detail": ""
     },
@@ -169,22 +185,6 @@
       "recent": 50,
       "matched": 0,
       "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 Starlink",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
-      "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Unknown Error for url: https://exp"
-    },
-    {
-      "name": "arXiv \u2013 satellite constellations",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
-      "matched": 0,
-      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
     }
   ]
 }
