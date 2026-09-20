@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-20T03:52:13Z",
-  "catalog_objects": 70707,
+  "generated_at": "2026-09-20T18:31:32Z",
+  "catalog_objects": 70711,
   "on_orbit": {
-    "total_kg": 19746302.3,
+    "total_kg": 19748302.3,
     "starlink_kg": 4110141.0,
-    "other_kg": 15636161.3,
+    "other_kg": 15638161.3,
     "starlink_share": 0.2081,
     "starlink_objects": 11116,
-    "other_objects": 23994
+    "other_objects": 23998
   },
   "reentry_by_year": [
     {
