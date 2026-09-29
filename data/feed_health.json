@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-09-28T21:37:54Z",
+  "generated_at": "2026-09-29T04:43:37Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 5,
   "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 591,
-  "entries_recent": 501,
-  "items_matched": 55,
-  "items_kept": 47,
+  "entries_seen": 581,
+  "entries_recent": 494,
+  "items_matched": 53,
+  "items_kept": 44,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 63,
-      "recent": 63,
-      "matched": 21,
+      "entries": 58,
+      "recent": 58,
+      "matched": 20,
       "detail": ""
     },
     {
@@ -23,14 +23,14 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 10,
+      "matched": 9,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 49,
-      "recent": 49,
+      "entries": 50,
+      "recent": 50,
       "matched": 8,
       "detail": ""
     },
@@ -38,32 +38,32 @@
       "name": "arXiv \u2013 Starlink",
       "status": "ok",
       "entries": 40,
-      "recent": 6,
-      "matched": 6,
+      "recent": 7,
+      "matched": 7,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 46,
-      "recent": 46,
-      "matched": 5,
+      "entries": 42,
+      "recent": 42,
+      "matched": 4,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 29,
-      "recent": 29,
-      "matched": 4,
+      "entries": 30,
+      "recent": 30,
+      "matched": 3,
       "detail": ""
     },
     {
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
-      "recent": 7,
-      "matched": 1,
+      "recent": 9,
+      "matched": 2,
       "detail": ""
     },
     {
@@ -125,8 +125,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 45,
-      "recent": 45,
+      "entries": 42,
+      "recent": 42,
       "matched": 0,
       "detail": ""
     },
