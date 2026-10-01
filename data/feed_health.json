@@ -1,21 +1,29 @@
 {
-  "generated_at": "2026-09-30T20:37:11Z",
+  "generated_at": "2026-10-01T04:40:02Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 5,
   "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 576,
-  "entries_recent": 492,
-  "items_matched": 45,
-  "items_kept": 39,
+  "entries_seen": 575,
+  "entries_recent": 491,
+  "items_matched": 48,
+  "items_kept": 41,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 59,
-      "recent": 59,
-      "matched": 17,
+      "entries": 58,
+      "recent": 58,
+      "matched": 16,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink (all)",
+      "status": "ok",
+      "entries": 100,
+      "recent": 100,
+      "matched": 9,
       "detail": ""
     },
     {
@@ -35,18 +43,10 @@
       "detail": ""
     },
     {
-      "name": "News \u2013 Starlink (all)",
-      "status": "ok",
-      "entries": 100,
-      "recent": 100,
-      "matched": 5,
-      "detail": ""
-    },
-    {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 35,
-      "recent": 35,
+      "entries": 34,
+      "recent": 34,
       "matched": 4,
       "detail": ""
     },
@@ -173,8 +173,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 17,
-      "recent": 17,
+      "entries": 18,
+      "recent": 18,
       "matched": 0,
       "detail": ""
     },
