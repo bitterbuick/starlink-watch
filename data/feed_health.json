@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-10-02T04:31:42Z",
+  "generated_at": "2026-10-02T20:24:48Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 5,
   "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 576,
-  "entries_recent": 494,
-  "items_matched": 49,
-  "items_kept": 41,
+  "entries_seen": 574,
+  "entries_recent": 492,
+  "items_matched": 53,
+  "items_kept": 44,
   "feeds": [
-    {
-      "name": "News \u2013 Starlink regulation & litigation",
-      "status": "ok",
-      "entries": 58,
-      "recent": 58,
-      "matched": 14,
-      "detail": ""
-    },
     {
       "name": "News \u2013 Starlink (all)",
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 10,
+      "matched": 14,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink regulation & litigation",
+      "status": "ok",
+      "entries": 57,
+      "recent": 57,
+      "matched": 14,
       "detail": ""
     },
     {
@@ -37,8 +37,8 @@
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 53,
-      "recent": 53,
+      "entries": 58,
+      "recent": 58,
       "matched": 7,
       "detail": ""
     },
@@ -53,8 +53,8 @@
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 39,
-      "recent": 39,
+      "entries": 35,
+      "recent": 35,
       "matched": 4,
       "detail": ""
     },
@@ -125,8 +125,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 39,
-      "recent": 39,
+      "entries": 37,
+      "recent": 37,
       "matched": 0,
       "detail": ""
     },
