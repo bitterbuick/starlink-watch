@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-10-08T04:59:13Z",
+  "generated_at": "2026-10-08T21:06:03Z",
   "feeds_configured": 22,
-  "feeds_ok": 16,
-  "feeds_failed": 5,
+  "feeds_ok": 15,
+  "feeds_failed": 6,
   "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 572,
-  "entries_recent": 492,
-  "items_matched": 80,
-  "items_kept": 64,
+  "entries_seen": 580,
+  "entries_recent": 527,
+  "items_matched": 100,
+  "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 52,
-      "recent": 52,
-      "matched": 28,
+      "entries": 100,
+      "recent": 100,
+      "matched": 56,
       "detail": ""
     },
     {
@@ -23,23 +23,23 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 20,
+      "matched": 16,
       "detail": ""
     },
     {
       "name": "arXiv \u2013 Starlink",
       "status": "ok",
       "entries": 40,
-      "recent": 11,
-      "matched": 11,
+      "recent": 10,
+      "matched": 10,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 61,
-      "recent": 61,
-      "matched": 6,
+      "entries": 64,
+      "recent": 64,
+      "matched": 7,
       "detail": ""
     },
     {
@@ -47,22 +47,14 @@
       "status": "ok",
       "entries": 44,
       "recent": 44,
-      "matched": 6,
+      "matched": 7,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 22,
-      "recent": 22,
-      "matched": 5,
-      "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 satellite constellations",
-      "status": "ok",
-      "entries": 40,
-      "recent": 12,
+      "entries": 20,
+      "recent": 20,
       "matched": 4,
       "detail": ""
     },
@@ -125,8 +117,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 33,
-      "recent": 33,
+      "entries": 31,
+      "recent": 31,
       "matched": 0,
       "detail": ""
     },
@@ -173,8 +165,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 16,
-      "recent": 16,
+      "entries": 17,
+      "recent": 17,
       "matched": 0,
       "detail": ""
     },
@@ -185,6 +177,14 @@
       "recent": 50,
       "matched": 0,
       "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 satellite constellations",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='exp"
     }
   ]
 }
