@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-10-10T04:47:57Z",
+  "generated_at": "2026-10-10T19:51:25Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 5,
   "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 623,
-  "entries_recent": 544,
-  "items_matched": 124,
+  "entries_seen": 618,
+  "entries_recent": 539,
+  "items_matched": 120,
   "items_kept": 80,
   "feeds": [
     {
@@ -15,7 +15,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 57,
+      "matched": 54,
       "detail": ""
     },
     {
@@ -23,15 +23,15 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 26,
+      "matched": 22,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 50,
-      "recent": 50,
-      "matched": 13,
+      "entries": 51,
+      "recent": 51,
+      "matched": 14,
       "detail": ""
     },
     {
@@ -45,9 +45,17 @@
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 62,
-      "recent": 62,
-      "matched": 8,
+      "entries": 63,
+      "recent": 63,
+      "matched": 9,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink astronomy impact",
+      "status": "ok",
+      "entries": 22,
+      "recent": 22,
+      "matched": 5,
       "detail": ""
     },
     {
@@ -56,14 +64,6 @@
       "entries": 40,
       "recent": 13,
       "matched": 5,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starlink astronomy impact",
-      "status": "ok",
-      "entries": 21,
-      "recent": 21,
-      "matched": 4,
       "detail": ""
     },
     {
@@ -125,8 +125,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 31,
-      "recent": 31,
+      "entries": 24,
+      "recent": 24,
       "matched": 0,
       "detail": ""
     },
@@ -173,8 +173,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 15,
-      "recent": 15,
+      "entries": 14,
+      "recent": 14,
       "matched": 0,
       "detail": ""
     },
