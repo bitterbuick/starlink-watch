@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-10-11T19:58:04Z",
+  "generated_at": "2026-10-12T04:48:37Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 5,
   "feeds_empty": 1,
   "feeds_skipped": 0,
-  "entries_seen": 617,
-  "entries_recent": 538,
-  "items_matched": 125,
+  "entries_seen": 619,
+  "entries_recent": 541,
+  "items_matched": 123,
   "items_kept": 80,
   "feeds": [
     {
@@ -23,14 +23,14 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 25,
+      "matched": 23,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 52,
-      "recent": 52,
+      "entries": 55,
+      "recent": 55,
       "matched": 16,
       "detail": ""
     },
@@ -45,8 +45,8 @@
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 66,
-      "recent": 66,
+      "entries": 67,
+      "recent": 67,
       "matched": 9,
       "detail": ""
     },
@@ -54,15 +54,15 @@
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
-      "recent": 13,
+      "recent": 14,
       "matched": 5,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 16,
-      "recent": 16,
+      "entries": 15,
+      "recent": 15,
       "matched": 3,
       "detail": ""
     },
@@ -125,8 +125,8 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 25,
-      "recent": 25,
+      "entries": 24,
+      "recent": 24,
       "matched": 0,
       "detail": ""
     },
