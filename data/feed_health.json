@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-12T22:46:00Z",
+  "generated_at": "2026-10-13T05:53:40Z",
   "feeds_configured": 22,
   "feeds_ok": 17,
   "feeds_failed": 5,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 671,
-  "entries_recent": 593,
+  "entries_seen": 672,
+  "entries_recent": 594,
   "items_matched": 124,
   "items_kept": 80,
   "feeds": [
@@ -15,7 +15,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 55,
+      "matched": 56,
       "detail": ""
     },
     {
@@ -23,7 +23,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 26,
+      "matched": 25,
       "detail": ""
     },
     {
@@ -45,8 +45,8 @@
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 64,
-      "recent": 64,
+      "entries": 65,
+      "recent": 65,
       "matched": 10,
       "detail": ""
     },
