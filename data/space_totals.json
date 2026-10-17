@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-10-17T03:23:12Z",
+  "generated_at": "2026-10-17T18:14:02Z",
   "catalog_objects": 71073,
   "on_orbit": {
-    "total_kg": 19853054.5,
-    "starlink_kg": 4124191.5,
-    "other_kg": 15728863.0,
-    "starlink_share": 0.2077,
-    "starlink_objects": 11154,
-    "other_objects": 24206
+    "total_kg": 19848884.4,
+    "starlink_kg": 4123821.8,
+    "other_kg": 15725062.7,
+    "starlink_share": 0.2078,
+    "starlink_objects": 11153,
+    "other_objects": 24199
   },
   "reentry_by_year": [
     {
@@ -633,12 +633,12 @@
     },
     {
       "year": 2026,
-      "starlink_kg": 128772.0,
-      "other_kg": 304420.9,
-      "starlink_alumina_kg": 170365.4,
-      "other_alumina_kg": 281401.7,
-      "starlink_n": 438,
-      "other_n": 670
+      "starlink_kg": 129066.0,
+      "other_kg": 308221.2,
+      "starlink_alumina_kg": 170754.3,
+      "other_alumina_kg": 285333.2,
+      "starlink_n": 439,
+      "other_n": 677
     }
   ],
   "chart_from_year": 2000,
@@ -652,9 +652,9 @@
     "starlink_share_of_alumina": 0.4142
   },
   "cumulative_alumina": {
-    "with_starlink_kg": 26218652.3,
-    "without_starlink_kg": 25522021.3,
-    "delta_kg": 696631.0,
+    "with_starlink_kg": 26222972.7,
+    "without_starlink_kg": 25525952.8,
+    "delta_kg": 697019.9,
     "starlink_share": 0.0266
   },
   "assumptions": {
