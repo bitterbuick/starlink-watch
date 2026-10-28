@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-10-27T20:28:44Z",
+  "generated_at": "2026-10-28T04:31:09Z",
   "feeds_configured": 22,
   "feeds_ok": 17,
   "feeds_failed": 5,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 770,
-  "entries_recent": 699,
-  "items_matched": 143,
+  "entries_seen": 684,
+  "entries_recent": 614,
+  "items_matched": 103,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 100,
-      "recent": 100,
-      "matched": 52,
+      "entries": 48,
+      "recent": 48,
+      "matched": 28,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 49,
-      "recent": 49,
-      "matched": 32,
+      "entries": 27,
+      "recent": 27,
+      "matched": 21,
       "detail": ""
     },
     {
@@ -31,7 +31,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 17,
+      "matched": 19,
       "detail": ""
     },
     {
@@ -39,23 +39,15 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 16,
+      "matched": 11,
       "detail": ""
     },
     {
       "name": "arXiv \u2013 Starlink",
       "status": "ok",
       "entries": 40,
-      "recent": 12,
-      "matched": 10,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starlink astronomy impact",
-      "status": "ok",
-      "entries": 41,
-      "recent": 41,
-      "matched": 6,
+      "recent": 13,
+      "matched": 11,
       "detail": ""
     },
     {
@@ -67,11 +59,19 @@
       "detail": ""
     },
     {
+      "name": "News \u2013 Starlink astronomy impact",
+      "status": "ok",
+      "entries": 29,
+      "recent": 29,
+      "matched": 4,
+      "detail": ""
+    },
+    {
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
       "recent": 17,
-      "matched": 4,
+      "matched": 3,
       "detail": ""
     },
     {
