@@ -1,28 +1,36 @@
 {
-  "generated_at": "2026-11-01T04:51:31Z",
+  "generated_at": "2026-11-01T20:17:27Z",
   "feeds_configured": 22,
   "feeds_ok": 17,
   "feeds_failed": 5,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 681,
-  "entries_recent": 602,
-  "items_matched": 114,
+  "entries_seen": 684,
+  "entries_recent": 603,
+  "items_matched": 126,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 59,
-      "recent": 59,
+      "entries": 62,
+      "recent": 62,
       "matched": 36,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 47,
-      "recent": 47,
+      "entries": 49,
+      "recent": 49,
+      "matched": 28,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starshield",
+      "status": "ok",
+      "entries": 100,
+      "recent": 100,
       "matched": 27,
       "detail": ""
     },
@@ -31,38 +39,30 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 18,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starshield",
-      "status": "ok",
-      "entries": 100,
-      "recent": 100,
-      "matched": 16,
+      "matched": 19,
       "detail": ""
     },
     {
       "name": "arXiv \u2013 Starlink",
       "status": "ok",
       "entries": 40,
-      "recent": 10,
-      "matched": 9,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starlink astronomy impact",
-      "status": "ok",
-      "entries": 32,
-      "recent": 32,
-      "matched": 3,
+      "recent": 9,
+      "matched": 8,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 35,
-      "recent": 35,
+      "entries": 34,
+      "recent": 34,
+      "matched": 4,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink astronomy impact",
+      "status": "ok",
+      "entries": 31,
+      "recent": 31,
       "matched": 3,
       "detail": ""
     },
@@ -70,8 +70,8 @@
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
-      "recent": 11,
-      "matched": 2,
+      "recent": 10,
+      "matched": 1,
       "detail": ""
     },
     {
