@@ -1,37 +1,29 @@
 {
-  "generated_at": "2026-11-02T04:52:59Z",
+  "generated_at": "2026-11-02T23:20:33Z",
   "feeds_configured": 22,
   "feeds_ok": 17,
   "feeds_failed": 5,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 673,
-  "entries_recent": 599,
-  "items_matched": 128,
+  "entries_seen": 685,
+  "entries_recent": 606,
+  "items_matched": 123,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 62,
-      "recent": 62,
+      "entries": 60,
+      "recent": 60,
       "matched": 36,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starshield",
-      "status": "ok",
-      "entries": 100,
-      "recent": 100,
-      "matched": 29,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 47,
-      "recent": 47,
-      "matched": 28,
+      "entries": 49,
+      "recent": 49,
+      "matched": 33,
       "detail": ""
     },
     {
@@ -39,7 +31,15 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 16,
+      "matched": 18,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starshield",
+      "status": "ok",
+      "entries": 100,
+      "recent": 100,
+      "matched": 18,
       "detail": ""
     },
     {
@@ -51,19 +51,19 @@
       "detail": ""
     },
     {
-      "name": "News \u2013 Starlink astronomy impact",
+      "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 31,
-      "recent": 31,
+      "entries": 32,
+      "recent": 32,
       "matched": 4,
       "detail": ""
     },
     {
-      "name": "News \u2013 Starlink re-entry & atmosphere",
+      "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 34,
-      "recent": 34,
-      "matched": 4,
+      "entries": 36,
+      "recent": 36,
+      "matched": 3,
       "detail": ""
     },
     {
@@ -109,8 +109,8 @@
     {
       "name": "Guardian \u2013 Environment",
       "status": "ok",
-      "entries": 25,
-      "recent": 25,
+      "entries": 34,
+      "recent": 29,
       "matched": 0,
       "detail": ""
     },
