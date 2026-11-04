@@ -1,37 +1,37 @@
 {
-  "generated_at": "2026-11-04T05:13:58Z",
+  "generated_at": "2026-11-04T21:45:01Z",
   "feeds_configured": 22,
-  "feeds_ok": 17,
-  "feeds_failed": 5,
+  "feeds_ok": 16,
+  "feeds_failed": 6,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 772,
-  "entries_recent": 694,
-  "items_matched": 182,
+  "entries_seen": 605,
+  "entries_recent": 543,
+  "items_matched": 110,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 100,
-      "recent": 100,
-      "matched": 59,
+      "entries": 43,
+      "recent": 43,
+      "matched": 28,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 62,
-      "recent": 61,
-      "matched": 38,
+      "entries": 31,
+      "recent": 31,
+      "matched": 25,
       "detail": ""
     },
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 99,
-      "recent": 99,
-      "matched": 37,
+      "entries": 78,
+      "recent": 78,
+      "matched": 23,
       "detail": ""
     },
     {
@@ -39,14 +39,6 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 19,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starlink re-entry & atmosphere",
-      "status": "ok",
-      "entries": 73,
-      "recent": 73,
       "matched": 13,
       "detail": ""
     },
@@ -59,10 +51,18 @@
       "detail": ""
     },
     {
+      "name": "News \u2013 Starlink re-entry & atmosphere",
+      "status": "ok",
+      "entries": 32,
+      "recent": 32,
+      "matched": 5,
+      "detail": ""
+    },
+    {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 29,
-      "recent": 29,
+      "entries": 30,
+      "recent": 30,
       "matched": 4,
       "detail": ""
     },
@@ -96,15 +96,15 @@
       "entries": 0,
       "recent": 0,
       "matched": 0,
-      "detail": "GET https://www.cisa.gov/news-events/cisa-updates.xml failed after 2 attempt(s): 404 Client Error: Not Found for url: https://www.cisa.gov/news-events/cisa-updates.xml"
+      "detail": "GET https://www.cisa.gov/news-events/cisa-updates.xml failed after 2 attempt(s): 403 Client Error: Forbidden for url: https://www.cisa.gov/news-events/cisa-updates.xml"
     },
     {
       "name": "ESA \u2013 Space Safety",
-      "status": "ok",
-      "entries": 15,
+      "status": "error",
+      "entries": 0,
       "recent": 0,
       "matched": 0,
-      "detail": ""
+      "detail": "GET https://www.esa.int/rssfeed/Our_Activities/Space_Safety failed after 2 attempt(s): 404 Client Error: Not Found for url: https://www.esa.int/rssfeed/Our_Activities/Space_Safety"
     },
     {
       "name": "Guardian \u2013 Environment",
@@ -173,8 +173,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 15,
-      "recent": 15,
+      "entries": 12,
+      "recent": 12,
       "matched": 0,
       "detail": ""
     },
