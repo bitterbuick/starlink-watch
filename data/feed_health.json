@@ -1,37 +1,45 @@
 {
-  "generated_at": "2026-11-04T21:45:01Z",
+  "generated_at": "2026-11-05T05:35:29Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 6,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 605,
-  "entries_recent": 543,
-  "items_matched": 110,
+  "entries_seen": 608,
+  "entries_recent": 550,
+  "items_matched": 118,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 43,
-      "recent": 43,
-      "matched": 28,
+      "entries": 45,
+      "recent": 45,
+      "matched": 30,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 31,
-      "recent": 31,
-      "matched": 25,
+      "entries": 32,
+      "recent": 32,
+      "matched": 26,
       "detail": ""
     },
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 78,
-      "recent": 78,
-      "matched": 23,
+      "entries": 79,
+      "recent": 79,
+      "matched": 24,
+      "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "ok",
+      "entries": 40,
+      "recent": 15,
+      "matched": 14,
       "detail": ""
     },
     {
@@ -40,14 +48,6 @@
       "entries": 100,
       "recent": 100,
       "matched": 13,
-      "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 Starlink",
-      "status": "ok",
-      "entries": 40,
-      "recent": 11,
-      "matched": 10,
       "detail": ""
     },
     {
@@ -61,8 +61,8 @@
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 30,
-      "recent": 30,
+      "entries": 29,
+      "recent": 29,
       "matched": 4,
       "detail": ""
     },
