@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-08T20:15:19Z",
+  "generated_at": "2026-11-09T05:03:23Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 6,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 604,
-  "entries_recent": 543,
-  "items_matched": 95,
+  "entries_seen": 595,
+  "entries_recent": 534,
+  "items_matched": 93,
   "items_kept": 80,
   "feeds": [
     {
@@ -21,16 +21,16 @@
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 29,
-      "recent": 29,
-      "matched": 19,
+      "entries": 28,
+      "recent": 28,
+      "matched": 17,
       "detail": ""
     },
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 98,
-      "recent": 98,
+      "entries": 90,
+      "recent": 90,
       "matched": 17,
       "detail": ""
     },
