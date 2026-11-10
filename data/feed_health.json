@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-09T23:58:51Z",
+  "generated_at": "2026-11-10T07:02:12Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 6,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 591,
-  "entries_recent": 530,
-  "items_matched": 102,
+  "entries_seen": 590,
+  "entries_recent": 529,
+  "items_matched": 101,
   "items_kept": 80,
   "feeds": [
     {
@@ -22,8 +22,8 @@
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
       "entries": 28,
-      "recent": 28,
-      "matched": 20,
+      "recent": 27,
+      "matched": 17,
       "detail": ""
     },
     {
@@ -38,8 +38,8 @@
       "name": "arXiv \u2013 Starlink",
       "status": "ok",
       "entries": 40,
-      "recent": 15,
-      "matched": 14,
+      "recent": 17,
+      "matched": 16,
       "detail": ""
     },
     {
@@ -54,7 +54,7 @@
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
       "entries": 32,
-      "recent": 32,
+      "recent": 31,
       "matched": 5,
       "detail": ""
     },
@@ -173,8 +173,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 13,
-      "recent": 13,
+      "entries": 12,
+      "recent": 12,
       "matched": 0,
       "detail": ""
     },

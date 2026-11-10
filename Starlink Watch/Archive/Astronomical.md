@@ -36,3 +36,4 @@
 - 2026-10-14 | **Starlink's Gen 3 System Faces Opposition From Radio Astronomers - PCMag** — News – Starlink astronomy impact https://news.google.com/rss/articles/CBMikwFBVV95cUxQWmtPU2JIekY3WmZvcXJpVnhVX21QaTAzZmg4Y2dwRzZKU0JqTGJCVVRROFhpMkFQb0o4N1Q2LU41UlloWUtXVHB2alNyMGdYUVRYenZIcGxzcWc5cnBVcUEzVmlEV3V3RDFUOFBiSjRWX0txZmxvRXdaLU1teklfX0t3RWVralY2TVZCY0JJcnlOWTQ?oc=5
 - 2026-10-26 | **Propulsion Systems for a Starshade Rendezvous Mission with the Habitable World Observatory** — arXiv – Starlink https://arxiv.org/abs/2610.36200v1
 - 2026-10-26 | **Propulsion Systems for a Starshade Rendezvous Mission with the Habitable World Observatory** — arXiv – Starlink https://arxiv.org/abs/2610.36200v2
+- 2026-11-06 | **Satellite Streaks in HETDEX: Spectra, Orbital Identification, and Survey Impact** — arXiv – Starlink https://arxiv.org/abs/2611.10301v1
