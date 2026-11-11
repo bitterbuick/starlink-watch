@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-11-10T21:41:10Z",
+  "generated_at": "2026-11-11T05:06:24Z",
   "feeds_configured": 22,
-  "feeds_ok": 16,
-  "feeds_failed": 6,
+  "feeds_ok": 15,
+  "feeds_failed": 7,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 610,
-  "entries_recent": 551,
-  "items_matched": 112,
+  "entries_seen": 576,
+  "entries_recent": 539,
+  "items_matched": 92,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 41,
-      "recent": 41,
-      "matched": 34,
+      "entries": 48,
+      "recent": 48,
+      "matched": 31,
       "detail": ""
     },
     {
@@ -29,17 +29,9 @@
     {
       "name": "News \u2013 Starshield",
       "status": "ok",
-      "entries": 91,
-      "recent": 91,
-      "matched": 17,
-      "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 Starlink",
-      "status": "ok",
-      "entries": 40,
-      "recent": 17,
-      "matched": 16,
+      "entries": 89,
+      "recent": 89,
+      "matched": 15,
       "detail": ""
     },
     {
@@ -47,22 +39,22 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 10,
+      "matched": 11,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 33,
-      "recent": 33,
+      "entries": 32,
+      "recent": 32,
       "matched": 6,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 22,
-      "recent": 22,
+      "entries": 24,
+      "recent": 24,
       "matched": 3,
       "detail": ""
     },
@@ -70,7 +62,7 @@
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
-      "recent": 10,
+      "recent": 9,
       "matched": 1,
       "detail": ""
     },
@@ -185,6 +177,14 @@
       "recent": 50,
       "matched": 0,
       "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='export.arxiv.org', port=44"
     }
   ]
 }
