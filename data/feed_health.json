@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-11-13T05:31:27Z",
+  "generated_at": "2026-11-13T21:50:09Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 6,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 615,
-  "entries_recent": 556,
-  "items_matched": 115,
+  "entries_seen": 624,
+  "entries_recent": 565,
+  "items_matched": 119,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 41,
-      "recent": 41,
-      "matched": 34,
+      "entries": 36,
+      "recent": 36,
+      "matched": 33,
       "detail": ""
     },
     {
@@ -23,15 +23,15 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 25,
+      "matched": 27,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 29,
-      "recent": 29,
-      "matched": 21,
+      "entries": 31,
+      "recent": 31,
+      "matched": 23,
       "detail": ""
     },
     {
@@ -47,22 +47,22 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 10,
+      "matched": 11,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 31,
-      "recent": 31,
+      "entries": 33,
+      "recent": 33,
       "matched": 5,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 20,
-      "recent": 20,
+      "entries": 29,
+      "recent": 29,
       "matched": 2,
       "detail": ""
     },
@@ -70,7 +70,7 @@
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
-      "recent": 8,
+      "recent": 7,
       "matched": 1,
       "detail": ""
     },
@@ -110,7 +110,7 @@
       "name": "Guardian \u2013 Environment",
       "status": "ok",
       "entries": 34,
-      "recent": 29,
+      "recent": 30,
       "matched": 0,
       "detail": ""
     },
@@ -173,8 +173,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 15,
-      "recent": 15,
+      "entries": 16,
+      "recent": 16,
       "matched": 0,
       "detail": ""
     },
