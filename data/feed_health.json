@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-11-12T22:06:10Z",
+  "generated_at": "2026-11-13T05:31:27Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 6,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 616,
+  "entries_seen": 615,
   "entries_recent": 556,
-  "items_matched": 113,
+  "items_matched": 115,
   "items_kept": 80,
   "feeds": [
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 40,
-      "recent": 40,
-      "matched": 33,
+      "entries": 41,
+      "recent": 41,
+      "matched": 34,
       "detail": ""
     },
     {
@@ -23,7 +23,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 23,
+      "matched": 25,
       "detail": ""
     },
     {
@@ -47,7 +47,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 11,
+      "matched": 10,
       "detail": ""
     },
     {
@@ -61,8 +61,8 @@
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 22,
-      "recent": 22,
+      "entries": 20,
+      "recent": 20,
       "matched": 2,
       "detail": ""
     },
@@ -70,7 +70,7 @@
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
-      "recent": 7,
+      "recent": 8,
       "matched": 1,
       "detail": ""
     },
