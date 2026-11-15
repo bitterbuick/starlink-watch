@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-15T05:18:05Z",
+  "generated_at": "2026-11-15T20:51:39Z",
   "feeds_configured": 22,
   "feeds_ok": 16,
   "feeds_failed": 6,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 625,
-  "entries_recent": 566,
-  "items_matched": 119,
+  "entries_seen": 621,
+  "entries_recent": 561,
+  "items_matched": 134,
   "items_kept": 80,
   "feeds": [
     {
@@ -15,7 +15,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 33,
+      "matched": 51,
       "detail": ""
     },
     {
@@ -23,14 +23,14 @@
       "status": "ok",
       "entries": 34,
       "recent": 34,
-      "matched": 30,
+      "matched": 27,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 30,
-      "recent": 30,
+      "entries": 32,
+      "recent": 32,
       "matched": 21,
       "detail": ""
     },
@@ -47,7 +47,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 10,
+      "matched": 12,
       "detail": ""
     },
     {
@@ -55,15 +55,7 @@
       "status": "ok",
       "entries": 33,
       "recent": 33,
-      "matched": 6,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starlink astronomy impact",
-      "status": "ok",
-      "entries": 33,
-      "recent": 33,
-      "matched": 1,
+      "matched": 5,
       "detail": ""
     },
     {
@@ -110,7 +102,7 @@
       "name": "Guardian \u2013 Environment",
       "status": "ok",
       "entries": 34,
-      "recent": 30,
+      "recent": 29,
       "matched": 0,
       "detail": ""
     },
@@ -127,6 +119,14 @@
       "status": "ok",
       "entries": 10,
       "recent": 10,
+      "matched": 0,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink astronomy impact",
+      "status": "ok",
+      "entries": 27,
+      "recent": 27,
       "matched": 0,
       "detail": ""
     },
