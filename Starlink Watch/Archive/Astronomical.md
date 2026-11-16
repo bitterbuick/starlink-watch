@@ -37,3 +37,4 @@
 - 2026-10-26 | **Propulsion Systems for a Starshade Rendezvous Mission with the Habitable World Observatory** — arXiv – Starlink https://arxiv.org/abs/2610.36200v1
 - 2026-10-26 | **Propulsion Systems for a Starshade Rendezvous Mission with the Habitable World Observatory** — arXiv – Starlink https://arxiv.org/abs/2610.36200v2
 - 2026-11-06 | **Satellite Streaks in HETDEX: Spectra, Orbital Identification, and Survey Impact** — arXiv – Starlink https://arxiv.org/abs/2611.10301v1
+- 2026-11-15 | **SNU’s STARLINC AI Filters SpaceX Starlink Trails from Telescope Data - DongA Science** — News – Starlink astronomy impact https://news.google.com/rss/articles/CBMiVEFVX3lxTE1xR1pIcm1ubElDNzRSTXdlamxrN0JMRTkwYUdFY2FtRzRkdzcyc3dWQ0JFWHN3Qm0xd1dQWjJBcEY3SFFOMWlvd0dnS3M2dGw5VXlJOA?oc=5
