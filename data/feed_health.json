@@ -1,37 +1,29 @@
 {
-  "generated_at": "2026-11-17T00:04:45Z",
+  "generated_at": "2026-11-17T23:22:41Z",
   "feeds_configured": 22,
-  "feeds_ok": 14,
-  "feeds_failed": 8,
+  "feeds_ok": 16,
+  "feeds_failed": 6,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 480,
-  "entries_recent": 420,
-  "items_matched": 77,
-  "items_kept": 76,
+  "entries_seen": 615,
+  "entries_recent": 558,
+  "items_matched": 155,
+  "items_kept": 80,
   "feeds": [
+    {
+      "name": "News \u2013 Starshield",
+      "status": "ok",
+      "entries": 100,
+      "recent": 100,
+      "matched": 58,
+      "detail": ""
+    },
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 33,
-      "recent": 33,
-      "matched": 25,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starlink regulation & litigation",
-      "status": "ok",
       "entries": 32,
       "recent": 32,
-      "matched": 19,
-      "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 Starlink",
-      "status": "ok",
-      "entries": 40,
-      "recent": 18,
-      "matched": 17,
+      "matched": 25,
       "detail": ""
     },
     {
@@ -39,22 +31,46 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 14,
+      "matched": 23,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink regulation & litigation",
+      "status": "ok",
+      "entries": 30,
+      "recent": 30,
+      "matched": 21,
+      "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "ok",
+      "entries": 40,
+      "recent": 19,
+      "matched": 18,
+      "detail": ""
+    },
+    {
+      "name": "News \u2013 Starlink re-entry & atmosphere",
+      "status": "ok",
+      "entries": 34,
+      "recent": 34,
+      "matched": 7,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 21,
-      "recent": 21,
-      "matched": 1,
+      "entries": 25,
+      "recent": 25,
+      "matched": 2,
       "detail": ""
     },
     {
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
-      "recent": 7,
+      "recent": 9,
       "matched": 1,
       "detail": ""
     },
@@ -113,22 +129,6 @@
       "recent": 10,
       "matched": 0,
       "detail": ""
-    },
-    {
-      "name": "News \u2013 Starlink re-entry & atmosphere",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
-      "matched": 0,
-      "detail": "GET https://news.google.com/rss/search?q=Starlink+(reentry+OR+deorbit+OR+atmosphere+OR+ozone+OR+alumina+OR+debris)+when:30d&hl=en-US&gl=US&ceid=US:en failed after 2 attempt(s): 429 Client Error: Too M"
-    },
-    {
-      "name": "News \u2013 Starshield",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
-      "matched": 0,
-      "detail": "GET https://news.google.com/rss/search?q=Starshield+when:30d&hl=en-US&gl=US&ceid=US:en failed after 2 attempt(s): 429 Client Error: Too Many Requests for url: https://news.google.com/rss/search?q=Star"
     },
     {
       "name": "Phys.org \u2013 Space News",
