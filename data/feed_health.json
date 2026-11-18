@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-17T23:22:41Z",
+  "generated_at": "2026-11-18T06:21:21Z",
   "feeds_configured": 22,
-  "feeds_ok": 16,
-  "feeds_failed": 6,
+  "feeds_ok": 13,
+  "feeds_failed": 9,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 615,
-  "entries_recent": 558,
-  "items_matched": 155,
+  "entries_seen": 531,
+  "entries_recent": 526,
+  "items_matched": 130,
   "items_kept": 80,
   "feeds": [
     {
@@ -15,7 +15,7 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 58,
+      "matched": 57,
       "detail": ""
     },
     {
@@ -27,27 +27,19 @@
       "detail": ""
     },
     {
-      "name": "News \u2013 Starlink (all)",
-      "status": "ok",
-      "entries": 100,
-      "recent": 100,
-      "matched": 23,
-      "detail": ""
-    },
-    {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 30,
-      "recent": 30,
+      "entries": 32,
+      "recent": 32,
       "matched": 21,
       "detail": ""
     },
     {
-      "name": "arXiv \u2013 Starlink",
+      "name": "News \u2013 Starlink (all)",
       "status": "ok",
-      "entries": 40,
-      "recent": 19,
-      "matched": 18,
+      "entries": 100,
+      "recent": 100,
+      "matched": 20,
       "detail": ""
     },
     {
@@ -55,23 +47,15 @@
       "status": "ok",
       "entries": 34,
       "recent": 34,
-      "matched": 7,
+      "matched": 5,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 25,
-      "recent": 25,
+      "entries": 29,
+      "recent": 29,
       "matched": 2,
-      "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 satellite constellations",
-      "status": "ok",
-      "entries": 40,
-      "recent": 9,
-      "matched": 1,
       "detail": ""
     },
     {
@@ -124,11 +108,11 @@
     },
     {
       "name": "NASASpaceflight",
-      "status": "ok",
-      "entries": 10,
-      "recent": 10,
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
       "matched": 0,
-      "detail": ""
+      "detail": "GET https://www.nasaspaceflight.com/feed/ failed after 2 attempt(s): 403 Client Error: Forbidden for url: https://www.nasaspaceflight.com/feed/"
     },
     {
       "name": "Phys.org \u2013 Space News",
@@ -185,6 +169,22 @@
       "recent": 50,
       "matched": 0,
       "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Unknown Error for url: https://exp"
+    },
+    {
+      "name": "arXiv \u2013 satellite constellations",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Too Many Re"
     }
   ]
 }
