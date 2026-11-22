@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-21T21:29:04Z",
+  "generated_at": "2026-11-22T05:34:38Z",
   "feeds_configured": 22,
-  "feeds_ok": 16,
-  "feeds_failed": 6,
+  "feeds_ok": 14,
+  "feeds_failed": 8,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 627,
-  "entries_recent": 568,
-  "items_matched": 136,
+  "entries_seen": 547,
+  "entries_recent": 542,
+  "items_matched": 119,
   "items_kept": 80,
   "feeds": [
     {
@@ -31,23 +31,15 @@
       "status": "ok",
       "entries": 100,
       "recent": 100,
-      "matched": 22,
+      "matched": 21,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink regulation & litigation",
       "status": "ok",
-      "entries": 32,
-      "recent": 32,
+      "entries": 33,
+      "recent": 33,
       "matched": 17,
-      "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 Starlink",
-      "status": "ok",
-      "entries": 40,
-      "recent": 16,
-      "matched": 15,
       "detail": ""
     },
     {
@@ -61,17 +53,9 @@
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 34,
-      "recent": 34,
+      "entries": 33,
+      "recent": 33,
       "matched": 2,
-      "detail": ""
-    },
-    {
-      "name": "arXiv \u2013 satellite constellations",
-      "status": "ok",
-      "entries": 40,
-      "recent": 10,
-      "matched": 1,
       "detail": ""
     },
     {
@@ -185,6 +169,22 @@
       "recent": 50,
       "matched": 0,
       "detail": ""
+    },
+    {
+      "name": "arXiv \u2013 Starlink",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:starlink&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): HTTPSConnectionPool(host='export.arxiv.org', port=44"
+    },
+    {
+      "name": "arXiv \u2013 satellite constellations",
+      "status": "error",
+      "entries": 0,
+      "recent": 0,
+      "matched": 0,
+      "detail": "GET http://export.arxiv.org/api/query?search_query=all:%22satellite%20constellation%22&sortBy=submittedDate&sortOrder=descending&max_results=40 failed after 2 attempt(s): 429 Client Error: Unknown Err"
     }
   ]
 }
