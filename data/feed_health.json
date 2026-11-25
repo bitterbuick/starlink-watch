@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-11-24T02:46:25Z",
+  "generated_at": "2026-11-25T00:25:11Z",
   "feeds_configured": 22,
-  "feeds_ok": 15,
-  "feeds_failed": 7,
+  "feeds_ok": 16,
+  "feeds_failed": 6,
   "feeds_empty": 0,
   "feeds_skipped": 0,
-  "entries_seen": 686,
-  "entries_recent": 625,
-  "items_matched": 159,
+  "entries_seen": 656,
+  "entries_recent": 599,
+  "items_matched": 127,
   "items_kept": 80,
   "feeds": [
     {
@@ -21,17 +21,9 @@
     {
       "name": "News \u2013 Starlink security & outages",
       "status": "ok",
-      "entries": 69,
-      "recent": 69,
-      "matched": 38,
-      "detail": ""
-    },
-    {
-      "name": "News \u2013 Starlink regulation & litigation",
-      "status": "ok",
-      "entries": 68,
-      "recent": 68,
-      "matched": 36,
+      "entries": 33,
+      "recent": 33,
+      "matched": 24,
       "detail": ""
     },
     {
@@ -43,26 +35,34 @@
       "detail": ""
     },
     {
+      "name": "News \u2013 Starlink regulation & litigation",
+      "status": "ok",
+      "entries": 34,
+      "recent": 34,
+      "matched": 16,
+      "detail": ""
+    },
+    {
       "name": "arXiv \u2013 Starlink",
       "status": "ok",
       "entries": 40,
-      "recent": 15,
-      "matched": 15,
+      "recent": 18,
+      "matched": 16,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink re-entry & atmosphere",
       "status": "ok",
-      "entries": 33,
-      "recent": 33,
-      "matched": 6,
+      "entries": 69,
+      "recent": 69,
+      "matched": 7,
       "detail": ""
     },
     {
       "name": "News \u2013 Starlink astronomy impact",
       "status": "ok",
-      "entries": 32,
-      "recent": 32,
+      "entries": 27,
+      "recent": 27,
       "matched": 1,
       "detail": ""
     },
@@ -70,7 +70,7 @@
       "name": "arXiv \u2013 satellite constellations",
       "status": "ok",
       "entries": 40,
-      "recent": 9,
+      "recent": 10,
       "matched": 1,
       "detail": ""
     },
@@ -124,11 +124,11 @@
     },
     {
       "name": "NASASpaceflight",
-      "status": "error",
-      "entries": 0,
-      "recent": 0,
+      "status": "ok",
+      "entries": 10,
+      "recent": 10,
       "matched": 0,
-      "detail": "GET https://www.nasaspaceflight.com/feed/ failed after 2 attempt(s): 403 Client Error: Forbidden for url: https://www.nasaspaceflight.com/feed/"
+      "detail": ""
     },
     {
       "name": "Phys.org \u2013 Space News",
@@ -173,8 +173,8 @@
     {
       "name": "SpaceNews (All)",
       "status": "ok",
-      "entries": 15,
-      "recent": 15,
+      "entries": 14,
+      "recent": 14,
       "matched": 0,
       "detail": ""
     },
